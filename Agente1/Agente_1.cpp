@@ -4,6 +4,7 @@
 #include<unordered_map>
 #include<thread>
 #include<queue>
+#include"BusqProf.h"
 
 
 
@@ -29,7 +30,7 @@ typedef struct{
 */
 using namespace std;
 
-
+char *Lect_arch(char *filename);
 
 
 void main(){
