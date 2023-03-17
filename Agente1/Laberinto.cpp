@@ -6,6 +6,7 @@ using namespace std;
 string matrix(char *filename);
 void print_maze(string laberinto);
 int main(){
+    char ini[2],fin[2];
     char name[11]="matriz.txt";
     string laberinto=matrix(name);
     if (laberinto.empty())
@@ -13,6 +14,7 @@ int main(){
         cout<<"Couldnt store maze"<<endl;
         return 0;
     }
+    func_prin(laberinto,ini,fin);
     print_maze(laberinto);
 
     return 0;
