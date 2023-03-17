@@ -31,14 +31,19 @@ string matrix(char *filename){
      char c;
      c=fgetc(f);
      int data_header[2];
-     data_header[0]=(int)c;
+     data_header[0]=(int)c;//cols
      c=fgetc(f);
      c=fgetc(f);
-     data_header[1]=(int)c;
+     data_header[1]=(int)c;//rows
      c=fgetc(f);
      c=fgetc(f);
      for (int i = 0; i < data_header[0]*data_header[1]-1; i++)
      {
+        if (c==',')
+        {
+            c=fgetc(f);
+        }
+        
         data.push_back(c);
         c=fgetc(f);
      }
