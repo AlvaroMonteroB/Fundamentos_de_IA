@@ -1,4 +1,7 @@
+
+
 class Coord():
+    
     def __init__(self,Valor,Xcoordinate,Ycoordinate,visited_flag):#Para cada casilla se podrá tener este objeto
         self.Valor=Valor                                           #que define su posición y si ya ha sido visitad
         self.Xcoordinate=Xcoordinate                               #Al igual que el valor de la casilla
