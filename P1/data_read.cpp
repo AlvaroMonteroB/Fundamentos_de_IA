@@ -3,7 +3,11 @@
 #include<vector>
 using namespace std;
 
-string matrix(char *filename){
+
+
+
+extern "C"{
+    char* matrix(char *filename){
     FILE *f=fopen(filename, "r");
     if (!f)
     {
@@ -37,7 +41,9 @@ string matrix(char *filename){
      {
         output.pop_back();
      }
-     
-    return output;
+     char *salida=output.data();
+    return salida;
     
 }
+}
+
