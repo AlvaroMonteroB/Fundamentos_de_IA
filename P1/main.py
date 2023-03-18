@@ -11,7 +11,7 @@ with open("D:\Repositorios\Fundamentos_de_IA\P1\matriz.txt","r") as Read_matrix:
 print("Read successfully")
 for linea in Matrix_rows:
     aux=linea.replace(',','')
-    aux.strip()
+    aux=aux.strip()
     Matrix_rows1.append(aux)#Arreglo de renglones sin comas y sin saltos de linea
 
 for line in Matrix_rows1:
