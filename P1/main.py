@@ -1,5 +1,5 @@
 import threading
-
+import display_graphics
 import Read_data
 
 
@@ -18,6 +18,6 @@ C_fin.append(int(Coo2[1]))
 
 
 def access_obj(cols,rows,Mat_obj):
-    line=Mat_obj[rows]
-    return line[cols]
+    line=Mat_obj[rows-1]
+    return line[cols-1]
 
