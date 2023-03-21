@@ -1,5 +1,5 @@
 import threading
-
+import display_graphics
 import Read_data
 
 
