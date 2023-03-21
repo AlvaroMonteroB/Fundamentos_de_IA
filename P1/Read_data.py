@@ -11,7 +11,7 @@ class Coord():
 def read_matrix():
     Matrix_rows=list()
     Matrix_rows1=list()
-    with open("D:\Repositorios\Fundamentos_de_IA\P1\matriz.txt","r") as Read_matrix:
+    with open("matriz.txt","r") as Read_matrix:
         leer=Read_matrix.readline
         for line in Read_matrix:
             Matrix_rows.append(line)

@@ -3,7 +3,8 @@ import display_graphics
 import Read_data
 
 
-C_ini,C_fin=list()
+C_ini=list()
+C_fin=list()
 Matrix=Read_data.read_matrix()#arreglo de puntos AKA objetos
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")
