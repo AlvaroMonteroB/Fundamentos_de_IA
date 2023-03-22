@@ -4,17 +4,18 @@ data_terrain={0:"Montaña", 1:"Tierra", 2:"Agua",3:"Arena",4:"Bosque",5:"Pantano
 
 class Coord():
     
-    def __init__(self,Valor:str,Xcoordinate:int,Ycoordinate:int,visited_flag:bool(),seen_flag:bool()):#Para cada casilla se podrá tener este objeto
+    def __init__(self,Valor:str,Xcoordinate:int,Ycoordinate:int,visited_flag:bool(),seen_flag:bool(),deci_flag:bool):#Para cada casilla se podrá tener este objeto
         self.Valor=Valor                                           #que define su posición y si ya ha sido visitad
         self.Xcoordinate=Xcoordinate                               #Al igual que el valor de la casilla
         self.Ycoordinate=Ycoordinate
-        self.visited_flag=visited_flag     #Probablemente tengamos que añadir si se toma una desicion
+        self.visited_flag=visited_flag     
         self.seen_flag=seen_flag
+        self.deci_flag=deci_flag
     def print_data(self,cost):
         print("Data of point "+self.Xcoordinate+","+self.Ycoordinate)
         print("El terreno es "+data_terrain[self.Valor]+" Tiene un costo de "+cost+" Esta casilla")
 
-def read_matrix():
+def read_matrix()->Coord:
     Matrix_rows=list()
     Matrix_rows1=list()
     with open("matriz.txt","r") as Read_matrix:
