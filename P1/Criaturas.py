@@ -19,6 +19,8 @@ class character:
                 return 4
             if casilla==5:
                 return 5
+            else:
+                return -1
 
 
     class Sasquatch:
@@ -39,6 +41,8 @@ class character:
                 return 4
             if casilla==5:
                 return 5
+            else:
+                return -1
 
     class Monkey:
         def __init__(self,name)->None:
@@ -58,6 +62,8 @@ class character:
                 return 1
             if casilla==5:
                 return 5
+            else:
+                return -1
 
     class Octopus:
         def __init__(self,name)->None:
@@ -77,3 +83,5 @@ class character:
                 return 3
             if casilla==5:
                 return 2
+            else:
+                return -1
