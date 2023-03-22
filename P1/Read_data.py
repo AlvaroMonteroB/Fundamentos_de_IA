@@ -37,3 +37,8 @@ def read_matrix():
         for indice2,letra in enumerate(cadena):             #especificando todos los puntos como no visitados
             puntos.append(Coord(letra,indice2,indice,False,False))
     return puntos
+
+
+def access_obj(cols,rows,Mat_obj):
+    line=Mat_obj[rows-1]
+    return line[cols-1]
