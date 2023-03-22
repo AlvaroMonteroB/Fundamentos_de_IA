@@ -1,4 +1,4 @@
-
+import various_methods
 
 class Coord():
     
@@ -8,6 +8,8 @@ class Coord():
         self.Ycoordinate=Ycoordinate
         self.visited_flag=visited_flag     #Probablemente tengamos que añadir si se toma una desicion
         self.seen_flag=seen_flag
+    def print_att(self):
+        
         
  
  
