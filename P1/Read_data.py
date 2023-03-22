@@ -2,16 +2,20 @@
 
 class Coord():
     
-    def __init__(self,Valor,Xcoordinate,Ycoordinate,visited_flag):#Para cada casilla se podrá tener este objeto
+    def __init__(self,Valor,Xcoordinate,Ycoordinate,visited_flag,seen_flag):#Para cada casilla se podrá tener este objeto
         self.Valor=Valor                                           #que define su posición y si ya ha sido visitad
         self.Xcoordinate=Xcoordinate                               #Al igual que el valor de la casilla
         self.Ycoordinate=Ycoordinate
         self.visited_flag=visited_flag     #Probablemente tengamos que añadir si se toma una desicion
-
+        self.seen_flag=seen_flag
+        
+ 
+ 
+        
 def read_matrix():
     Matrix_rows=list()
     Matrix_rows1=list()
-    with open("D:\Repositorios\Fundamentos_de_IA\P1\matriz.txt","r") as Read_matrix:
+    with open("matriz.txt","rw") as Read_matrix:
         leer=Read_matrix.readline
         for line in Read_matrix:
             Matrix_rows.append(line)
@@ -31,5 +35,5 @@ def read_matrix():
 
     for indice,cadena in enumerate(Matrix_rows1):      #Vamos a agregar los puntos y su valor
         for indice2,letra in enumerate(cadena):             #especificando todos los puntos como no visitados
-            puntos.append(Coord(letra,indice2,indice,False))
+            puntos.append(Coord(letra,indice2,indice,False,False))
     return puntos
