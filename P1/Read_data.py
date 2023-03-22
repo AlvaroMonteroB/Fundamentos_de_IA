@@ -15,7 +15,7 @@ class Coord():
         print("Data of point "+self.Xcoordinate+","+self.Ycoordinate)
         print("El terreno es "+data_terrain[self.Valor]+" Tiene un costo de "+cost+" Esta casilla")
 
-def read_matrix()->Coord:
+def read_matrix(puntos:Coord)->None:
     Matrix_rows=list()
     Matrix_rows1=list()
     with open("matriz.txt","r") as Read_matrix:
@@ -32,15 +32,10 @@ def read_matrix()->Coord:
 
     for line in Matrix_rows1:
         print(line)
-
-    puntos=list()
-
-
     for indice,cadena in enumerate(Matrix_rows1):      #Vamos a agregar los puntos y su valor
         for indice2,letra in enumerate(cadena):             #especificando todos los puntos como no visitados
-            puntos.append(Coord(letra,indice2,indice,False,False))
-    return puntos
-
+            puntos.append(Coord(letra,indice2,indice,False,False,False))
+    return
 
         
 def access_obj(cols,rows,Mat_obj:Coord):#Hay que modificar este
