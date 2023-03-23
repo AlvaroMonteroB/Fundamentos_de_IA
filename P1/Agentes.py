@@ -192,11 +192,11 @@ class Agente2:
                 
     def move_forward(self,cost:int,key)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
         band=self.scan_forward(True)
-        if band.valid:
+        if band.valid:#el escaneo ya nos da toda la informacion para usarla
             x=band.point.Xcoordinate
             y=band.point.Ycoordinate
-            self.position=various_methods.assign_point(self.Matrix,x,y)
-            cost=cost+band.cost
+            self.position=various_methods.assign_point(self.Matrix,x,y)#soplo usamos esa informacion para
+            cost=cost+band.cost                         #Para actualizar la posicion si es posible
             return True
         else:
             return False

@@ -3,6 +3,7 @@ import display_graphics
 import Read_data
 import Criaturas
 import various_methods
+import Busq_prof as b_p
 import Agentes
 C_aux:str=list()
 C_ini=list()
@@ -59,6 +60,18 @@ elif opt==2:
         agentA=Agentes.Agente2(1,C_ini,entity,Matrix,True)
 elif opt==3:
     agent=Agentes.Agente3()
+
+Raiz=list()
+if userband: #true if user doesnt do anything
+    Raiz.append(agentA.position)
+else:
+    Raiz.append(agent.position)
+    Raiz2=list()
+    Raiz2.append(agentA.position)
+    
+    
+
+
 
 enter_game=True
 
