@@ -78,6 +78,7 @@ class agente1:#Tenemos que cambiar para que se mueva en un numero continuo de ca
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
                     opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
+                                                            #TO DO
                 elif self.user_flag|self.auto:
                     return cost
             
@@ -112,12 +113,12 @@ class Agente2:
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
 
-    def turn_left():
+    def turn_left(self):
         if self.direction<3&self.direction>0:
             self.direction+1
         elif self.direction==4:
             self.direction=1
-    def turn_rigth():
+    def turn_rigth(self):
         if self.direction<5&self.direction>1:
             self.direction-1
         elif self.direction==1:
@@ -216,8 +217,26 @@ class Agente3:
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
     def scan(self):
-        arriba
-        
+        points=list()
+        scan_result=list()
+        Not_valid=list()
+        already_visited=list()
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1))#y-1
+        for x in points:
+            if x.Valor>=0:
+                if x.visited_flag:
+                    scan_result.append(x)
+                else:
+                    already_visited.append(x)
+            elif x.Valor==-1:
+                Not_valid.append(x)
+                
+                 
+                
+           
 
                 
             
