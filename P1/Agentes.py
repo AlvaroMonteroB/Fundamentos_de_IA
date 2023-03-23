@@ -212,7 +212,7 @@ class Agente3:
         self.cost=0
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
-    def scan(self):#Se tiene que implementar la opcion auto como en los otros agentes
+    def scan(self)->Read_data.Coord:#Se tiene que implementar la opcion auto como en los otros agentes
         points=list()
         scan_result=list()
         Not_valid=list()
@@ -229,6 +229,11 @@ class Agente3:
                     already_visited.append(x)
             elif x.Valor==-1:
                 Not_valid.append(x)
+        if len(scan_result)>0:
+            return scan_result#Si hay por lo menos un camino para seguir, aqui lo veremos
+        elif len(already_visited)+len(Not_valid)==4:
+            Read_data.Coord('Not valid', -1, -1, False, False,False)
+            return output#Si retorna no valido es que no hay a donde moverse y hay que regresar
                 
                  
                 
