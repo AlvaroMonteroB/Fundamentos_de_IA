@@ -51,9 +51,9 @@ if opt==1:
         agentA=Agentes.agente1(1,C_ini,entity,Matrix,True)
     
 elif opt==2:
-    agent=Agentes.Agente2(1, c_ini, entity, Matrix, userband)
+    agent=Agentes.Agente2(1, C_ini, entity, Matrix, userband)
 elif opt==3:
-    agent.Agentes.Agente3()
+    agent=Agentes.Agente3()
 
 enter_game=True
 
