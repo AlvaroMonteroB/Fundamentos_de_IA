@@ -10,7 +10,7 @@ class Coord():
         self.Ycoordinate=Ycoordinate
         self.visited_flag=visited_flag     
         self.seen_flag=seen_flag
-        self.deci_flag=deci_flag
+        self.deci_flag=deci_flag #Bandera para ver si se ha tomado una desicion
     def print_data(self,cost):
         print("Data of point "+self.Xcoordinate+","+self.Ycoordinate)
         print("El terreno es "+data_terrain[self.Valor]+" Tiene un costo de "+cost+" Esta casilla")
