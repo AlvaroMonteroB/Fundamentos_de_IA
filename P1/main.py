@@ -51,7 +51,9 @@ if user=='y':
     userband=False #not the user
 else:
      userband=True
-
+     X=C_ini[0]
+     Y=C_ini[1]
+various_methods.assign_point(Matrix, X, Y)
 opt=input("Choose an Agent:\n1\n2\n3\n4\n5\n")
 if opt=='1':
     if userband:
@@ -68,6 +70,8 @@ elif opt=='2':
 elif opt=='3':
     agent=Agentes.Agente3()
 
+finx=C_fin[0]
+finy=C_fin[1]
 Raiz=list()#Iniciando la raiz
 if userband: #true if user doesnt do anything
     Raiz.append(agentA.position)#aqui se añade el elemento a la raiz
