@@ -116,7 +116,7 @@ class Agente2:
             self.direction=4
         
     def scan_forward(self,auto:bool)->cost_valid:#Censado
-        validation=cost_valid(0,True)
+        validation=cost_valid(0,True,None)
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
@@ -212,29 +212,33 @@ class Agente3:
         self.cost=0
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
-    def scan(self)->Read_data.Coord:#Se tiene que implementar la opcion auto como en los otros agentes
+    def scan(self,scan_result:Read_data.Coord)->cost_valid:#Se tiene que implementar la opcion auto como en los otros agentes
         points=list()
         scan_result=list()
         Not_valid=list()
         already_visited=list()
+        validation=cost_valid(0, valid, point)
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1))#y-1
         for x in points:
             if x.Valor>=0:
-                if x.visited_flag:
-                    scan_result.append(x)
+                if not x.visited_flag:
+                    scan_result.append(cost_valid(charact.cost,True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
                 Not_valid.append(x)
         if len(scan_result)>0:
-            return scan_result#Si hay por lo menos un camino para seguir, aqui lo veremos
+            if len(scan_result)>1:
+                self.position.deci_flag=True
+            return scan_result#Sí hay por lo menos un camino para seguir, aqui lo veremos
         elif len(already_visited)+len(Not_valid)==4:
-            Read_data.Coord('Not valid', -1, -1, False, False,False)
-            return output#Si retorna no valido es que no hay a donde moverse y hay que regresar
-                
+            result=Read_data.Coord('Not valid', -1, -1, False, False,False)#  no hay a donde moverse y hay que regresar
+            scan_result.append(cost_valid(0, False, result))
+            return scan_result#so mp hay caminos disponibles 
+        
                  
                 
            
