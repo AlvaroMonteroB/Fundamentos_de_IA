@@ -15,7 +15,7 @@ def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el p
         output.seen_flag=True
         return output
     elif not output:#En caso de no estar dentro del mapa, se lanza un punto no válido
-        output=Read_data.Coord('Not valid', -1, -1, False, false)
+        output=Read_data.Coord('Not valid', -1, -1, False, False)
         return output
     
 
