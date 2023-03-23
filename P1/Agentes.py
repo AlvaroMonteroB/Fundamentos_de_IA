@@ -239,9 +239,9 @@ class Agente3:
             scan_result.append(cost_valid(0, False, result))
             return scan_result#so mp hay caminos disponibles 
         
-
+    arr={a:1}
     def move(self,list_p:cost_valid,key):
-        
+        arr[key]
 
                  
                 
