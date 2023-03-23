@@ -40,18 +40,23 @@ else:
     
 user=input("Do you ant to play against the machine?  y/n")
 if user=='y':
-    userband=False
+    userband=False #not the user
 else:
      userband=True
 
 opt=input("Choose an Agent:\n1\n2\n3\n4\n5\n")
 if opt==1:
-    agent=Agentes.agente1(1,C_ini,entity,Matrix,userband)#true=PC, false=User
-    if not userband:
+    if userband:
+        agent=Agentes.agente1(1,C_ini,entity,Matrix,userband)#true=PC, false=User
         agentA=Agentes.agente1(1,C_ini,entity,Matrix,True)
-    
+    else:
+        agentA=Agentes.agente1(1,C_ini,entity,Matrix,True)
 elif opt==2:
-    agent=Agentes.Agente2(1, C_ini, entity, Matrix, userband)
+    if userband:
+        agent=Agentes.Agente2(1,C_ini,entity,Matrix,userband)#true=PC, false=User
+        agentA=Agentes.Agente2(1,C_ini,entity,Matrix,True)
+    else:
+        agentA=Agentes.Agente2(1,C_ini,entity,Matrix,True)
 elif opt==3:
     agent=Agentes.Agente3()
 

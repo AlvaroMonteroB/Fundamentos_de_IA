@@ -22,7 +22,7 @@ class agente1:#Tenemos que cambiar para que se mueva en un numero continuo de ca
             self.direction+1
         elif self.direction==4:
             self.direction=1
-    def scan_forward(self,auto:bool)->cost_valid:#Censado
+    def scan_forward(self,auto:bool)->cost_valid:#Censado #to DO
         valid_flag=True
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1

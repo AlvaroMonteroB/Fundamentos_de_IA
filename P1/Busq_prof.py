@@ -3,4 +3,4 @@ class Nodo:
         self.clave=clave
         self.hijo=[]
     def C_nodo(self,clave,hijo):
-        self.hijo.append(hijo)
+        self.hijo.append(Nodo(clave))
