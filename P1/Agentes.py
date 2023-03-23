@@ -1,10 +1,12 @@
 import Read_data
+import Busq_prof
 import Criaturas
 import various_methods
 class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si es punto valido y su costo
-    def __init__(self,cost:int,valid:bool):
+    def __init__(self,cost:int,valid:bool,point:Read_data.Coord):
         self.cost=cost
         self.valid=valid
+        self.point=point
 
 class agente1:#Tenemos que cambiar para que se mueva en un numero continuo de casillas
     def __init__(self,direction,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool) -> None:
@@ -86,19 +88,8 @@ class agente1:#Tenemos que cambiar para que se mueva en un numero continuo de ca
     def move_forward(self,cost:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
         band=self.scan_forward(True)
         if band.valid:
-            if self.direction==1:
-                X=self.position.Xcoordinate+1
-                self.position=various_methods.assign_point(self.Matrix, X, self.position.Ycoordinate)#Actualizamos nuestra posicion
-            elif self.direction==2:
-                Y=self.position.Ycoordinate+1
-                self.position=various_methods.assign_point(self.Matrix,self.position.Xcoordinate,Y)
-            elif self.direction==3:
-                X=self.position.Xcoordinate-1
-                self.position=various_methods.assign_point(self.Matrix, X, self.position.Ycoordinate)
-            elif self.direction==4:
-                Y=self.position.Ycoordinate-1
-                self.position=various_methods.assign_point(self.Matrix, self.position.Xcoordinate,Y)
-            self.cost=self.cost+cost
+            self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.position.Ycoordinate)
+            cost=cost+band.cost
             return True
         else:
             return False
@@ -125,7 +116,7 @@ class Agente2:
             self.direction=4
         
     def scan_forward(self,auto:bool)->cost_valid:#Censado
-        valid_flag=True
+        validation=cost_valid(0,True)
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
@@ -137,7 +128,10 @@ class Agente2:
                     print(scanned_pos.print_data(cost))#Interfaz grafica
                     opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
                 elif self.user_flag|self.auto:
-                    return cost
+                    validation.cost=cost
+                    validation.point=scanned_pos
+                    validation.valid=True#Guardamos el costo y si la casilla es valida
+                    return validation
 
         elif self.direction==2:#Apunta hacia arriba
             Y=self.position.Ycoordinate+1
@@ -152,7 +146,10 @@ class Agente2:
                     print(scanned_pos.print_data(cost))#Interfaz grafica
                     opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
                 elif self.user_flag|self.auto:
-                    return cost
+                    validation.cost=cost
+                    validation.point=scanned_pos
+                    validation.valid=True
+                    return validation
 
 
         elif self.direction==3:#Apunta a la izquierda
@@ -167,14 +164,17 @@ class Agente2:
                     print(scanned_pos.print_data(cost))#Interfaz grafica
                     opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
                 elif self.user_flag|self.auto:
-                    return cost
+                    validation.cost=cost
+                    validation.point=scanned_pos
+                    validation.valid=True
+                    return validation
 
 
         elif self.direction==4:#Apunta hacia abajo
             Y=self.position.Ycoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
             cost=self.charact.cols(scanned_pos.Valor)
-            if cost==-1:
+            if cost==-1&self.auto:
                 print("Not valid position")
             elif cost==0:
                 print("You cannot move there")
@@ -183,29 +183,24 @@ class Agente2:
                     print(scanned_pos.print_data(cost))#Interfaz grafica
                     opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
                 elif self.user_flag|self.auto:
-                    return cost
+                    validation.cost=cost
+                    validation.point=scanned_pos
+                    validation.valid=True
+                    return validation
             
                 
-    def move_forward(self,cost:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
+    def move_forward(self,cost:int,key)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
         band=self.scan_forward(True)
         if band.valid:
-            if self.direction==1:
-                X=self.position.Xcoordinate+1
-                self.position=various_methods.assign_point(self.Matrix, X, self.position.Ycoordinate)#Actualizamos nuestra posicion
-            elif self.direction==2:
-                Y=self.position.Ycoordinate+1
-                self.position=various_methods.assign_point(self.Matrix,self.position.Xcoordinate,Y)
-            elif self.direction==3:
-                X=self.position.Xcoordinate-1
-                self.position=various_methods.assign_point(self.Matrix, X, self.position.Ycoordinate)
-            elif self.direction==4:
-                Y=self.position.Ycoordinate-1
-                self.position=various_methods.assign_point(self.Matrix, self.position.Xcoordinate,Y)
-            self.cost=self.cost+cost
+            x=band.point.Xcoordinate
+            y=band.point.Ycoordinate
+            self.position=various_methods.assign_point(self.Matrix,x,y)
+            cost=cost+band.cost
             return True
         else:
             return False
-
+                
+            
 
 
 class Agente3:
@@ -216,7 +211,7 @@ class Agente3:
         self.cost=0
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
-    def scan(self):
+    def scan(self):#Se tiene que implementar la opcion auto como en los otros agentes
         points=list()
         scan_result=list()
         Not_valid=list()
