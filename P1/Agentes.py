@@ -150,6 +150,7 @@ class Agente2:
                     validation.point=scanned_pos
                     validation.valid=True
                     return validation
+                
 
 
         elif self.direction==3:#Apunta a la izquierda
