@@ -182,7 +182,7 @@ class Agente2:#left,rigth, forward
         elif self.direction==2:#Apunta hacia arriba
             Y=self.position.Ycoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)#Nos  retorna el objeto de la posicion a escanear
-            cost=self.charact.cost(scanned_pos.Valor)#calculamos el costo de la siguiente casilla
+            cost=Criaturas.switch[charact](scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
                 validation.cost=0
                 validation.valid=False
@@ -208,6 +208,7 @@ class Agente2:#left,rigth, forward
         elif self.direction==3:#Apunta a la izquierda
             X=self.position.Xcoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)
+            cost=Criaturas.switch[charact](scanned_pos.Valor)
             if cost==-1:
                 print("Not valid position")
             elif cost==0:
@@ -229,7 +230,7 @@ class Agente2:#left,rigth, forward
         elif self.direction==4:#Apunta hacia abajo
             Y=self.position.Ycoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
-            cost=self.charact.cols(scanned_pos.Valor)
+            cost=Criaturas.switch[charact](scanned_pos.Valor)
             if cost==-1&self.auto:
                 print("Not valid position")
             elif cost==0:
@@ -285,7 +286,7 @@ class Agente3:#move one cell any row or column
         for x in points:
             if x.Valor>=0:
                 if not x.visited_flag:
-                    scan_result.append(cost_valid(self.charact.cost(x.Valor),True,x))
+                    scan_result.append(cost_valid(Criaturas.switch[charact](x.Valor),True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
@@ -312,10 +313,10 @@ class Agente3:#move one cell any row or column
             scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1)
         cost=self.charact.cost(scanned.Valor)
         if scanned.Valor>=0:
-            valid=cost_valid(self.charact.cost(scanned.Valor),True,scanned)
+            valid=cost_valid(Criaturas.switch[charact](scanned_pos.Valor),True,scanned)
         else:
             valid=cost_valid(0,False,scanned)
-        if valid.cost==0:
+        if valid.cost==0:#al final volvemos a evaluar para poder retornar
             valid.valid=False
         return valid
             
@@ -356,7 +357,7 @@ class Agente4:#move to any cell in column or row
         for x in points:
             if x.Valor>=0:
                 if not x.visited_flag:
-                    scan_result.append(cost_valid(self.charact.cost(x.Valor),True,x))
+                    scan_result.append(cost_valid(Criaturas.switch[charact](x.Valor),True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
@@ -381,7 +382,7 @@ class Agente4:#move to any cell in column or row
         elif direction==4:
             scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1)
         if scanned.Valor>0:
-            valid=cost_valid(self.charact.cost(scanned.Valor),True,scanned)
+            valid=cost_valid(Criaturas.switch[charact](scanned.Valor),True,scanned)
         else:
             valid=cost_valid(0,False,scanned)
         if valid.cost==0:
@@ -423,7 +424,7 @@ class Agente5:#Move to any cell in any diagonal
         for x in points:
             if x.Valor>=0:
                 if not x.visited_flag:
-                    scan_result.append(cost_valid(self.charact.cost,True,x))
+                    scan_result.append(cost_valid(Criaturas.switch[charact](x.Valor),True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
@@ -449,7 +450,7 @@ class Agente5:#Move to any cell in any diagonal
                 scann_res=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate-1)
             elif direction==4:
                 scann_res=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate)
-            valid=cost_valid(self.charact.cost(scann_res.Valor),True,scann_res)
+            valid=cost_valid(Criaturas.switch[charact](scann_res.Valor),True,scann_res)
             if scann_res.Valor>0:
                      valid=cost_valid(self.charact.cost(scann_res.Valor),True,scann_res)
             else:
@@ -468,6 +469,9 @@ class Agente5:#Move to any cell in any diagonal
                 self.position.actual_flag=False
                 cost=cost+new.cost
                 self.position=various_methods.assign_point(self.Matrix,new.point.Xcoordinate,new.point.Ycoordinate)
+                cost=cost+new.cost
+                return True
+            return False
                 
             
             
