@@ -8,7 +8,7 @@ class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si 
         self.cost=cost
         self.valid=valid
         self.point=point
-
+#Tengo que cambiar las condiciones cuando el punto es no valido
 class agente1:#left, forward
     def __init__(self,direction,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool) -> None:
         self.direction=direction
@@ -91,6 +91,7 @@ class agente1:#left, forward
         for casilla in range(movimientos):
             band=self.scan_forward(True)
             if band.valid:
+                self.position.actual_flag=False
                 self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.position.Ycoordinate)
                 cost=cost+band.cost
             else:
@@ -181,6 +182,11 @@ class Agente2:#left,rigth, forward
             if cost==-1&self.auto:
                 print("Not valid position")
             elif cost==0:
+                if auto:
+                    validation.cost=0
+                    validation.valid=False
+                    validation.point=scanned_pos
+                    return validation
                 print("You cannot move there")
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
@@ -257,6 +263,8 @@ class Agente3:#move one cell any direction
             valid=cost_valid(self.charact.cost(scanned.Valor),True,scanned)
         else:
             valid=cost_valid(0,False,scanned)
+        if valid.cost==0:
+            valid.valid=False
         return valid
             
             
@@ -267,6 +275,7 @@ class Agente3:#move one cell any direction
       var=self.scan_pos(direction)
 
       if var.valid:
+        self.position.actual_flag=False
         self.position=various_methods.assign_point(self.Matrix,var.point.Xcoordinate, var.point.Ycoordinate)
         cost=cost+var.cost
         return True
@@ -323,6 +332,8 @@ class Agente4:#move to any cell in column or row
             valid=cost_valid(self.charact.cost(scanned.Valor),True,scanned)
         else:
             valid=cost_valid(0,False,scanned)
+        if valid.cost==0:
+            valid.valid=False
         return valid
     
     arr={'d':1,'w':2,'a':3,'s':4}# key:value
@@ -332,6 +343,7 @@ class Agente4:#move to any cell in column or row
             new=self.scan_pos(direction)
             
             if new.valid:
+                self.position.actual_flag=False
                 self.position=various_methods.assign_point(self.Matrix,new.point.Xcoordinate, new.point.Ycoordinate)
                 cost=cost+new.cost
                 return True
@@ -390,15 +402,20 @@ class Agente5:#Move to any cell in any diagonal
                      valid=cost_valid(self.charact.cost(scann_res.Valor),True,scann_res)
             else:
                 valid=cost_valid(0,False,scann_res)
+            if valid.cost==0:
+                valid.valid=False
             return valid
         
         
            
-    def move(self,key,movimientos):
+    def move(self,key,movimientos,cost):
         direction=arr[key]
         for num in range(movimientos):
             new=self.self_scan(direction)
-
+            if new.valid:
+                self.position.actual_flag=False
+                cost=cost+new.cost
+                self.position=various_methods.assign_point(self.Matrix,new.point.Xcoordinate,new.point.Ycoordinate)
                 
             
             
