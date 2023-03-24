@@ -2,6 +2,7 @@ import Read_data
 import Busq_prof
 import Criaturas
 import various_methods
+arr={'d':1,'w':2,'a':3,'s':4}
 class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si es punto valido y su costo
     def __init__(self,cost:int,valid:bool,point:Read_data.Coord):
         self.cost=cost
@@ -215,7 +216,7 @@ class Agente3:
         self.cost=0
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
-    def scan(self,scan_result:Read_data.Coord)->cost_valid:#Se tiene que implementar la opcion auto como en los otros agentes
+    def scan(self)->cost_valid:#Se tiene que implementar la opcion auto como en los otros agentes
         points=list()
         scan_result=list()
         Not_valid=list()
@@ -228,7 +229,7 @@ class Agente3:
         for x in points:
             if x.Valor>=0:
                 if not x.visited_flag:
-                    scan_result.append(cost_valid(charact.cost,True,x))
+                    scan_result.append(cost_valid(charact.cost(x.Valor),True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
@@ -244,15 +245,17 @@ class Agente3:
 
 
      #These methods are for the movement       
-    def scan_pos(self,p:cost_valid,direction)->Read_data.Coord:#este solo lo usa el metodo move
+    def scan_pos(self,direction)->Read_data.Coord:#este solo lo usa el metodo move
         if direction==1:
-            scanned=various_methods.busq_point(self.Matrix, p.point.Xcoordinate+1, p.point.Ycoordinate)
+            scanned=various_methods.busq_point(self.Matrix, self.position.Xcoordinate+1,self.position.Ycoordinate)
 
             
     #pos-> d=->, w=^,a=<-,s=v
-    arr={'d':1,'w':2,'a':3,'s':4}# key:value
-    def move(self,list_p:cost_valid,key,cost):
+    def move(self,key,cost):
       direction = arr[key]
+      scannedpos=self.scan_pos(direction)#aqui directamente hacemos un auto escaneo
+      new_pos=various_methods.busq_point(self.Matrix, scannedpos.Xcoordinate, scannedpos.Ycoordinate)
+
       if list_p.valid:
         self.position=various_methods.assign_point(self.Matrix,list_p.point.Xcoordinate, list_p.point.Ycoordinate)
         cost=cost+list_p.cost
@@ -283,7 +286,7 @@ class Agente4:#move to any cell in column or row
         for x in points:
             if x.Valor>=0:
                 if not x.visited_flag:
-                    scan_result.append(cost_valid(charact.cost,True,x))
+                    scan_result.append(cost_valid(charact.cost(x.Valor),True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
@@ -297,9 +300,14 @@ class Agente4:#move to any cell in column or row
             scan_result.append(cost_valid(0, False, result))
             return scan_result#so mp hay caminos disponibles 
 
+         #These methods are for the movement       
+    def scan_pos(self,direction)->Read_data.Coord:#este solo lo usa el metodo move
+        if direction==1:
+            scanned=various_methods.busq_point(self.Matrix, p.point.Xcoordinate+1, p.point.Ycoordinate)
+
     arr={'d':1,'w':2,'a':3,'s':4}# key:value
-    def move(self,list_p:cost_valid,key,cost,movimientos:int):
-        for num in range(movimientos):
+    def move(self,key,cost,movimientos:int):
+        for num in range(movimientos):#Necesitamos calcular todo para esta funcion con scan pos de arriba
             direction = arr[key]
             if list_p.valid:
                 self.position=various_methods.assign_point(self.Matrix,list_p.point.Xcoordinate, list_p.point.Ycoordinate)
@@ -308,9 +316,45 @@ class Agente4:#move to any cell in column or row
             return false
 
 
-
-      
-      
+class Agente5:
+    def __init__(self,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
+        self.position=position
+        self.charact=charact
+        self.Matrix=Matrix
+        self.cost=0
+        self.auto=False
+        self.user_flag=user_flag#true=PC, false=User
+    
+    def scan_data(self)->Read_data.Coord:#escanea en diagonal
+        points=list()
+        scan_result=list()
+        Not_valid=list()
+        already_visited=list()
+        validation=cost_valid(0, valid, point)
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate+1))#x+i,y+1
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate-1))#y+1
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate+1))#x-1
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate-1))#y-1
+        for x in points:
+            if x.Valor>=0:
+                if not x.visited_flag:
+                    scan_result.append(cost_valid(charact.cost,True,x))
+                else:
+                    already_visited.append(x)
+            elif x.Valor==-1:
+                Not_valid.append(x)
+        if len(scan_result)>0:
+            if len(scan_result)>1:
+                self.position.deci_flag=True
+            return scan_result#Sí hay por lo menos un camino para seguir, aqui lo veremos
+        elif len(already_visited)+len(Not_valid)==4:
+            result=Read_data.Coord('Not valid', -1, -1, False, False,False)#  no hay a donde moverse y hay que regresar
+            scan_result.append(cost_valid(0, False, result))
+            return scan_result#so mp hay caminos disponibles 
+      #    O O /        \ O O        O O O      O O O
+      #1=D=O O O   2=W= O O O   3=A= O O O  4=S=O O O
+      #    O O O        O O O        / O O      O O \
+      def self_scan(self):
 
                  
                 
