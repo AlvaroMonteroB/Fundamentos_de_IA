@@ -9,7 +9,7 @@ class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si 
         self.point=point
 #Tengo que cambiar las condiciones cuando el punto es no valido
 class agente1:#left, forward
-    def __init__(self,direction,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool) -> None:
+    def __init__(self,direction,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool) -> None:
         self.direction=direction
         self.position=position
         self.charact=charact
@@ -27,12 +27,17 @@ class agente1:#left, forward
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
-            cost=self.charact.cost(scanned_pos.Valor)#calculamos el costo de la siguiente casilla
+            cost=Criaturas.switch[character](scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
                 validation.cost=0
                 validation.valid=False
                 validation.point=scanned_pos
                 return validation
+            elif cost==0:
+                print("you cannot move there")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
@@ -55,11 +60,14 @@ class agente1:#left, forward
         elif self.direction==2:#Apunta hacia arriba
             Y=self.position.Ycoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)#Nos  retorna el objeto de la posicion a escanear
-            cost=self.charact.cost(scanned_pos.Valor)#calculamos el costo de la siguiente casilla
+            cost=Criaturas.switch[charact](scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
                 print("Not valid position")
             elif cost==0:
-                print("You cannot move there")
+                print("you cannot move there")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
@@ -71,10 +79,17 @@ class agente1:#left, forward
         elif self.direction==3:#Apunta a la izquierda
             X=self.position.Xcoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)
+            cost=Criaturas.switch[charact](scanned_pos.Valor)
             if cost==-1:
-                print("Not valid position")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
+                return validation
             elif cost==0:
-                print("You cannot move there")
+                print("you cannot move there")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
@@ -86,11 +101,17 @@ class agente1:#left, forward
         elif self.direction==4:#Apunta hacia abajo
             Y=self.position.Ycoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
-            cost=self.charact.cols(scanned_pos.Valor)
+            cost=Criaturas.switch[charact](scanned_pos.Valor)
             if cost==-1:
-                print("Not valid position")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
+                return validation
             elif cost==0:
-                print("You cannot move there")
+                print("you cannot move there")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
@@ -112,7 +133,7 @@ class agente1:#left, forward
             return True
 
 class Agente2:#left,rigth, forward
-    def __init__(self,direction,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
+    def __init__(self,direction,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool):
         self.direction=direction
         self.position=position
         self.charact=charact
@@ -137,9 +158,14 @@ class Agente2:#left,rigth, forward
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
-            cost=self.charact.cost(scanned_pos.Valor)#calculamos el costo de la siguiente casilla
+            cost=Criaturas.switch[charact](scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
                 print("Not valid position")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
+            elif cost==0:
+                print("you cannot move there")
                 validation.cost=0
                 validation.valid=False
                 validation.point=scanned_pos
@@ -158,9 +184,15 @@ class Agente2:#left,rigth, forward
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)#Nos  retorna el objeto de la posicion a escanear
             cost=self.charact.cost(scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
-                print("Not valid position")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
+                return validation
             elif cost==0:
-                print("You cannot move there")
+                print("you cannot move there")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
@@ -179,7 +211,10 @@ class Agente2:#left,rigth, forward
             if cost==-1:
                 print("Not valid position")
             elif cost==0:
-                print("You cannot move there")
+                print("you cannot move there")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
@@ -230,7 +265,7 @@ class Agente2:#left,rigth, forward
             
 
 
-class Agente3:#move one cell any direction
+class Agente3:#move one cell any row or column  
     def __init__(self,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
         self.position=position
         self.charact=charact
@@ -275,7 +310,8 @@ class Agente3:#move one cell any direction
             scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate)
         elif direction==4:
             scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1)
-        if scanned.Valor>0:
+        cost=self.charact.cost(scanned.Valor)
+        if scanned.Valor>=0:
             valid=cost_valid(self.charact.cost(scanned.Valor),True,scanned)
         else:
             valid=cost_valid(0,False,scanned)
