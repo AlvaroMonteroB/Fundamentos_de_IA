@@ -23,20 +23,34 @@ class agente1:#left, forward
         elif self.direction==4:
             self.direction=1
     def scan_forward(self,auto:bool)->cost_valid:#Censado #to DO
-        valid_flag=True
+        validation=cost_valid(1,True,self.position)
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
             cost=self.charact.cost(scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
-                valid_flag=False
-                print("Not valid position")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
+                return validation
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
                     opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
+                    if opt=='y':
+                        validation.cost=cost
+                        validation.point=scanned_pos
+                        validation.valid=True
+                    else:
+                        validation.cost=cost
+                        validation.point=scanned_pos
+                        validation.valid=False
+                    return validation    
                 elif self.user_flag|self.auto:
-                    return cost
+                    validation.cost=cost
+                    validation.point=scanned_pos
+                    validation.valid=True
+                return validation
 
         elif self.direction==2:#Apunta hacia arriba
             Y=self.position.Ycoordinate+1
@@ -126,6 +140,9 @@ class Agente2:#left,rigth, forward
             cost=self.charact.cost(scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
                 print("Not valid position")
+                validation.cost=0
+                validation.valid=False
+                validation.point=scanned_pos
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
