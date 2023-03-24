@@ -35,17 +35,6 @@ various_methods.busq_point(Matrix, C_ini[0], C_ini[1])
 entity=Criaturas.character()
 pepito=input("Choose a name\n")
 opt=input("Choose a character:\n1.-Human\n2.-Monkey\n3.-Octopus\n4.-Sasquatch\n")
-if opt=='1':
-    entity=Criaturas.character.Humano(pepito)
-elif opt=='2':
-    entity=Criaturas.character.Monkey(pepito)
-elif opt=='3':
-    entity=Criaturas.character.Octopus(pepito)
-elif opt=='4':
-    entity=Criaturas.character.Sasquatch(pepito)
-else:
-    print("Put a valid option\n")
-    
 user=input("Do you ant to play against the machine?  y/n\n")
 if user=='y':
     userband=False #not the user
