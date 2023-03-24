@@ -51,29 +51,32 @@ if user=='y':
     userband=False #not the user
 else:
      userband=True
-     X=C_ini[0]
-     Y=C_ini[1]
-various_methods.assign_point(Matrix, X, Y)
+    
+X=C_ini[0]
+Y=C_ini[1]
+point_ini=various_methods.assign_point(Matrix, X, Y)
 opt=input("Choose an Agent:\n1\n2\n3\n4\n5\n")
 if opt=='1':
     if userband:
-        agent=Agentes.agente1(1,C_ini,entity,Matrix,userband)#true=PC, false=User
-        agentA=Agentes.agente1(1,C_ini,entity,Matrix,True)
+        agent=Agentes.agente1(1,point_ini,entity,Matrix,userband)#true=PC, false=User
+        agentA=Agentes.agente1(1,point_ini,entity,Matrix,True)
     else:
-        agentA=Agentes.agente1(1,C_ini,entity,Matrix,True)
+        agentA=Agentes.agente1(1,point_ini,entity,Matrix,True)
 elif opt=='2':
     if userband:
-        agent=Agentes.Agente2(1,C_ini,entity,Matrix,userband)#true=PC, false=User
-        agentA=Agentes.Agente2(1,C_ini,entity,Matrix,True)
+        agent=Agentes.Agente2(1,point_ini,entity,Matrix,userband)#true=PC, false=User
+        agentA=Agentes.Agente2(1,point_ini,entity,Matrix,True)
     else:
-        agentA=Agentes.Agente2(1,C_ini,entity,Matrix,True)
+        agentA=Agentes.Agente2(1,point_ini,entity,Matrix,True)
 elif opt=='3':
     if userband:
-        agent=Agentes.Agente3(C_ini)
+        agent=Agentes.Agente3(point_ini,entity,Matrix,True)
+        agentA=Agentes.Agente3(point_ini,entity,Matrix,True)
+    else:
+        agentA=Agentes.Agente3(point_ini,entity,Matrix,True)
 
 finx=C_fin[0]
 finy=C_fin[1]
-stack=list()
 Raiz=list()#Iniciando la raiz
 if userband: #true if user doesnt do anything
     Raiz.append(agentA.position)#aqui se añade el elemento a la raiz
@@ -82,7 +85,7 @@ else:
     Raiz2=list()
     Raiz2.append(agentA.position)
     
-    
+stack=b_p.switch[opt](Raiz,agentA)
 
 
 
