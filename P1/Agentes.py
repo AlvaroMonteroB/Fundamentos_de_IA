@@ -1,5 +1,4 @@
 import Read_data
-import Busq_prof
 import Criaturas
 import various_methods
 arr={'d':1,'w':2,'a':3,'s':4}
