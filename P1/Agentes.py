@@ -29,6 +29,7 @@ class agente1:#Tenemos que cambiar para que se mueva en un numero continuo de ca
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
             cost=self.charact.cost(scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
+                valid_flag=False
                 print("Not valid position")
             elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
@@ -238,10 +239,28 @@ class Agente3:
             result=Read_data.Coord('Not valid', -1, -1, False, False,False)#  no hay a donde moverse y hay que regresar
             scan_result.append(cost_valid(0, False, result))
             return scan_result#so mp hay caminos disponibles 
-        
-    arr={a:1}
-    def move(self,list_p:cost_valid,key):
-        arr[key]
+
+
+     #These methods are for the movement       
+    def scan_pos(self,p:cost_valid,direction)->Read_data.Coord:#este solo lo usa el metodo move
+        if direction==1:
+            scanned=various_methods.busq_point(self.Matrix, p.point.Xcoordinate+1, p.point.Ycoordinate)
+
+            
+    #pos-> d=->, w=^,a=<-,s=v
+    arr={'d':1,'w':2,'a':3,'s':4}# key:value
+    def move(self,list_p:cost_valid,key,cost):
+      direction = arr[key]
+      if list_p.valid:
+        self.position=various_methods.assign_point(self.Matrix,list_p.point.Xcoordinate, list_p.point.Ycoordinate)
+        cost=cost+list_p.cost
+        return True
+      return false
+
+
+
+      
+      
 
                  
                 
