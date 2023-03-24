@@ -24,5 +24,6 @@ def assign_point(Matrix:Read_data.Coord,X:int,Y:int):
         if obj.Ycoordinate==Y&obj.Xcoordinate==X:
             output=obj
     output.visited_flag=True
+    output.actual_flag=True
     output.seen_flag=True
     return output

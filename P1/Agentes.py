@@ -197,6 +197,7 @@ class Agente2:
         if band.valid:#el escaneo ya nos da toda la informacion para usarla
             x=band.point.Xcoordinate
             y=band.point.Ycoordinate
+            self.position.actual_flag=False
             self.position=various_methods.assign_point(self.Matrix,x,y)#soplo usamos esa informacion para
             cost=cost+band.cost                         #Para actualizar la posicion si es posible
             return True
