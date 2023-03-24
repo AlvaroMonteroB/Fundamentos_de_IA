@@ -1,34 +1,25 @@
-class character:
-    def __init__(self) -> None:
-        pass
-    class Humano:
-        def __init__(self,name) ->None:
-            self.name=name
+switch={'1':humano,
+        '2':Sasquatch,
+        '3':Monkey,
+        '4':Octopus
 
-
-        def cost(casilla):
-            if casilla==0:# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
+}
+def humano(casilla):
+    if casilla==0:# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
                 return 0
-            if casilla==1:
+    if casilla==1:
                 return 2
-            if casilla==2:
+    if casilla==2:
                 return 2
-            if casilla==3:
+    if casilla==3:
                 return 3
-            if casilla==4:#bosque
+    if casilla==4:#bosque
                 return 4
-            if casilla==5:
+    if casilla==5:
                 return 5
-            else:
+    else:
                 return -1
-
-
-    class Sasquatch:
-        def __init__(self,name)->None:
-            self.name=name
-
-
-        def cost(casilla):
+def Sasquatch(casilla):
             if casilla==0:# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
                 return 15
             if casilla==1:
@@ -43,13 +34,7 @@ class character:
                 return 5
             else:
                 return -1
-
-    class Monkey:
-        def __init__(self,name)->None:
-            self.name=name
-
-
-        def cost(casilla):
+def Monkey(casilla):
             if casilla==0:# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
                 return 0
             if casilla==1:
@@ -64,13 +49,7 @@ class character:
                 return 5
             else:
                 return -1
-
-    class Octopus:
-        def __init__(self,name)->None:
-                self.name=name
-
-
-        def cost(casilla):
+def Octopus(casilla):
             if casilla==0:# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
                 return 0
             if casilla==1:
@@ -85,3 +64,4 @@ class character:
                 return 2
             else:
                 return -1
+
