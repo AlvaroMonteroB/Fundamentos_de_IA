@@ -9,7 +9,7 @@ class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si 
         self.valid=valid
         self.point=point
 
-class agente1:#Tenemos que cambiar para que se mueva en un numero continuo de casillas
+class agente1:#left, forward
     def __init__(self,direction,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool) -> None:
         self.direction=direction
         self.position=position
@@ -97,7 +97,7 @@ class agente1:#Tenemos que cambiar para que se mueva en un numero continuo de ca
                 return False
             return True
 
-class Agente2:
+class Agente2:#left,rigth, forward
     def __init__(self,direction,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
         self.direction=direction
         self.position=position
@@ -208,7 +208,7 @@ class Agente2:
             
 
 
-class Agente3:
+class Agente3:#move one cell any direction
     def __init__(self,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
         self.position=position
         self.charact=charact
@@ -221,7 +221,6 @@ class Agente3:
         scan_result=list()
         Not_valid=list()
         already_visited=list()
-        validation=cost_valid(0, valid, point)
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1
@@ -229,7 +228,7 @@ class Agente3:
         for x in points:
             if x.Valor>=0:
                 if not x.visited_flag:
-                    scan_result.append(cost_valid(charact.cost(x.Valor),True,x))
+                    scan_result.append(cost_valid(self.charact.cost(x.Valor),True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
@@ -245,22 +244,33 @@ class Agente3:
 
 
      #These methods are for the movement       
-    def scan_pos(self,direction)->Read_data.Coord:#este solo lo usa el metodo move
+    def scan_pos(self,direction)->cost_valid:#este solo lo usa el metodo move
         if direction==1:
             scanned=various_methods.busq_point(self.Matrix, self.position.Xcoordinate+1,self.position.Ycoordinate)
-
+        elif direction==2:
+            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1)
+        elif direction==3:
+            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate)
+        elif direction==4:
+            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1)
+        if scanned.Valor>0:
+            valid=cost_valid(self.charact.cost(scanned.Valor),True,scanned)
+        else:
+            valid=cost_valid(0,False,scanned)
+        return valid
             
-    #pos-> d=->, w=^,a=<-,s=v
+            
+    #pos-> d=->, w=^,a=<-,s=v: 1,2,3,4
     def move(self,key,cost):
       direction = arr[key]
       scannedpos=self.scan_pos(direction)#aqui directamente hacemos un auto escaneo
-      new_pos=various_methods.busq_point(self.Matrix, scannedpos.Xcoordinate, scannedpos.Ycoordinate)
+      var=self.scan_pos(direction)
 
-      if list_p.valid:
-        self.position=various_methods.assign_point(self.Matrix,list_p.point.Xcoordinate, list_p.point.Ycoordinate)
-        cost=cost+list_p.cost
+      if var.valid:
+        self.position=various_methods.assign_point(self.Matrix,var.point.Xcoordinate, var.point.Ycoordinate)
+        cost=cost+var.cost
         return True
-      return false
+      return False
     
 
 
@@ -278,7 +288,6 @@ class Agente4:#move to any cell in column or row
         scan_result=list()
         Not_valid=list()
         already_visited=list()
-        validation=cost_valid(0, valid, point)
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1
@@ -286,7 +295,7 @@ class Agente4:#move to any cell in column or row
         for x in points:
             if x.Valor>=0:
                 if not x.visited_flag:
-                    scan_result.append(cost_valid(charact.cost(x.Valor),True,x))
+                    scan_result.append(cost_valid(self.charact.cost(x.Valor),True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
@@ -303,20 +312,33 @@ class Agente4:#move to any cell in column or row
          #These methods are for the movement       
     def scan_pos(self,direction)->Read_data.Coord:#este solo lo usa el metodo move
         if direction==1:
-            scanned=various_methods.busq_point(self.Matrix, p.point.Xcoordinate+1, p.point.Ycoordinate)
-
+            scanned=various_methods.busq_point(self.Matrix, self.position.Xcoordinate+1,self.position.Ycoordinate)
+        elif direction==2:
+            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1)
+        elif direction==3:
+            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate)
+        elif direction==4:
+            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1)
+        if scanned.Valor>0:
+            valid=cost_valid(self.charact.cost(scanned.Valor),True,scanned)
+        else:
+            valid=cost_valid(0,False,scanned)
+        return valid
+    
     arr={'d':1,'w':2,'a':3,'s':4}# key:value
     def move(self,key,cost,movimientos:int):
+        direction = arr[key]
         for num in range(movimientos):#Necesitamos calcular todo para esta funcion con scan pos de arriba
-            direction = arr[key]
-            if list_p.valid:
-                self.position=various_methods.assign_point(self.Matrix,list_p.point.Xcoordinate, list_p.point.Ycoordinate)
-                cost=cost+list_p.cost
+            new=self.scan_pos(direction)
+            
+            if new.valid:
+                self.position=various_methods.assign_point(self.Matrix,new.point.Xcoordinate, new.point.Ycoordinate)
+                cost=cost+new.cost
                 return True
-            return false
+            return False
 
 
-class Agente5:
+class Agente5:#Move to any cell in any diagonal
     def __init__(self,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
         self.position=position
         self.charact=charact
@@ -330,7 +352,6 @@ class Agente5:
         scan_result=list()
         Not_valid=list()
         already_visited=list()
-        validation=cost_valid(0, valid, point)
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate+1))#x+i,y+1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate-1))#y+1
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate+1))#x-1
@@ -338,7 +359,7 @@ class Agente5:
         for x in points:
             if x.Valor>=0:
                 if not x.visited_flag:
-                    scan_result.append(cost_valid(charact.cost,True,x))
+                    scan_result.append(cost_valid(self.charact.cost,True,x))
                 else:
                     already_visited.append(x)
             elif x.Valor==-1:
@@ -350,23 +371,39 @@ class Agente5:
         elif len(already_visited)+len(Not_valid)==4:
             result=Read_data.Coord('Not valid', -1, -1, False, False,False)#  no hay a donde moverse y hay que regresar
             scan_result.append(cost_valid(0, False, result))
-            return scan_result#so mp hay caminos disponibles 
+            return scan_result# no hay caminos disponibles 
       #    O O /        \ O O        O O O      O O O
       #1=D=O O O   2=W= O O O   3=A= O O O  4=S=O O O
-      #    O O O        O O O        / O O      O O \
-      def self_scan(self):
-
-                 
-                
-           
-
-                
-            
-            
-            
-            
-            
-            
-            
-
+      #    O O O        O O O        / O O      O O \}
       
+    def self_scan(self,direction:int)->cost_valid:
+            if direction==1:
+                scann_res=various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate+1)#x+i,y+1)
+            elif direction==2:
+                scann_res=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate+1) 
+            elif direction==3:
+                scann_res=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate-1)
+            elif direction==4:
+                scann_res=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate)
+            valid=cost_valid(self.charact.cost(scann_res.Valor),True,scann_res)
+            if scann_res.Valor>0:
+                     valid=cost_valid(self.charact.cost(scann_res.Valor),True,scann_res)
+            else:
+                valid=cost_valid(0,False,scann_res)
+            return valid
+        
+        
+           
+    def move(self,key,movimientos):
+        direction=arr[key]
+        for num in range(movimientos):
+            new=self.self_scan(direction)
+
+                
+            
+            
+            
+            
+            
+            
+            
