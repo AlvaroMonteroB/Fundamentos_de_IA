@@ -68,10 +68,12 @@ elif opt=='2':
     else:
         agentA=Agentes.Agente2(1,C_ini,entity,Matrix,True)
 elif opt=='3':
-    agent=Agentes.Agente3()
+    if userband:
+        agent=Agentes.Agente3(C_ini)
 
 finx=C_fin[0]
 finy=C_fin[1]
+stack=list()
 Raiz=list()#Iniciando la raiz
 if userband: #true if user doesnt do anything
     Raiz.append(agentA.position)#aqui se añade el elemento a la raiz
