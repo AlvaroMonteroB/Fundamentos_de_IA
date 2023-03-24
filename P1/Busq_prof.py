@@ -34,8 +34,14 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1)->r_d.Coord:
     rec_busq1(valid_scan,stack,valid_scan)
         
         
+def rec_busq2():
+    new_scan=list()        
         
-        
+ 
+ 
+def alg_busq2(raiz:Nodo,Agente:Ag.Agente2):
+    stack=list()
+ 
         
 switch={#switch for the algorithms
     1:alg_busq1
