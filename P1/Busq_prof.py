@@ -4,6 +4,11 @@ import Read_data as r_d
 import acciones as acc
 
 
+class resultado:
+    def __init__(self) -> None:
+        self.stack=list
+        self.cost=0
+
 class Nodo:
     def __init__(self,point:r_d.Coord) -> None:
         self.point=point
@@ -13,10 +18,10 @@ class Nodo:
     def howm_son(self):#Para saber cuantos hijos tiene el nodo
         return len(self.hijo)
     
-def rec_busq1(raiz:Nodo,stack:list,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->bool:
+def rec_busq1(raiz:Nodo,stack:list,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:resultado)->bool:
     new_scan=list()
     valid_scan=list()
-    Agente.move_forward
+    Agente.move_forward(1,output.cost)
     if Agente.position==fin_pos:#Si la posicion en la que nos encontramos es la final, devolvemos true
         stack.append(Agente.position)#Para que se devuelva el stack generado
         return True#y colocamos la ultima posicion
@@ -32,19 +37,19 @@ def rec_busq1(raiz:Nodo,stack:list,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r
     i=0
     if len(valid_scan)>0:#Con que haya una direccion valida, vamos a entrar
         for src in valid_scan:#iteramos en las posiciones validas
-            raiz.C_nodo_h(src.point)
-            n_raiz=raiz.hijo[i]
+            raiz.C_nodo_h(src.point)#creamos nodos hijos por cada una
+            n_raiz=raiz.hijo[i]#Nueva raiz con el nodo hijo actual
             aux=True
-            scan_aux=Agente.scan_forward
-            scan_aux=scan_aux.point
+            scan_aux=Agente.scan_forward#escaneamos para ver que tiene el agente en su direccion actual
+            scan_aux=scan_aux.point#guardamos el punto
             c=0
-            while aux|c<4:
-                if n_raiz.point == scan_aux:
+            while aux|c<4:#mientras el auxiliar no nos saque del bucle, escaneamos que hay enfrente(si no jala, cambiar el 4 a 3)
+                if n_raiz.point == scan_aux:#Si nuestra nueva raiz es igual al punto que hay enfrente nos metemos y repetimos
                     aux=True
-                    res=rec_busq1(n_raiz,stack,src,Agente,Matrix)
-                    if res:
+                    res=rec_busq1(n_raiz,stack,src,Agente,Matrix)#algoritmo recursivo
+                    if res:#Si se encontró el punto retornamos true para guardar el stack
                         return True
-                    else:
+                    else:#Si el camino no fue valido, regresamos la posicion actual
                         stack_pop(stack)
                 else:
                     
@@ -58,9 +63,12 @@ def rec_busq1(raiz:Nodo,stack:list,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r
             
       
     
-def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord)->r_d.Coord:
+def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,)->r_d.Coord:#inicializacion del algoritmo
     stack=list()
     scan=list()
+    output=resultado()
+    output.stack=stack
+    
     valid_scan=list()
     scan.append(Agente.scan_forward)
     stack.append(raiz.point)
@@ -85,7 +93,7 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord)->r_d.Coord:
     if len(valid_scan)==0:
             return 
     if result:
-        return stack
+        output.cost
         
 def rec_busq2():
     new_scan=list()        
