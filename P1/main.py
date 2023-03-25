@@ -32,9 +32,8 @@ aux=''
 #Puntos con sus respectivas coordenadas
 
 various_methods.busq_point(Matrix, C_ini[0], C_ini[1])
-entity=Criaturas.character()
 pepito=input("Choose a name\n")
-opt=input("Choose a character:\n1.-Human\n2.-Monkey\n3.-Octopus\n4.-Sasquatch\n")
+opt=input("Choose a character:\n1.-Human\n2.-Sasquatch\n3.-Monkey\n4.-Octopus\n")
 user=input("Do you ant to play against the machine?  y/n\n")
 if user=='y':
     userband=False #not the user
@@ -47,22 +46,22 @@ point_ini=various_methods.assign_point(Matrix, X, Y)
 opt=input("Choose an Agent:\n1\n2\n3\n4\n5\n")
 if opt=='1':
     if userband:
-        agent=Agentes.agente1(1,point_ini,entity,Matrix,userband)#true=PC, false=User
-        agentA=Agentes.agente1(1,point_ini,entity,Matrix,True)
+        agent=Agentes.agente1(1,point_ini,opt,Matrix,userband)#true=PC, false=User
+        agentA=Agentes.agente1(1,point_ini,opt,Matrix,True)
     else:
-        agentA=Agentes.agente1(1,point_ini,entity,Matrix,True)
+        agentA=Agentes.agente1(1,point_ini,opt,Matrix,True)
 elif opt=='2':
     if userband:
-        agent=Agentes.Agente2(1,point_ini,entity,Matrix,userband)#true=PC, false=User
-        agentA=Agentes.Agente2(1,point_ini,entity,Matrix,True)
+        agent=Agentes.Agente2(1,point_ini,opt,Matrix,userband)#true=PC, false=User
+        agentA=Agentes.Agente2(1,point_ini,opt,Matrix,True)
     else:
-        agentA=Agentes.Agente2(1,point_ini,entity,Matrix,True)
+        agentA=Agentes.Agente2(1,point_ini,opt,Matrix,True)
 elif opt=='3':
     if userband:
-        agent=Agentes.Agente3(point_ini,entity,Matrix,True)
-        agentA=Agentes.Agente3(point_ini,entity,Matrix,True)
+        agent=Agentes.Agente3(point_ini,opt,Matrix,True)
+        agentA=Agentes.Agente3(point_ini,opt,Matrix,True)
     else:
-        agentA=Agentes.Agente3(point_ini,entity,Matrix,True)
+        agentA=Agentes.Agente3(point_ini,opt,Matrix,True)
 
 finx=C_fin[0]
 finy=C_fin[1]
@@ -73,7 +72,7 @@ else:
     Raiz.append(agent.position)
     Raiz2=list()
     Raiz2.append(agentA.position)
-    
+#AgentA es el algoritmo de busqueda
 stack=b_p.switch[opt](Raiz,agentA)
 
 

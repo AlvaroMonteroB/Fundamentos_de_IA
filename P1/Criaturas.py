@@ -1,9 +1,4 @@
-switch={'1':humano,
-        '2':Sasquatch,
-        '3':Monkey,
-        '4':Octopus
 
-}
 def humano(casilla):
     if casilla==0:# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
                 return 0
@@ -65,3 +60,9 @@ def Octopus(casilla):
             else:
                 return -1
 
+switch={'1':humano,
+        '2':Sasquatch,
+        '3':Monkey,
+        '4':Octopus
+
+}
