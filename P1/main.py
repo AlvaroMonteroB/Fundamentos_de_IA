@@ -9,7 +9,26 @@ C_aux:str=list()
 C_ini=list()
 C_fin=list()
 Matrix=list()
+def test(Matrix:Read_data.Coord):
+    point_ini=various_methods.assign_point(Matrix,1,1)
+    agentA=Agentes.agente1(1,point_ini,1,Matrix,True)
+    raiz=list()
+    raiz.append(b_p.Nodo(point_ini))
+    fin=various_methods.busq_point(Matrix,3,14)
+    output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
+    print_stack(output)
+    a=input()
+
+def print_stack(output:list[b_p.resultado]):
+    i=0
+    p=-1
+    while i<len(output.stack):
+        print(output.stack[p].Xcoordinate+","+output.stack.Ycoordinate+"\n")
+        
+        
+        
 Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
+test(Matrix)
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")
 aux=''
@@ -17,10 +36,11 @@ for letra in Coo1:
     if not letra==',' :#Si no es ',' pasa al siguiente paso
         C_aux.append(letra)
     for val in C_aux:
-        aux=aux+val
+        aux=aux+val#Construimos el string atraves de los char en la lista
     C_ini.append(int(aux))
     C_aux.clear()
-aux=''
+    aux=''
+
 for letra in Coo2:
     if not letra==',':
         C_aux.append(letra)
@@ -43,7 +63,7 @@ else:
 X=C_ini[0]
 Y=C_ini[1]
 point_ini=various_methods.assign_point(Matrix, X, Y)
-opt=input("Choose an Agent:\n1\n2\n3\n4\n5\n")
+opt=input("Choose an Agent:\n1\n2\n3\n4\n5\n")#Menu para escoger el agente a usar
 if opt=='1':
     if userband:
         agent=Agentes.agente1(1,point_ini,opt,Matrix,userband)#true=PC, false=User
@@ -62,9 +82,15 @@ elif opt=='3':
         agentA=Agentes.Agente3(point_ini,opt,Matrix,True)
     else:
         agentA=Agentes.Agente3(point_ini,opt,Matrix,True)
+elif opt==4:
+    if userband:
+        agent=Agentes.Agente4(point_ini,opt,Matrix,True)
+    else:
+        agentA=Agentes.Agente4(point_ini,opt,Matrix,True)
 
 finx=C_fin[0]
 finy=C_fin[1]
+fpoint=various_methods.busq_point(Matrix,finx,finy)
 Raiz=list()#Iniciando la raiz
 if userband: #true if user doesnt do anything
     Raiz.append(agentA.position)#aqui se añade el elemento a la raiz
@@ -73,7 +99,7 @@ else:
     Raiz2=list()
     Raiz2.append(agentA.position)
 #AgentA es el algoritmo de busqueda
-stack=b_p.switch[opt](Raiz,agentA)
+stack=b_p.switch[opt](Raiz,agentA,Matrix,fpoint)
 
 
 
@@ -82,4 +108,10 @@ enter_game=True
 
 #Empieza el bucle de la interfaz grafica
 #while enter_game:
+    
+    
+    
+    
+    
+    
     

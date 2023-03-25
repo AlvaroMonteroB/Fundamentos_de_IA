@@ -8,14 +8,19 @@ def terrain_info(punto,ente):
     return 
 
 def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el punto entre nuestra lista de objetos para devolverlo
+    output=Read_data.Coord('',-1,-1,False,False,False,False)
+    if X<0|Y<0:
+        output=Read_data.Coord('Not valid', -1, -1, False, False,False)
+        return output
     for obj in Matrix:#iteramos objeto en la matriz
         if obj.Ycoordinate==Y&obj.Xcoordinate==X:
             output=obj
+           
     if output:#Si encontró punto, la variable output va a existir
         output.seen_flag=True
         return output
     elif not output:#En caso de no estar dentro del mapa, se lanza un punto no válido
-        output=Read_data.Coord('Not valid', -1, -1, False, False,False)
+        output=Read_data.Coord('Not valid', -1, -1, False, False,False,False)
         return output
     
 

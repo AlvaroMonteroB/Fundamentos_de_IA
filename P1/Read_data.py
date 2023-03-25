@@ -1,3 +1,4 @@
+
 # 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
 data_terrain={0:"Montaña", 1:"Tierra", 2:"Agua",3:"Arena",4:"Bosque",5:"Pantano"}
 

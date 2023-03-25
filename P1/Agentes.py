@@ -267,7 +267,7 @@ class Agente2:#left,rigth, forward
 
 
 class Agente3:#move one cell any row or column  
-    def __init__(self,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
+    def __init__(self,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool):
         self.position=position
         self.charact=charact
         self.Matrix=Matrix
@@ -337,7 +337,7 @@ class Agente3:#move one cell any row or column
 
 
 class Agente4:#move to any cell in column or row
-    def __init__(self,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
+    def __init__(self,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool):
         self.position=position
         self.charact=charact
         self.Matrix=Matrix
@@ -404,7 +404,7 @@ class Agente4:#move to any cell in column or row
 
 
 class Agente5:#Move to any cell in any diagonal
-    def __init__(self,position:Read_data.Coord,charact:Criaturas.character,Matrix:Read_data.Coord,user_flag:bool):
+    def __init__(self,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool):
         self.position=position
         self.charact=charact
         self.Matrix=Matrix

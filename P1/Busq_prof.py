@@ -6,7 +6,7 @@ import acciones as acc
 
 class resultado:
     def __init__(self) -> None:
-        self.stack=list[r_d.Coord]
+        self.stack:r_d.Coord
         self.cost=0
 
 class Nodo:
@@ -66,14 +66,13 @@ def rec_busq1(raiz:Nodo,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r_d.Coord,fi
       
     
 def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo
-    stack=list()
     scan=list()
     output=resultado()
-    output.stack=stack
+    output.stack=list
     
     valid_scan=list()
     scan.append(Agente.scan_forward)
-    stack.append(raiz.point)
+    output.stack.append(raiz.point)
     dir_ini=Agente.direction
     for dirs in range(4):
         Agente.turn_left
@@ -88,7 +87,7 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         for scr in valid_scan: 
             raiz.C_nodo_h(scr.point)
             n_raiz=raiz.hijo[i]
-            result=rec_busq1(n_raiz,stack,valid_scan,Matrix,fin_pos,output)#si es verdadero vamos a tener el stack lleno
+            result=rec_busq1(n_raiz,output.stack,valid_scan,Matrix,fin_pos,output)#si es verdadero vamos a tener el stack lleno
             if not result:
                 Agente.turn_left
                 i+=1
