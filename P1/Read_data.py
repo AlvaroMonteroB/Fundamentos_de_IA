@@ -34,9 +34,10 @@ def read_matrix(puntos:Coord)->None:
 
     for line in Matrix_rows1:
         print(line)
-    for indice,cadena in enumerate(Matrix_rows1):      #Vamos a agregar los puntos y su valor
-        for indice2,letra in enumerate(cadena):             #especificando todos los puntos como no visitados
-            puntos.append(Coord(int(letra),indice2,indice,False,False,False,False))
+    for indice,cadena in enumerate(Matrix_rows1):     #Vamos a agregar los puntos y su valor
+        i=0
+        for letra in cadena:             #especificando todos los puntos como no visitados
+            puntos.append(Coord(letra,i,indice,False,False,False,False))
     return
 
         

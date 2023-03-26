@@ -60,6 +60,7 @@ def rec_busq1(raiz:Nodo,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r_d.Coord,fi
                     scan_aux=scan_aux.point
                 c+=1
     if len(valid_scan)==0:#Si no hubo escaneos validos, regresamos
+        print("ania\n")
         return False
                      
             
@@ -81,6 +82,9 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     for dir in scan:
         if dir.valid:
             valid_scan.append(dir)
+        else:
+            print("No se encontró ningún punto valido")
+            exit()
     if len(valid_scan)>1:
         valid_scan.point.deci_flag=True
     i=0

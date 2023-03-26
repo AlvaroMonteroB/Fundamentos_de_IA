@@ -18,10 +18,10 @@ def test(Matrix:Read_data.Coord):
     output=list[b_p.resultado]
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
     print(output.stack[1].Xcoordinate+','+output.stack[1].Xcoordinate+"\n")
-    print_stack(output)
+    print_stack(output.stack)
     a=input()
 
-def print_stack(output:list[b_p.resultado]):
+def print_stack(output:Read_data.Coord):
     i=0
     p=-1
     print("Agente terminado")

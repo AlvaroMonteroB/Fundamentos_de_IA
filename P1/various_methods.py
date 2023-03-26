@@ -13,8 +13,9 @@ def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el p
         output=Read_data.Coord('Not valid', -1, -1, False, False,False)
         return output
     for obj in Matrix:#iteramos objeto en la matriz
-        if obj.Ycoordinate==Y&obj.Xcoordinate==X:
+        if obj.Ycoordinate==Y and obj.Xcoordinate==X:
             output=obj
+            print(obj.Xcoordinate)
            
     if output:#Si encontró punto, la variable output va a existir
         output.seen_flag=True
@@ -25,6 +26,7 @@ def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el p
     
 
 def assign_point(Matrix:Read_data.Coord,X:int,Y:int):
+    output=Matrix[0]
     for obj in Matrix:#iteramos objeto en la matriz
         if obj.Ycoordinate==Y&obj.Xcoordinate==X:
             output=obj
