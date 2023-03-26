@@ -60,7 +60,6 @@ def rec_busq1(raiz:Nodo,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r_d.Coord,fi
                     scan_aux=scan_aux.point
                 c+=1
     if len(valid_scan)==0:#Si no hubo escaneos validos, regresamos
-        print("ania\n")
         return False
                      
             

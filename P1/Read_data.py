@@ -17,9 +17,10 @@ class Coord():
         print("Data of point "+self.Xcoordinate+","+self.Ycoordinate)
         print("El terreno es "+data_terrain[self.Valor]+" Tiene un costo de "+cost+" Esta casilla")
 
-def read_matrix(puntos:Coord)->None:
+def read_matrix(puntos:list[Coord])->None:
     Matrix_rows=list()
     Matrix_rows1=list()
+    list_aux=list()
     with open("matriz.txt","r") as Read_matrix:
         leer=Read_matrix.readline
         for line in Read_matrix:
@@ -28,20 +29,21 @@ def read_matrix(puntos:Coord)->None:
                                         #Lectura y remplazo de comas en el archiv
     print("Read successfully")
     for linea in Matrix_rows:
-        aux=linea.replace(',','')
+        aux=linea.replace(',','')#cadena sin comas
         aux=aux.strip()
         Matrix_rows1.append(aux)#Arreglo de renglones sin comas y sin saltos de linea
 
     for line in Matrix_rows1:
         print(line)
-    for indice,cadena in enumerate(Matrix_rows1):     #Vamos a agregar los puntos y su valor
-        i=0
-        for letra in cadena:             #especificando todos los puntos como no visitados
-            puntos.append(Coord(letra,i,indice,False,False,False,False))
+    for i, fila in enumerate(Matrix_rows):
+        puntos_fila = []
+        for j, letra in enumerate(fila):
+            coord = Coord(letra, j, i, False, False, False, False)
+            puntos_fila.append(coord)
+        puntos.append(puntos_fila)
     return
 
         
 def access_obj(cols,rows,Mat_obj:Coord):#Hay que modificar este
-    line=Mat_obj[rows-1]
-    return line[cols-1]
+    return Mat_obj[rows][cols]
 

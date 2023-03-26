@@ -19,107 +19,48 @@ class agente1:#left, forward
         self.user_flag=user_flag#true=PC, false=User
     def turn_left(self):#dirs: 1=-> 2=^ 3=<- 4=v
         if self.direction<3&self.direction>0:
-            self.direction+1
+            self.direction+=1
         elif self.direction==4:
             self.direction=1
     def scan_forward(self,auto:bool)->cost_valid:#Censado #to DO
         validation=cost_valid(1,True,self.position)
+        scanned_pos=None
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
             cost=Criaturas.switch[self.charact](scanned_pos.Valor)#calculamos el costo de la siguiente casilla
-            if cost==-1:
-                validation.cost=0
-                validation.valid=False
-                validation.point=scanned_pos
-                return validation
-            elif cost==0:
-                print("you cannot move there")
-                validation.cost=0
-                validation.valid=False
-                validation.point=scanned_pos
-            elif cost>0:  
-                if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
-                    print(scanned_pos.print_data(cost))#Interfaz grafica
-                    opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
-                    if opt=='y':
-                        validation.cost=cost
-                        validation.point=scanned_pos
-                        validation.valid=True
-                    else:
-                        validation.cost=cost
-                        validation.point=scanned_pos
-                        validation.valid=False
-                    return validation    
-                elif self.user_flag|self.auto:
-                    validation.cost=cost
-                    validation.point=scanned_pos
-                    validation.valid=True
-                return validation
-
+            
         elif self.direction==2:#Apunta hacia arriba
             Y=self.position.Ycoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)#Nos  retorna el objeto de la posicion a escanear
             cost=Criaturas.switch[self.charact](scanned_pos.Valor)#calculamos el costo de la siguiente casilla
-            if cost==-1:
-                print("Not valid position")
-            elif cost==0:
-                print("you cannot move there")
-                validation.cost=0
-                validation.valid=False
-                validation.point=scanned_pos
-            elif cost>0:  
-                if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
-                    print(scanned_pos.print_data(cost))#Interfaz grafica
-                    opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
-                elif self.user_flag|self.auto:
-                    return cost
-
 
         elif self.direction==3:#Apunta a la izquierda
             X=self.position.Xcoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)
             cost=Criaturas.switch[self.charact](scanned_pos.Valor)
-            if cost==-1:
-                validation.cost=0
-                validation.valid=False
-                validation.point=scanned_pos
-                return validation
-            elif cost==0:
-                print("you cannot move there")
-                validation.cost=0
-                validation.valid=False
-                validation.point=scanned_pos
-            elif cost>0:  
-                if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
-                    print(scanned_pos.print_data(cost))#Interfaz grafica
-                    opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
-                elif self.user_flag|self.auto:
-                    return cost
-
-
+            
         elif self.direction==4:#Apunta hacia abajo
             Y=self.position.Ycoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
             cost=Criaturas.switch[self.charact](scanned_pos.Valor)
-            if cost==-1:
+            
+        if not scanned_pos:
+            return (0, False, None)
+        cost = Criaturas.switch[self.charact](scanned_pos.Valor)
+        if cost==-1:
                 validation.cost=0
                 validation.valid=False
                 validation.point=scanned_pos
                 return validation
-            elif cost==0:
-                print("you cannot move there")
-                validation.cost=0
-                validation.valid=False
-                validation.point=scanned_pos
-            elif cost>0:  
+        elif cost==0:
+                return (0, False, scanned_pos)
+        elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
-                    print(scanned_pos.print_data(cost))#Interfaz grafica
-                    opt=input("Do you want to move there?")#Esto se debe imprimir en la interfaz grafica
-                                                            #TO DO
+                    print(scanned_pos.print_data(cost))#Interfaz grafica                         #TO DO
                 elif self.user_flag|self.auto:
-                    return cost
-            
+                    self
+                return (cost,True,scanned_pos)
                 
     def move_forward(self,cost:int,movimientos:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
         for casilla in range(movimientos):
@@ -130,7 +71,7 @@ class agente1:#left, forward
                 cost=cost+band.cost
             else:
                 return False
-            return True
+        return True
 
 class Agente2:#left,rigth, forward
     def __init__(self,direction,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool):

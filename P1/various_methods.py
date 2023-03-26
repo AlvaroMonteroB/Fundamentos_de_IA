@@ -7,30 +7,19 @@ def terrain_info(punto,ente):
     punto.print_data(ente.cost)
     return 
 
-def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el punto entre nuestra lista de objetos para devolverlo
+def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el punto entre nuestra matriz de objetos para devolverlo
     output=Read_data.Coord('',-1,-1,False,False,False,False)
-    if X<0|Y<0:
-        output=Read_data.Coord('Not valid', -1, -1, False, False,False)
-        return output
-    for obj in Matrix:#iteramos objeto en la matriz
-        if obj.Ycoordinate==Y and obj.Xcoordinate==X:
-            output=obj
-            print(obj.Xcoordinate)
-           
-    if output:#Si encontró punto, la variable output va a existir
-        output.seen_flag=True
-        return output
-    elif not output:#En caso de no estar dentro del mapa, se lanza un punto no válido
-        output=Read_data.Coord('Not valid', -1, -1, False, False,False,False)
-        return output
+    if X < 0 or Y < 0 or X >= len(Matrix) or Y >= len(Matrix[0]):
+        return Read_data.Coord('Not valid', -1, -1, False, False, False, False)
+    Matrix[X][Y].seen_flag=True
+    output=Matrix[X][Y]
+    return output
     
 
-def assign_point(Matrix:Read_data.Coord,X:int,Y:int):
-    output=Matrix[0]
-    for obj in Matrix:#iteramos objeto en la matriz
-        if obj.Ycoordinate==Y&obj.Xcoordinate==X:
-            output=obj
-    output.visited_flag=True
-    output.actual_flag=True
-    output.seen_flag=True
+def assign_point(Matrix:list[Read_data.Coord],X:int,Y:int):
+    
+    Matrix[X][Y].visited_flag=True
+    Matrix[X][Y].actual_flag=True
+    Matrix[X][Y].seen_flag=True
+    output=Matrix[X][Y]
     return output
