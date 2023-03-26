@@ -27,7 +27,7 @@ class agente1:#left, forward
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
-            cost=Criaturas.switch[self.character](scanned_pos.Valor)#calculamos el costo de la siguiente casilla
+            cost=Criaturas.switch[self.charact](scanned_pos.Valor)#calculamos el costo de la siguiente casilla
             if cost==-1:
                 validation.cost=0
                 validation.valid=False

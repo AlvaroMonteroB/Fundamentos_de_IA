@@ -11,17 +11,20 @@ C_fin=list()
 Matrix=list()
 def test(Matrix:Read_data.Coord):
     point_ini=various_methods.assign_point(Matrix,1,1)
-    agentA=Agentes.agente1(1,point_ini,1,Matrix,True)
+    agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
     raiz=list()
     raiz.append(b_p.Nodo(point_ini))
     fin=various_methods.busq_point(Matrix,3,14)
+    output=list[b_p.resultado]
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
+    print(output.stack[1].Xcoordinate+','+output.stack[1].Xcoordinate+"\n")
     print_stack(output)
     a=input()
 
 def print_stack(output:list[b_p.resultado]):
     i=0
     p=-1
+    print("Agente terminado")
     while i<len(output.stack):
         print(output.stack[p].Xcoordinate+","+output.stack.Ycoordinate+"\n")
         
