@@ -1,6 +1,12 @@
 import Read_data
 import Criaturas
 import various_methods
+
+
+#Varios metodos de escaneos van a retornar tuplas
+#Asi que hay que descomponer los datos y construir una nueva instancia para usarlos en una funcion que requiera
+#el objeto específico
+
 arr={'d':1,'w':2,'a':3,'s':4}
 class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si es punto valido y su costo
     def __init__(self,cost:int,valid:bool,point:Read_data.Coord):
@@ -43,17 +49,15 @@ class agente1:#left, forward
         elif self.direction==4:#Apunta hacia abajo
             Y=self.position.Ycoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
-            cost=Criaturas.switch[self.charact](scanned_pos.Valor)
-            
+            cost=Criaturas.switch[self.charact](scanned_pos.Valor) 
         if not scanned_pos:
             return (0, False, None)
         cost = Criaturas.switch[self.charact](scanned_pos.Valor)
         if cost==-1:
-                validation.cost=0
-                validation.valid=False
-                validation.point=scanned_pos
-                return validation
+                print("No es valido")
+                return (0,False,None)
         elif cost==0:
+                
                 return (0, False, scanned_pos)
         elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
@@ -95,7 +99,7 @@ class Agente2:#left,rigth, forward
             self.direction=4
         
     def scan_forward(self,auto:bool)->cost_valid:#Censado
-        validation=cost_valid(0,True,None)
+        validation=cost_valid(0,True,None)#Se tienen que descomponer las tuplas para usarse
         if self.direction==1:#apunta a la derecha
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear

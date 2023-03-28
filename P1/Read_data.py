@@ -14,7 +14,7 @@ class Coord():
         self.deci_flag=deci_flag #Bandera para ver si se ha tomado una desicion
         self.actual_flag=actual_flag
     def print_data(self,cost):
-        print("Data of point "+self.Xcoordinate+","+self.Ycoordinate)
+        print("Data of point "+str(self.Xcoordinate)+","+str(self.Ycoordinate))
         print("El terreno es "+data_terrain[self.Valor]+" Tiene un costo de "+cost+" Esta casilla")
 
 def read_matrix(puntos:list[Coord])->None:

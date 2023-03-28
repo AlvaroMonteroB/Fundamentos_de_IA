@@ -68,27 +68,31 @@ def rec_busq1(raiz:Nodo,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r_d.Coord,fi
 def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo
     scan=list()   
     valid_scan=list()
-    scan.append(Agente.scan_forward(True))
+    cost, valid, point = Agente.scan_forward(True)
+    result = Ag.cost_valid(cost, valid, point)
+    scan.append(result)
     dir_ini=Agente.direction
     print("Scanning dirs\n")
     for dirs in range(3):
         Agente.turn_left()
-        scan.append(Agente.scan_forward(True))
+        cost, valid, point = Agente.scan_forward(True)
+        result = Ag.cost_valid(cost, valid, point)
+        scan.append(result)
     Agente.turn_left()
-    for dir in scan:
+    for dir_obj in scan:
         print("Validating scans")
-        if dir.valid:
+        if dir_obj.valid:
             valid_scan.append(dir)
             print("valid")
     i=0
-    for dir in scan:
-        if not dir.valid:
+    for dir_obj in scan:
+        if not dir_obj.valid:
             i+=1
     if i==4:
         print("No se encontraron puntos validos")
         exit()
     if len(valid_scan)>1:
-        valid_scan.point.deci_flag=True
+        Agente.position.deci_flag=True
     i=0
     if len(valid_scan)>0:
         for scr in valid_scan: 
