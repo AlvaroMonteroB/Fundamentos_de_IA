@@ -18,11 +18,10 @@ class Nodo:
     def howm_son(self):#Para saber cuantos hijos tiene el nodo
         return len(self.hijo)
     
-def rec_busq1(raiz:Nodo,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:resultado)->bool:
+def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:resultado)->bool:
     new_scan=list()
     valid_scan=list()
-    Agente.move_forward(output.cost,1)
-    if Agente.position==fin_pos:#Si la posicion en la que nos encontramos es la final, devolvemos true
+    if (Agente.position.Xcoordinate==fin_pos.Xcoordinate) and( Agente.position.Ycoordinate==fin_pos.Ycoordinate):#Si la posicion en la que nos encontramos es la final, devolvemos true
         output.stack.append(Agente.position)#Para que se devuelva el stack generado
         return True#y colocamos la ultima posicion
     output.stack.append(Agente.position)
@@ -82,7 +81,7 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     for dir_obj in scan:
         print("Validating scans")
         if dir_obj.valid:
-            valid_scan.append(dir)
+            valid_scan.append(dir_obj)
             print("valid")
     i=0
     for dir_obj in scan:
@@ -95,10 +94,12 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         Agente.position.deci_flag=True
     i=0
     if len(valid_scan)>0:
+        stack=list()
+        output=resultado(stack, 0)
         for scr in valid_scan: 
-            raiz.C_nodo_h(scr.point)
-            n_raiz=raiz.hijo[i]
-            result=rec_busq1(n_raiz,output.stack,valid_scan,Matrix,fin_pos,output)#si es verdadero vamos a tener el stack lleno
+            raiz[0].C_nodo_h(scr.point)
+            n_raiz=raiz[0].hijo[i]
+            result=rec_busq1(n_raiz,valid_scan,Matrix,fin_pos,output)#si es verdadero vamos a tener el stack lleno
             if not result:
                 Agente.turn_left()
                 i+=1
