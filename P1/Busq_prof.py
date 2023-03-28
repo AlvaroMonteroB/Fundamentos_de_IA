@@ -81,9 +81,13 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     for dir in scan:
         if dir.valid:
             valid_scan.append(dir)
-        else:
-            print("No se encontró ningún punto valido")
-            exit()
+    i=0
+    for dir in scan:
+        if not dir.valid:
+            i+=1
+    if i==4:
+        print("No se encontraron puntos validos")
+        exit()
     if len(valid_scan)>1:
         valid_scan.point.deci_flag=True
     i=0
