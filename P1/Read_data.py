@@ -35,12 +35,13 @@ def read_matrix(puntos:list[Coord])->None:
 
     for line in Matrix_rows1:
         print(line)
-    for i, fila in enumerate(Matrix_rows):
+    for i, fila in enumerate(Matrix_rows1):#i es el enumerado, fila es el contenido de las rows de la matriz
         puntos_fila = []
         for j, letra in enumerate(fila):
             coord = Coord(letra, j, i, False, False, False, False)
             puntos_fila.append(coord)
         puntos.append(puntos_fila)
+        
     return
 
         

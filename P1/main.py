@@ -10,9 +10,9 @@ C_ini=list()
 C_fin=list()
 Matrix=list()
 def test(Matrix:Read_data.Coord):
-    point_ini=various_methods.assign_point(Matrix,1,3)
+    point_ini=various_methods.assign_point(Matrix,1,1)
     agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
-    print(str(agentA.position.Xcoordinate)+','+str(agentA.position.Ycoordinate))
+    print('"'+agentA.position.Valor+'"')
     raiz=list()
     raiz.append(b_p.Nodo(point_ini))
     fin=various_methods.busq_point(Matrix,3,14)
@@ -34,6 +34,9 @@ def print_stack(output:Read_data.Coord):
         
         
 Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
+matrix_agent=list()
+for ent in range(5):#Mapa para cada agente
+    matrix_agent.append(Matrix)
 test(Matrix)
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")

@@ -71,11 +71,12 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     scan.append(Agente.scan_forward(True))
     dir_ini=Agente.direction
     print("Scanning dirs\n")
-    for dirs in range(4):
+    for dirs in range(3):
         Agente.turn_left()
         scan.append(Agente.scan_forward(True))
     Agente.turn_left()
     for dir in scan:
+        print("Validating scans")
         if dir.valid:
             valid_scan.append(dir)
             print("valid")
