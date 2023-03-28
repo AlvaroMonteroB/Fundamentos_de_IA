@@ -10,13 +10,16 @@ C_ini=list()
 C_fin=list()
 Matrix=list()
 def test(Matrix:Read_data.Coord):
-    point_ini=various_methods.assign_point(Matrix,1,1)
+    point_ini=various_methods.assign_point(Matrix,1,3)
     agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
+    print(str(agentA.position.Xcoordinate)+','+str(agentA.position.Ycoordinate))
     raiz=list()
     raiz.append(b_p.Nodo(point_ini))
     fin=various_methods.busq_point(Matrix,3,14)
-    output=list[b_p.resultado]
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
+    if not output.stack:
+        print("No se encontró ningun camino\n")
+        exit()
     print(output.stack[1].Xcoordinate+','+output.stack[1].Xcoordinate+"\n")
     print_stack(output.stack)
     a=input()

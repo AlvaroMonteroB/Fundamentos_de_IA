@@ -5,9 +5,9 @@ import acciones as acc
 
 
 class resultado:
-    def __init__(self):
-        self.stack:r_d.Coord
-        self.cost=0
+    def __init__(self,stack,cost):
+        self.stack=stack
+        self.cost=cost
 
 class Nodo:
     def __init__(self,point:r_d.Coord):
@@ -66,21 +66,19 @@ def rec_busq1(raiz:Nodo,scan:Ag.cost_valid,Agente:Ag.agente1,Matrix:r_d.Coord,fi
       
     
 def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo
-    scan=list()
-    output=resultado()
-    output.stack=list()
-    None
+    scan=list()   
     valid_scan=list()
     scan.append(Agente.scan_forward(True))
-    output.stack.append(Agente.position)
     dir_ini=Agente.direction
-    for dirs in range(3):
+    print("Scanning dirs\n")
+    for dirs in range(4):
         Agente.turn_left()
         scan.append(Agente.scan_forward(True))
     Agente.turn_left()
     for dir in scan:
         if dir.valid:
             valid_scan.append(dir)
+            print("valid")
     i=0
     for dir in scan:
         if not dir.valid:
@@ -99,14 +97,14 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
             if not result:
                 Agente.turn_left()
                 i+=1
+            if result:
+                break
     if len(valid_scan)==0:
-            output=resultado()
-            output.cost=5
-            output.stack=V_M.busq_point(Matrix,-1,-1)
-
-            return 
+            return (None,0)
     if result:
         return output
+    if not result:
+        return (None,0)
 #==================================================================================================================================
 #==========================================Algoritmo para el segundo agente=================================================
 #==================================================================================================================================
@@ -119,9 +117,7 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2)->r_d.Coord:
     stack=list()
  
         
-switch={#switch for the algorithms
-    1:alg_busq1
-}
+
 
 def stack_pop(stack:list[r_d.Coord]):
     for node in stack_pop:
@@ -133,3 +129,26 @@ def stack_pop(stack:list[r_d.Coord]):
 #==================================================================================================================================
 #==========================================Algoritmo para el tercer agente=================================================
 #==================================================================================================================================
+def rec_busq3():
+    new_scan=list()
+
+
+def alg_busq3():
+    scan=list()
+
+
+
+
+
+
+
+
+
+
+
+
+switch={#switch for the algorithms
+    1:alg_busq1,
+    2:alg_busq2,
+    3:alg_busq3
+}

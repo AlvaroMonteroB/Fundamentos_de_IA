@@ -11,15 +11,15 @@ def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el p
     output=Read_data.Coord('',-1,-1,False,False,False,False)
     if X < 0 or Y < 0 or X >= len(Matrix) or Y >= len(Matrix[0]):
         return Read_data.Coord('Not valid', -1, -1, False, False, False, False)
-    Matrix[X][Y].seen_flag=True
-    output=Matrix[X][Y]
+    Matrix[Y][X].seen_flag=True
+    output=Matrix[Y][X]
     return output
     
 
 def assign_point(Matrix:list[Read_data.Coord],X:int,Y:int):
     
-    Matrix[X][Y].visited_flag=True
-    Matrix[X][Y].actual_flag=True
-    Matrix[X][Y].seen_flag=True
-    output=Matrix[X][Y]
+    Matrix[Y][X].visited_flag=True#Y1->X...
+    Matrix[Y][X].actual_flag=True #Y2->X...
+    Matrix[Y][X].seen_flag=True   #Y3->X...
+    output=Matrix[Y][X]
     return output
