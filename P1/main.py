@@ -5,6 +5,7 @@ import Criaturas
 import various_methods
 import Busq_prof as b_p
 import Agentes
+b_p.sys.setrecursionlimit(8000)
 C_aux:str=list()
 C_ini=list()
 C_fin=list()

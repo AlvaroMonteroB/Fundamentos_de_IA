@@ -8,9 +8,8 @@ def terrain_info(punto,ente):
     return 
 
 def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el punto entre nuestra matriz de objetos para devolverlo
-    output=Read_data.Coord('',-1,-1,False,False,False,False)
     if X < 0 or Y < 0 or X >= len(Matrix) or Y >= len(Matrix[0]):
-        return Read_data.Coord('Not valid', -1, -1, False, False, False, False)
+        return Read_data.Coord("Not valid", -1, -1, False, False, False, False)
     Matrix[Y][X].seen_flag=True
     output=Matrix[Y][X]
     return output

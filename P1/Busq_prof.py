@@ -2,11 +2,12 @@ import Agentes as Ag
 import various_methods as V_M
 import Read_data as r_d
 import acciones as acc
+import sys
 
-
+sys.setrecursionlimit(8000)
 class resultado:
     def __init__(self,stack,cost):
-        self.stack=stack
+        self.stack=[]
         self.cost=cost
 
 class Nodo:
@@ -18,16 +19,19 @@ class Nodo:
     def howm_son(self):#Para saber cuantos hijos tiene el nodo
         return len(self.hijo)
     
-def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:resultado)->bool:
+def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:resultado,cost:int)->bool:
     new_scan=list()
     valid_scan=list()
+    Agente.move_forward(1,cost)
     if (Agente.position.Xcoordinate==fin_pos.Xcoordinate) and( Agente.position.Ycoordinate==fin_pos.Ycoordinate):#Si la posicion en la que nos encontramos es la final, devolvemos true
         output.stack.append(Agente.position)#Para que se devuelva el stack generado
         return True#y colocamos la ultima posicion
     output.stack.append(Agente.position)
     for dirs in range(4):#analizamos en las 4 direcciones para generar los nuevos nodos
         Agente.turn_left()
-        new_scan.append(Agente.scan_forward())
+        
+
+        new_scan.append(Agente.scan_forward(True))
     for dir in new_scan:#Vamos a ver si se formaron escaneos validos
         if dir.valid:
             valid_scan.append(dir)
@@ -39,13 +43,14 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
             raiz.C_nodo_h(src.point)#creamos nodos hijos por cada una
             n_raiz=raiz.hijo[i]#Nueva raiz con el nodo hijo actual
             aux=True
-            scan_aux=Agente.scan_forward()#escaneamos para ver que tiene el agente en su direccion actual
-            scan_aux=scan_aux.point#guardamos el punto
+            
+            #escaneamos para ver que tiene el agente en su direccion actual
+            scan_aux=Agente.scan_forward(True)#guardamos el punto
             c=0
             while aux|c<4:#mientras el auxiliar no nos saque del bucle, escaneamos que hay enfrente(si no jala, cambiar el 4 a 3)
                 if n_raiz.point == scan_aux:#Si nuestra nueva raiz es igual al punto que hay enfrente nos metemos y repetimos
                     aux=True
-                    res=rec_busq1(n_raiz,src,Agente,Matrix,fin_pos,output)#algoritmo recursivo
+                    res=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output,cost)#algoritmo recursivo
                     if res:#Si se encontró el punto retornamos true para guardar el stack
                         return True
                     else:#Si el camino no fue valido, regresamos la posicion actual
@@ -55,8 +60,8 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
                         #devolvemos al agente a un estado anterior para repetir la operacion
                 else:#Si el escaneo no es el mismo, giramos a la izquierda y guardamos el siguiente punto
                     Agente.turn_left()
-                    scan_aux=Agente.scan_forward()
-                    scan_aux=scan_aux.point
+                    result=Agente.scan_forward(True)
+                    scan_aux=result.point
                 c+=1
     if len(valid_scan)==0:#Si no hubo escaneos validos, regresamos
         return False
@@ -67,16 +72,14 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
 def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo
     scan=list()   
     valid_scan=list()
-    cost, valid, point = Agente.scan_forward(True)
-    result = Ag.cost_valid(cost, valid, point)
+    result = Agente.scan_forward(True)
     scan.append(result)
     dir_ini=Agente.direction
     print("Scanning dirs\n")
     for dirs in range(3):
         Agente.turn_left()
-        cost, valid, point = Agente.scan_forward(True)
-        result = Ag.cost_valid(cost, valid, point)
-        scan.append(result)
+        
+        scan.append(Agente.scan_forward(True))
     Agente.turn_left()
     for dir_obj in scan:
         print("Validating scans")
@@ -94,12 +97,13 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         Agente.position.deci_flag=True
     i=0
     if len(valid_scan)>0:
+        cost=0
         stack=list()
         output=resultado(stack, 0)
         for scr in valid_scan: 
             raiz[0].C_nodo_h(scr.point)
             n_raiz=raiz[0].hijo[i]
-            result=rec_busq1(n_raiz,valid_scan,Matrix,fin_pos,output)#si es verdadero vamos a tener el stack lleno
+            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output,cost)#si es verdadero vamos a tener el stack lleno
             if not result:
                 Agente.turn_left()
                 i+=1
