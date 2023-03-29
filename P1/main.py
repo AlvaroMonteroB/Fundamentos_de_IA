@@ -14,8 +14,7 @@ def test(Matrix:Read_data.Coord):
     point_ini=various_methods.assign_point(Matrix,1,1)
     agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
     print('"'+agentA.position.Valor+'"')
-    raiz=list()
-    raiz.append(b_p.Nodo(point_ini))
+    raiz=b_p.Nodo(point_ini)
     fin=various_methods.busq_point(Matrix,3,14)
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
     if not output.stack:
