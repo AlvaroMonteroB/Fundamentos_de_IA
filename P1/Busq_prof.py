@@ -24,7 +24,7 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     new_scan=list()
     valid_scan=list()
     ini=Agente.position
-    mov=Agente.move_forward(1,cost)
+    mov=Agente.move_forward(cost,1)
     fin=Agente.position
     if not comprobacion(ini, fin):
         print("No sirve aqui")
@@ -113,30 +113,14 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         output=resultado(stack, 0)
         result=False
         for scr in valid_scan: #Iteramos en los escaneos validos
-            raiz[0].C_nodo_h(scr.point)#Por cada escaneo valido creamos un nuevo nodo
-            n_raiz=raiz[0].hijo[i]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
-            #Llamaremos a la otra funcion, usando esta nueva raiz
+            raiz.C_nodo_h(scr.point)#Por cada escaneo valido creamos un nuevo nodo
+            n_raiz=raiz.hijo[i]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
             Agente.direction=direction[o]
-            B=Agente.scan_forward(True)#Si son iguales, se omite el while
-            X=B.point.Xcoordinate
-            A=Agente.scan_forward(True)
-            Y=A.point.Ycoordinate
-            while X != scr.point.Xcoordinate and Y != scr.point.Ycoordinate:
-                    Agente.turn_left()#SI EL ESCANEO DEL AGENTE NO COINCIDE CON EL PUNTO VALIDO, GIRAMOS A LA IZQUIERDA HASTA QUE COINCIDA  
-                    B=Agente.scan_forward(True)#Si son iguales, se omite el while
-                    X=B.point.Xcoordinate
-                    A=Agente.scan_forward(True)
-                    Y=A.point.Ycoordinate
-                    if scr.point.Xcoordinate==X and scr.point.Ycoordinate==Y:
-                        print("Direccion encontrada")
-                        break
-            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output,output.cost)#si es verdadero vamos a tener el stack lleno
-            if not result:#Si nos devuelve falso, giraremos hasta coincidir con la posicion actual
-                X=Agente.scan_forward(True)
-                X=X.point.Xcoordinate
-                Y=Agente.scan_forward(True)
-                Y=Y.point.Ycoordinate
-               
+            
+
+            
+            #Llamaremos a la otra funcion, usando esta nueva raiz
+            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output,output.cost)#si es verdadero vamos a tener el stack lleno              
             if result:
                 break
             o+=1

@@ -15,10 +15,13 @@ def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el p
     return output
     
 
-def assign_point(Matrix:list[Read_data.Coord],X:int,Y:int):
+def assign_point(Matrix:Read_data.Coord,X:int,Y:int):
     
     Matrix[Y][X].visited_flag=True#Y1->X...
     Matrix[Y][X].actual_flag=True #Y2->X...
     Matrix[Y][X].seen_flag=True   #Y3->X...
     output=Matrix[Y][X]
     return output
+
+
+

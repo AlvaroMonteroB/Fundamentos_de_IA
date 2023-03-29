@@ -101,7 +101,7 @@ elif opt==4:
 finx=C_fin[0]
 finy=C_fin[1]
 fpoint=various_methods.busq_point(Matrix,finx,finy)
-Raiz=list()#Iniciando la raiz
+Raiz=b_p.Nodo(agentA.position)#Iniciando la raiz
 if userband: #true if user doesnt do anything
     Raiz.append(agentA.position)#aqui se añade el elemento a la raiz
 else:

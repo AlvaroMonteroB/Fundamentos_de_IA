@@ -60,15 +60,29 @@ class agente1:#left, forward
                 return cost_valid(cost,True,scanned_pos)
                 
     def move_forward(self,cost:int,movimientos:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
-        for casilla in range(movimientos):
+        if movimientos==1:
+            print(str(self.direction))
             band=self.scan_forward(True)
             if band.valid:
-                print(str(band.point.Xcoordinate)+','+str(band.point.Ycoordinate))
-                a=input()
                 self.position.actual_flag=False
-                self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.position.Ycoordinate)
+                self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate)
                 cost=cost+band.cost
-                return True
+                if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
+                    print("Si se movio")
+                    return True
+            print("No se movio")                   
+            return False
+        elif movimientos>1:
+            for casilla in range(movimientos):
+                band=self.scan_forward(True)
+                print("aber")
+                if band.valid:
+                    print(str(band.point.Xcoordinate)+','+str(band.point.Ycoordinate))
+                    a=input()
+                    self.position.actual_flag=False
+                    self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.position.Ycoordinate)
+                    cost=cost+band.cost
+                    return True
         return False
 
 class Agente2:#left,rigth, forward
