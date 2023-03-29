@@ -5,6 +5,7 @@ import acciones as acc
 import sys
 
 sys.setrecursionlimit(8000)
+
 class resultado:
     def __init__(self,stack,cost):
         self.stack=[]
@@ -22,15 +23,16 @@ class Nodo:
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:resultado,cost:int)->bool:
     new_scan=list()
     valid_scan=list()
-    Agente.move_forward(1,cost)
+    mov=Agente.move_forward(1,cost)
+    if not mov:
+        return False
+    print(str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+' '+Agente.position.Valor+'\n')
     if (Agente.position.Xcoordinate==fin_pos.Xcoordinate) and( Agente.position.Ycoordinate==fin_pos.Ycoordinate):#Si la posicion en la que nos encontramos es la final, devolvemos true
         output.stack.append(Agente.position)#Para que se devuelva el stack generado
         return True#y colocamos la ultima posicion
     output.stack.append(Agente.position)
     for dirs in range(4):#analizamos en las 4 direcciones para generar los nuevos nodos
         Agente.turn_left()
-        
-
         new_scan.append(Agente.scan_forward(True))
     for dir in new_scan:#Vamos a ver si se formaron escaneos validos
         if dir.valid:
@@ -110,11 +112,11 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
             if result:
                 break
     if len(valid_scan)==0:
-            return (None,0)
+            return resultado(None,0)
     if result:
         return output
     if not result:
-        return (None,0)
+        return resultado(None,0)
 #==================================================================================================================================
 #==========================================Algoritmo para el segundo agente=================================================
 #==================================================================================================================================

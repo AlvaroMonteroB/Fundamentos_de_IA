@@ -24,7 +24,7 @@ class agente1:#left, forward
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
     def turn_left(self):#dirs: 1=-> 2=^ 3=<- 4=v
-        if self.direction<3&self.direction>0:
+        if self.direction<3 and self.direction>0:
             self.direction+=1
         elif self.direction==4:
             self.direction=1
@@ -81,12 +81,12 @@ class Agente2:#left,rigth, forward
         self.user_flag=user_flag#true=PC, false=User
 
     def turn_left(self):
-        if self.direction<3&self.direction>0:
+        if self.direction<3 and self.direction>0:
             self.direction+1
         elif self.direction==4:
             self.direction=1
     def turn_rigth(self):
-        if self.direction<5&self.direction>1:
+        if self.direction<5 and self.direction>1:
             self.direction-1
         elif self.direction==1:
             self.direction=4

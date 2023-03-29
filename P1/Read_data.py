@@ -32,15 +32,18 @@ def read_matrix(puntos:list[Coord])->None:
         aux=linea.replace(',','')#cadena sin comas
         aux=aux.strip()
         Matrix_rows1.append(aux)#Arreglo de renglones sin comas y sin saltos de linea
-
-    for line in Matrix_rows1:
-        print(line)
     for i, fila in enumerate(Matrix_rows1):#i es el enumerado, fila es el contenido de las rows de la matriz
         puntos_fila = []
         for j, letra in enumerate(fila):
             coord = Coord(letra, j, i, False, False, False, False)
             puntos_fila.append(coord)
         puntos.append(puntos_fila)
+
+    for rows in puntos:#Primero van los Y y luego los X
+        for cols in rows:
+            print("("+str(cols.Xcoordinate)+','+str(cols.Ycoordinate)+')'+cols.Valor, end=' ')
+        print('\n')
+
         
     return
 
