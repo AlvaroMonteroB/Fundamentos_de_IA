@@ -24,7 +24,7 @@ class agente1:#left, forward
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
     def turn_left(self):#dirs: 1=-> 2=^ 3=<- 4=v
-        if self.direction<3 and self.direction>0:
+        if self.direction<4 and self.direction>0:
             self.direction+=1
         elif self.direction==4:
             self.direction=1
@@ -63,12 +63,13 @@ class agente1:#left, forward
         for casilla in range(movimientos):
             band=self.scan_forward(True)
             if band.valid:
+                print(str(band.point.Xcoordinate)+','+str(band.point.Ycoordinate))
+                a=input()
                 self.position.actual_flag=False
                 self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.position.Ycoordinate)
                 cost=cost+band.cost
-            else:
-                return False
-        return True
+                return True
+        return False
 
 class Agente2:#left,rigth, forward
     def __init__(self,direction,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool):
