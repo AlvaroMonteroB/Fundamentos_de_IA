@@ -63,7 +63,7 @@ class agente1:#left, forward
             band=self.scan_forward(True)
             if band.valid:
                 self.position.actual_flag=False
-                self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate)
+                self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate,self.position)
                 cost=cost+band.cost
                 if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
                     print("Si se movio")
