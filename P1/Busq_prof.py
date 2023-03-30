@@ -26,10 +26,11 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     ini=Agente.position
     mov=Agente.move_forward(cost,1)
     fin=Agente.position
-    if not comprobacion(ini, fin):
+    if not comprobacion(ini, fin):#Comprovacion a ver si nos movimos
         print("No sirve aqui")
         return False
     if not mov:
+        print("Aqui tampoco sirve")
         return False
     else:
         print("Valid")
@@ -86,24 +87,19 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     scan.append(result)
     dir_ini=Agente.direction
     print("Scanning dirs")
-    for dirs in range(3):
+    for dirs in range(3):#Escaneamos en todas las direcciones
         Agente.turn_left()
-        
         scan.append(Agente.scan_forward(True))
     Agente.turn_left()
-    for dir_obj in scan:
-        if dir_obj.valid:
+    for dir_obj in scan:#Iteramos en los escaneos obtenidos
+        if dir_obj.valid:#Si algun escaneo fue valido lo añadimos a la lista
             valid_scan.append(dir_obj)
             direction.append(Agente.direction)
-    i=0
-    for dir_obj in scan:
-        if not dir_obj.valid:
-            i+=1
-    if len(valid_scan)>1:
+    if len(valid_scan)>1:#Si hubo mas de un escaneo valido, se marca como una decision
         Agente.position.deci_flag=True
     i=0
     o=0
-    if len(valid_scan)>0:
+    if len(valid_scan)>0:#Con que haya un escaneo valido entramos
         cost=0
         stack=list()
         dir_ini=Agente.direction
@@ -120,15 +116,13 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
             result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output,output.cost)#si es verdadero vamos a tener el stack lleno              
             if result:
                 break
-            o+=1
     if len(valid_scan)==0:#Aqui termina el control de los escaneos
             return resultado(None,0)
-
 
     if result:#Si del algoritmo se encontró la salida, retornamos el stack y el costo
         return output
     else:
-        return resultado(None,0)
+        return resultado(None,0)#Si no, se envia vacio
 #==================================================================================================================================
 #==========================================Algoritmo para el segundo agente=================================================
 #==================================================================================================================================
