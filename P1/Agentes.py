@@ -46,6 +46,8 @@ class agente1:#left, forward
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
         if not scanned_pos:
             return cost_valid(0, False, None)
+        if scanned_pos.visited_flag:#Si ya visitamos este punto, lo descartamos inmediatamente
+            return cost_valid(0,False,scanned_pos)
         cost = Criaturas.switch[self.charact](scanned_pos.Valor)
         if scanned_pos.visited_flag:#Si ya lo visitamos, lo marcaremos como no valido
             return cost_valid(0, False, scanned_pos)
@@ -65,8 +67,8 @@ class agente1:#left, forward
             band=self.scan_forward(True)
             if band.valid:
                 self.position.actual_flag=False
-                self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate)
-                cost=cost+band.cost
+                self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate,self.position)#Asignamos el valor del nuevo punto
+                cost=cost+band.cost                                             #Esto afectando al punto dentro de su matriz
                 if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
                     print("Si se movio")
                     return True
@@ -80,7 +82,7 @@ class agente1:#left, forward
                     print(str(band.point.Xcoordinate)+','+str(band.point.Ycoordinate))
                     a=input()
                     self.position.actual_flag=False
-                    self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.position.Ycoordinate)
+                    self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate)
                     cost=cost+band.cost
                     return True
         return False
