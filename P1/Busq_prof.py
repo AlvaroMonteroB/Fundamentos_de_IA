@@ -51,7 +51,6 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         Agente.turn_left()
         aux=Agente.scan_forward(True)
         if aux.valid and not aux.point.visited_flag:
-            print("breakpoint1")
             dir=Agente.direction
             raiz.C_nodo_h(aux.point,raiz)
             n_raiz=raiz.hijo[-1]
