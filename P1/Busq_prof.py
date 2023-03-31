@@ -26,107 +26,47 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     ini=Agente.position
     mov=Agente.move_forward(cost,1)
     fin=Agente.position
-    if not comprobacion(ini, fin):
-        print("No sirve aqui")
-        return False
-    if not mov:
-        return False
-    else:
-        print("Valid")
-    print(str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+' '+Agente.position.Valor+'\n')
-    if (Agente.position.Xcoordinate==fin_pos.Xcoordinate) and( Agente.position.Ycoordinate==fin_pos.Ycoordinate):#Si la posicion en la que nos encontramos es la final, devolvemos true
-        output.append(Agente.position)#Para que se devuelva el stack generado
-        return True#y colocamos la ultima posicion
-    output.append(Agente.position)
+    counter=0
+    for dirs in range(4):
+        Agente.turn_left()
+        aux=Agente.scan_forward(True)
+        if aux.valid:
+            counter+=1
+    if counter<1:
+        return false
+    elif counter>1:
+        Agente.position.deci_flag=True
+
     for dirs in range(4):#analizamos en las 4 direcciones para generar los nuevos nodos
         Agente.turn_left()
-        new_scan.append(Agente.scan_forward(True))
-    for dir in new_scan:#Vamos a ver si se formaron escaneos validos
-        if dir.valid:
-            valid_scan.append(dir)
-    if len(valid_scan)>1:#si hay mas de 1, es que se tuvo que tomar una desicion
-        Agente.position.deci_flag=True#Marcamos en la posicion actual ese cambio
-    i=0
-    if len(valid_scan)>0:#Con que haya una direccion valida, vamos a entrar
-        for src in valid_scan:#iteramos en las posiciones validas
-            raiz.C_nodo_h(src.point)#creamos nodos hijos por cada una
-            n_raiz=raiz.hijo[i]#Nueva raiz con el nodo hijo actual
-            aux=True
-            
-            #escaneamos para ver que tiene el agente en su direccion actual
-            scan_aux=Agente.scan_forward(True)#guardamos el punto
-            c=0
-            while aux and c<4:#mientras el auxiliar no nos saque del bucle, escaneamos que hay enfrente(si no jala, cambiar el 4 a 3)
-                if n_raiz.point == scan_aux:#Si nuestra nueva raiz es igual al punto que hay enfrente nos metemos y repetimos
-                    aux=True
-                    res=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output,cost)#algoritmo recursivo
-                    if res:#Si se encontró el punto retornamos true para guardar el stack
-                        return True
-                    else:#Si el camino no fue valido, regresamos la posicion actual
-                        output.pop()#Quitamos del stack donde no fue valido
-                        Agente.position.actual_flag=False
-                        Agente.position=V_M.assign_point(Matrix,output.stack[-1].Xcoordinate,output.stack[-1].Ycoordinate)
-                        #devolvemos al agente a un estado anterior para repetir la operacion
-                else:#Si el escaneo no es el mismo, giramos a la izquierda y guardamos el siguiente punto
-                    Agente.turn_left()
-                    result=Agente.scan_forward(True)
-                    scan_aux=result.point
-                c+=1
-    if len(valid_scan)==0:#Si no hubo escaneos validos, regresamos
-        return False
+        aux=Agente.scan_forward(True)
+        if aux.valid:
+            raiz.C_nodo_h(aux.point)
+            n_raiz=raiz.hijo[-1]
+            result=rec_busq1(n_raiz, Agente, Matrix, fin_pos, output, cost)
+            if result:
+                return True
+            output.pop()
+    return False
+    
+                   
                      
             
       
     
-def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo
-    scan=list()   
-    direction=list()
-    valid_scan=list()
-    result = Agente.scan_forward(True)
-    scan.append(result)
-    dir_ini=Agente.direction
+def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo  
+    stack=[]
+    output=resultado(stack, 0)
     print("Scanning dirs")
-    for dirs in range(3):
+    for dirs in range(4):
         Agente.turn_left()
-        
-        scan.append(Agente.scan_forward(True))
-    Agente.turn_left()
-    for dir_obj in scan:
-        if dir_obj.valid:
-            valid_scan.append(dir_obj)
-            direction.append(Agente.direction)
-    i=0
-    for dir_obj in scan:
-        if not dir_obj.valid:
-            i+=1
-    if len(valid_scan)>1:
-        Agente.position.deci_flag=True
-    i=0
-    o=0
-    if len(valid_scan)>0:
-        cost=0
-        stack=list()
-        dir_ini=Agente.direction
-        output=resultado(stack, 0)
-        result=False
-        for scr in valid_scan: #Iteramos en los escaneos validos
-            raiz.C_nodo_h(scr.point)#Por cada escaneo valido creamos un nuevo nodo
-            n_raiz=raiz.hijo[i]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
-            Agente.direction=direction[o]
-            
-
-            
-            #Llamaremos a la otra funcion, usando esta nueva raiz
-            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output,output.cost)#si es verdadero vamos a tener el stack lleno              
+        aux=Agente.scan_forward(True)
+        if aux.valid:
+            raiz.C_nodo_h(aux.point)#Por cada escaneo valido creamos un nuevo nodo
+            n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
+            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output.stack,output.cost)#si es verdadero vamos a tener el stack lleno              
             if result:
-                break
-            o+=1
-    if len(valid_scan)==0:#Aqui termina el control de los escaneos
-            return resultado(None,0)
-
-
-    if result:#Si del algoritmo se encontró la salida, retornamos el stack y el costo
-        return output
+                return output
     else:
         return resultado(None,0)
 #==================================================================================================================================
