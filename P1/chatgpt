@@ -1,0 +1,378 @@
+#========================================================
+#matriz.txt
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,1,1,1,1,0,1,1,1,1,1,1,1,1,1
+0,1,0,1,0,0,1,0,1,0,0,0,0,0,0
+0,0,1,1,1,1,1,0,1,0,0,0,0,0,0
+0,0,0,1,0,1,0,0,1,0,0,0,0,0,0
+0,0,0,1,0,0,0,0,1,0,0,0,0,0,0
+0,1,1,1,1,1,1,0,1,0,0,0,0,0,0
+0,1,0,1,0,0,0,0,0,0,0,0,0,0,0
+0,1,0,1,1,1,1,1,1,0,0,0,0,0,0
+1,1,0,1,0,0,0,1,0,0,0,0,0,0,0
+0,0,0,1,0,0,0,1,0,0,0,0,0,0,0
+0,0,0,1,0,0,0,1,0,0,0,0,0,0,0
+0,0,0,1,0,0,0,1,0,0,0,0,0,0,0
+0,0,0,1,0,0,0,1,0,0,0,0,0,0,0
+0,0,0,1,0,0,0,1,0,0,0,0,0,0,0
+#======================================================================
+#Read_data.py
+# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
+data_terrain={0:"Montaña", 1:"Tierra", 2:"Agua",3:"Arena",4:"Bosque",5:"Pantano"}
+class Coord():
+    
+    def __init__(self,Valor:str,Xcoordinate:int,Ycoordinate:int,visited_flag:bool,seen_flag:bool,deci_flag:bool,actual_flag:bool):#Para cada casilla se podrá tener este objeto
+        self.Valor=Valor                                           #que define su posición y si ya ha sido visitad
+        self.Xcoordinate=Xcoordinate                               #Al igual que el valor de la casilla
+        self.Ycoordinate=Ycoordinate
+        self.visited_flag=visited_flag     
+        self.seen_flag=seen_flag
+        self.deci_flag=deci_flag #Bandera para ver si se ha tomado una desicion
+        self.actual_flag=actual_flag
+    def print_data(self,cost):
+        print("Data of point "+str(self.Xcoordinate)+","+str(self.Ycoordinate))
+        print("El terreno es "+data_terrain[self.Valor]+" Tiene un costo de "+cost+" Esta casilla")
+
+def read_matrix(puntos:list[Coord])->None:
+    Matrix_rows=list()
+    Matrix_rows1=list()
+    list_aux=list()
+    with open("matriz.txt","r") as Read_matrix:
+        leer=Read_matrix.readline()
+        for line in Read_matrix:
+            Matrix_rows.append(line)
+        Read_matrix.close()
+                                        #Lectura y remplazo de comas en el archiv
+    print("Read successfully")
+    for linea in Matrix_rows:
+        aux=linea.replace(',','')#cadena sin comas
+        aux=aux.strip()
+        Matrix_rows1.append(aux)#Arreglo de renglones sin comas y sin saltos de linea
+    for i, fila in enumerate(Matrix_rows1):#i es el enumerado, fila es el contenido de las rows de la matriz
+        puntos_fila = []
+        for j, letra in enumerate(fila):
+            coord = Coord(letra, j, i, False, False, False, False)
+            puntos_fila.append(coord)
+        puntos.append(puntos_fila)
+
+    for rows in puntos:#Primero van los Y y luego los X
+        for cols in rows:
+            print("("+str(cols.Xcoordinate)+','+str(cols.Ycoordinate)+')'+cols.Valor, end=' ')
+        print('\n')
+
+        
+    return
+
+#======================================================================
+#main.py
+import threading
+import display_graphics
+import Read_data
+import Criaturas
+import various_methods
+import Busq_prof as b_p
+import Agentes
+b_p.sys.setrecursionlimit(8000)
+C_aux:str=list()
+C_ini=list()
+C_fin=list()
+Matrix=list()
+def test(Matrix:Read_data.Coord):
+    Matrix[0][0].visited_flag=True
+    point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
+    agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
+    print('"'+agentA.position.Valor+'"')
+    raiz=b_p.Nodo(point_ini)
+    fin=various_methods.busq_point(Matrix,3,14)
+    output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
+    if not output.stack:
+        print("No se encontró ningun camino\n")
+        exit()
+    print(output.stack[1].Xcoordinate+','+output.stack[1].Xcoordinate+"\n")
+    print_stack(output.stack)
+    a=input()
+
+def print_stack(output:Read_data.Coord):
+    i=0
+    p=-1
+    print("Agente terminado")
+    while i<len(output.stack):
+        print(output.stack[p].Xcoordinate+","+output.stack.Ycoordinate+"\n")
+        
+        
+        
+Matrix=Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
+matrix_agent=list()
+for ent in range(5):#Mapa para cada agente
+    matrix_agent.append(Matrix)
+test(Matrix)
+#======================================================================
+#Busq_prof.py
+import Read_data
+import Criaturas
+import various_methods
+class resultado:
+    def __init__(self,stack,cost):
+        self.stack=stack
+        self.cost=cost
+
+class Nodo:
+    def __init__(self,point:r_d.Coord):
+        self.point=point
+        self.hijo=[]
+    def C_nodo_h(self,clave):
+        self.hijo.append(Nodo(clave))
+    def howm_son(self):#Para saber cuantos hijos tiene el nodo
+        return len(self.hijo)
+    
+def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
+    mov=Agente.move_forward(cost,1)#Desplazamos el agente a la posicion que calculamos antes de entrar a la funcion
+    if not mov:#Si no se mueve, retornamos falso
+        return False
+    if Agente.position==fin_pos:
+        return True
+    counter=0
+    for dirs in range(4):#Aqui escaneamos para ver si es que hay posicones validas
+        Agente.turn_left()
+        aux=Agente.scan_forward(True)
+        if aux.valid:
+            counter+=1
+    print(str(counter)+" Valid directions")
+    if counter<1:#Si hay menos de una direccion, ya no nos podemos mover
+        print("Breakpoint0")
+        return False
+    elif counter>1:#Si encontramos mas de una direccion valida, marcamos como que se tomó una desicion
+        Agente.position.deci_flag=True
+
+    for dirs in range(4):#analizamos en las 4 direcciones para generar los nuevos nodos
+        Agente.turn_left()
+        aux=Agente.scan_forward(True)#Giramos a la izquierda y analizamos la posicion que esta enfrente
+        if aux.valid and not aux.point.visited_flag:#Si la posicion es valida entramos, si no, avanzamos en el for
+            print("breakpoint1")
+            dir=Agente.direction#Guardamos la direccion inicial por si el agente regresa
+            raiz.C_nodo_h(aux.point)#Creamos un nodo hijo
+            n_raiz=raiz.hijo[-1]#Usamos el ultimo elemento de la lista de nodos hijos
+            result=rec_busq1(n_raiz, Agente, Matrix, fin_pos, output, cost)#Hacemos la busqueda recursiva
+            if result:#Si encontró la salida, regresamos verdadero
+                return True
+            else:#Si no la encontró, reestablecemos la direccion anterior, eliminamos el ultimo elemento del stack
+                Agente.direction=dir
+                output.pop()#y reestablecemos la posicion que se tenía para reiniciar el proceso
+                Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
+            
+    return False
+      
+    
+def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo  
+    stack=[]
+    output=resultado(stack, 0)
+    output.stack.append(Agente.position)
+    print("Scanning dirs")
+    counter=0
+    for dirs in range(4):
+        Agente.turn_left()
+        aux=Agente.scan_forward(True)
+        if aux.valid and not aux.point.visited_flag:
+            counter+=1
+    for dirs in range(4):
+        dir=Agente.direction
+        Agente.turn_left()
+        aux=Agente.scan_forward(True)
+        if aux.valid and not aux.point.visited_flag:
+            print("Valid scan")
+            raiz.C_nodo_h(aux.point)#Por cada escaneo valido creamos un nuevo nodo
+            n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
+            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output.stack,output.cost)#si es verdadero vamos a tener el stack lleno       
+            if result:
+                return output
+            else:
+                Agente.direction=dir
+                Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
+    return resultado(None,0)
+    #======================================================================
+#various_methods.py
+import Read_data
+import Agentes
+import Criaturas
+
+
+def terrain_info(punto,ente):
+    punto.print_data(ente.cost)
+    return 
+
+def busq_point(Matrix:Read_data.Coord,X:int,Y:int)-> Read_data.Coord:#busca el punto entre nuestra matriz de objetos para devolverlo
+    if X < 0 or Y < 0 or X >= len(Matrix) or Y >= len(Matrix[0]):
+        return Read_data.Coord("Not valid", -1, -1, False, False, False, False)
+    Matrix[Y][X].seen_flag=True
+    output=Matrix[Y][X]
+    return output
+    
+
+def assign_point(Matrix:Read_data.Coord,X:int,Y:int, orig_pos:Read_data.Coord):
+    ver=busq_point(Matrix,X,Y)
+    if ver.seen_flag:
+        Matrix[Y][X].visited_flag=True#Y1->X...
+        Matrix[Y][X].actual_flag=True #Y2->X...
+        Matrix[Y][X].seen_flag=True   #Y3->X...
+        output=Matrix[Y][X]
+        return output
+    return orig_pos
+
+
+#=====================================================
+#Criaturas.py
+def humano(casilla):
+    if casilla=='0':# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
+                return 0
+    if casilla=='1':
+                return 2
+    if casilla=='2':
+                return 2
+    if casilla=='3':
+                return 3
+    if casilla=='4':#bosque
+                return 4
+    if casilla=='5':
+                return 5
+    else:
+                return -1
+def Sasquatch(casilla):
+            if casilla=='0':# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
+                return 15
+            if casilla=='1':
+                return 4
+            if casilla=='2':
+                return 0
+            if casilla=='3':
+                return 0
+            if casilla=='4':#bosque
+                return 4
+            if casilla=='5':
+                return 5
+            else:
+                return -1
+def Monkey(casilla):
+            if casilla=='0':# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
+                return 0
+            if casilla=='1':
+                return 2
+            if casilla=='2':
+                return 4
+            if casilla=='3':
+                return 3
+            if casilla=='4':#bosque
+                return 1
+            if casilla=='5':
+                return 5
+            else:
+                return -1
+def Octopus(casilla):
+            if casilla=='0':# 0=montaña, 1 tierra, 2 agua, 3 arena, 4 bosque, 5 pantano
+                return 0
+            if casilla=='1':
+                return 2
+            if casilla=='2':
+                return 1
+            if casilla=='3':
+                return 0
+            if casilla=='4':#bosque
+                return 3
+            if casilla=='5':
+                return 2
+            else:
+                return -1
+
+switch={'1':humano,
+        '2':Sasquatch,
+        '3':Monkey,
+        '4':Octopus
+
+}
+#====================================================================
+#Agentes.py
+#class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si es punto valido y su costo
+import Read_data
+import Criaturas
+import various_methods
+
+def __init__(self,cost:int,valid:bool,point:Read_data.Coord):
+        self.cost=cost
+        self.valid=valid
+        self.point=point
+#Tengo que cambiar las condiciones cuando el punto es no valido
+class agente1:#left, forward
+    def __init__(self,direction,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool) -> None:
+        self.direction=direction
+        self.position=position
+        self.charact=charact
+        self.Matrix=Matrix
+        self.cost=0
+        self.auto=False
+        self.user_flag=user_flag#true=PC, false=User
+    def turn_left(self):#dirs: 1=-> 2=^ 3=<- 4=v
+        if self.direction<4 and self.direction>0:
+            self.direction+=1
+        elif self.direction==4:
+            self.direction=1
+    def scan_forward(self,auto:bool)->cost_valid:#Censado #to DO
+        if self.direction==1:#apunta a la derecha
+            X=self.position.Xcoordinate+1
+            scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear           
+            
+        elif self.direction==2:#Apunta hacia arriba
+            Y=self.position.Ycoordinate+1
+            scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)#Nos  retorna el objeto de la posicion a escanear
+
+        elif self.direction==3:#Apunta a la izquierda
+            X=self.position.Xcoordinate-1
+            scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)
+            
+        elif self.direction==4:#Apunta hacia abajo
+            Y=self.position.Ycoordinate-1
+            scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
+        if not scanned_pos:
+            return cost_valid(0, False, None)
+        elif scanned_pos.visited_flag:#Si ya visitamos este punto, lo descartamos inmediatamente
+            return cost_valid(0,False,scanned_pos)
+        cost = Criaturas.switch[self.charact](scanned_pos.Valor)
+        if cost==-1:
+                print("No es valido")
+                return cost_valid(0,False,None)
+        elif cost==0:
+                return cost_valid(0, False, scanned_pos)
+        elif cost>0:  
+                if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
+                    print(scanned_pos.print_data(cost))#Interfaz grafica
+                    return cost_valid(cost, True, scanned_pos)                         #TO DO
+                return cost_valid(cost,True,scanned_pos)
+                
+    def move_forward(self,cost:int,movimientos:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
+        
+        if movimientos==1:
+            band=self.scan_forward(True)
+            if band.valid:
+                self.position.actual_flag=False
+                self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate,self.position)#Asignamos el valor del nuevo punto
+                cost=cost+band.cost                                             #Esto afectando al punto dentro de su matriz
+                if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
+                    print("Si se movio")
+                    return True
+            else:
+                print("No se movio")                   
+                return False
+            return True
+        elif movimientos>1:
+            for casilla in range(movimientos):
+                band=self.scan_forward(True)
+                print("aber")
+                if band.valid:
+                    print(str(band.point.Xcoordinate)+','+str(band.point.Ycoordinate))
+                    a=input()
+                    self.position.actual_flag=False
+                    self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate)
+                    cost=cost+band.cost
+                else:
+                    break; 
+            return True     
+        return False
+

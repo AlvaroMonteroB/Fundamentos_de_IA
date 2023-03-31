@@ -25,6 +25,7 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     valid_scan=list()
     mov=Agente.move_forward(cost,1)
     if not mov:
+        print("No se mueve")
         return False
     counter=0
     for dirs in range(4):
@@ -68,6 +69,7 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         if aux.valid and not aux.point.visited_flag:
             counter+=1
     for dirs in range(4):
+        print("Esto 4 veces")
         dir=Agente.direction
         Agente.turn_left()
         aux=Agente.scan_forward(True)
@@ -81,7 +83,8 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
             else:
                 Agente.direction=dir
                 Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
-        return resultado(None,0)
+        
+    return resultado(None,0)
 #==================================================================================================================================
 #==========================================Algoritmo para el segundo agente=================================================
 #==================================================================================================================================
