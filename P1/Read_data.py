@@ -5,7 +5,7 @@ data_terrain={0:"Montaña", 1:"Tierra", 2:"Agua",3:"Arena",4:"Bosque",5:"Pantano
 
 class Coord():
     
-    def __init__(self,Valor:str,Xcoordinate:int,Ycoordinate:int,visited_flag:bool(),seen_flag:bool(),deci_flag:bool,actual_flag:bool):#Para cada casilla se podrá tener este objeto
+    def __init__(self,Valor:str,Xcoordinate:int,Ycoordinate:int,visited_flag:bool,seen_flag:bool,deci_flag:bool,actual_flag:bool):#Para cada casilla se podrá tener este objeto
         self.Valor=Valor                                           #que define su posición y si ya ha sido visitad
         self.Xcoordinate=Xcoordinate                               #Al igual que el valor de la casilla
         self.Ycoordinate=Ycoordinate

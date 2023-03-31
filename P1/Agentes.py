@@ -62,18 +62,20 @@ class agente1:#left, forward
                 return cost_valid(cost,True,scanned_pos)
                 
     def move_forward(self,cost:int,movimientos:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
+        
         if movimientos==1:
-            print(str(self.direction))
             band=self.scan_forward(True)
             if band.valid:
                 self.position.actual_flag=False
                 self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate,self.position)#Asignamos el valor del nuevo punto
                 cost=cost+band.cost                                             #Esto afectando al punto dentro de su matriz
-                if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
+                """ if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
                     print("Si se movio")
                     return True
-            print("No se movio")                   
-            return False
+            else:
+                print("No se movio")                   
+                return False"""
+                return True
         elif movimientos>1:
             for casilla in range(movimientos):
                 band=self.scan_forward(True)

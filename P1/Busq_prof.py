@@ -23,16 +23,18 @@ class Nodo:
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
     new_scan=list()
     valid_scan=list()
-    ini=Agente.position
     mov=Agente.move_forward(cost,1)
-    fin=Agente.position
+    if not mov:
+        return False
     counter=0
     for dirs in range(4):
         Agente.turn_left()
         aux=Agente.scan_forward(True)
         if aux.valid:
             counter+=1
+    print(str(counter)+" Valid directions")
     if counter<1:
+        print("Breakpoint0")
         return False
     elif counter>1:
         Agente.position.deci_flag=True
@@ -41,6 +43,7 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         Agente.turn_left()
         aux=Agente.scan_forward(True)
         if aux.valid:
+            print("breakpoint1")
             raiz.C_nodo_h(aux.point)
             n_raiz=raiz.hijo[-1]
             result=rec_busq1(n_raiz, Agente, Matrix, fin_pos, output, cost)
@@ -54,6 +57,12 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     stack=[]
     output=resultado(stack, 0)
     print("Scanning dirs")
+    counter=0
+    for dirs in range(4):
+        Agente.turn_left()
+        aux=Agente.scan_forward(True)
+        if aux.valid:
+            counter+=1
     for dirs in range(4):
         Agente.turn_left()
         aux=Agente.scan_forward(True)
