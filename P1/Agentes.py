@@ -49,8 +49,6 @@ class agente1:#left, forward
         if scanned_pos.visited_flag:#Si ya visitamos este punto, lo descartamos inmediatamente
             return cost_valid(0,False,scanned_pos)
         cost = Criaturas.switch[self.charact](scanned_pos.Valor)
-        if scanned_pos.visited_flag:#Si ya lo visitamos, lo marcaremos como no valido
-            return cost_valid(0, False, scanned_pos)
         if cost==-1:
                 print("No es valido")
                 return cost_valid(0,False,None)
@@ -69,12 +67,12 @@ class agente1:#left, forward
                 self.position.actual_flag=False
                 self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate,self.position)#Asignamos el valor del nuevo punto
                 cost=cost+band.cost                                             #Esto afectando al punto dentro de su matriz
-                """ if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
+                if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
                     print("Si se movio")
                     return True
             else:
                 print("No se movio")                   
-                return False"""
+                return False
                 return True
         elif movimientos>1:
             for casilla in range(movimientos):

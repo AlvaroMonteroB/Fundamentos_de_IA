@@ -42,14 +42,18 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     for dirs in range(4):#analizamos en las 4 direcciones para generar los nuevos nodos
         Agente.turn_left()
         aux=Agente.scan_forward(True)
-        if aux.valid:
+        if aux.valid and not aux.point.visited_flag:
             print("breakpoint1")
+            dir=Agente.direction
             raiz.C_nodo_h(aux.point)
             n_raiz=raiz.hijo[-1]
             result=rec_busq1(n_raiz, Agente, Matrix, fin_pos, output, cost)
             if result:
                 return True
+            Agente.direction=dir
             output.pop()
+            Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
+            
     return False
       
     
@@ -61,18 +65,22 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     for dirs in range(4):
         Agente.turn_left()
         aux=Agente.scan_forward(True)
-        if aux.valid:
+        if aux.valid and not aux.point.visited_flag:
             counter+=1
     for dirs in range(4):
+        dir=Agente.direction
         Agente.turn_left()
         aux=Agente.scan_forward(True)
-        if aux.valid:
+        if aux.valid and not aux.point.visited_flag:
+            print("Valid scan")
             raiz.C_nodo_h(aux.point)#Por cada escaneo valido creamos un nuevo nodo
             n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
-            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output.stack,output.cost)#si es verdadero vamos a tener el stack lleno              
+            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output.stack,output.cost)#si es verdadero vamos a tener el stack lleno       
             if result:
                 return output
-    else:
+            else:
+                Agente.direction=dir
+                Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
         return resultado(None,0)
 #==================================================================================================================================
 #==========================================Algoritmo para el segundo agente=================================================
