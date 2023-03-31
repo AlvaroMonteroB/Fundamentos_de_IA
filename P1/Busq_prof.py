@@ -33,7 +33,7 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         if aux.valid:
             counter+=1
     if counter<1:
-        return false
+        return False
     elif counter>1:
         Agente.position.deci_flag=True
 

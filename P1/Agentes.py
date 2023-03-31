@@ -47,7 +47,7 @@ class agente1:#left, forward
         if not scanned_pos:
             return cost_valid(0, False, None)
         cost = Criaturas.switch[self.charact](scanned_pos.Valor)
-        if scanned_pos.visited_flag:
+        if scanned_pos.visited_flag:#Si ya lo visitamos, lo marcaremos como no valido
             return cost_valid(0, False, scanned_pos)
         if cost==-1:
                 print("No es valido")
