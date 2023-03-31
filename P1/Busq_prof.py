@@ -30,7 +30,9 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         print("No se mueve")
         return False
     output.append(Agente.position)
-    print(str(output[-1].Xcoordinate)+'')
+    if Agente.position==fin_pos:
+        return True
+    print('\n'+str(output[-1].Xcoordinate)+','+str(output[-1].Ycoordinate))
     counter=0
     for dirs in range(4):
         print("Esto 4 veces pero es del rec")

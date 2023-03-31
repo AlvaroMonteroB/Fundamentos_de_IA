@@ -20,8 +20,8 @@ def test(Matrix:Read_data.Coord):
     if not output.stack:
         print("No se encontró ningun camino\n")
         exit()
-    print(output.stack[1].Xcoordinate+','+output.stack[1].Xcoordinate+"\n")
-    print_stack(output.stack)
+    print(str(output.stack[1].Xcoordinate)+','+str(output.stack[1].Xcoordinate)+"\n")
+    #print_stack(output.stack)
     a=input()
 
 def print_stack(output:Read_data.Coord):
@@ -29,7 +29,8 @@ def print_stack(output:Read_data.Coord):
     p=-1
     print("Agente terminado")
     while i<len(output.stack):
-        print(output.stack[p].Xcoordinate+","+output.stack.Ycoordinate+"\n")
+        print(str(output.stack[p].Xcoordinate)+","+str(output.stack.Ycoordinate)+"\n")
+        p-=1
         
         
         
