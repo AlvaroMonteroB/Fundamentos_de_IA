@@ -12,23 +12,28 @@ class resultado:
         self.cost=cost
 
 class Nodo:
-    def __init__(self,point:r_d.Coord):
+    def __init__(self,point:r_d.Coord,padre):
         self.point=point
         self.hijo=[]
-    def C_nodo_h(self,clave):
-        self.hijo.append(Nodo(clave))
+        self.padre=padre
+    def C_nodo_h(self,clave_hijo,padre):
+        self.hijo.append(Nodo(clave_hijo,padre))
     def howm_son(self):#Para saber cuantos hijos tiene el nodo
         return len(self.hijo)
     
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
     new_scan=list()
     valid_scan=list()
+    print(str(Agente.direction))
     mov=Agente.move_forward(cost,1)
     if not mov:
         print("No se mueve")
         return False
+    output.append(Agente.position)
+    print(str(output[-1].Xcoordinate)+'')
     counter=0
     for dirs in range(4):
+        print("Esto 4 veces pero es del rec")
         Agente.turn_left()
         aux=Agente.scan_forward(True)
         if aux.valid:
@@ -46,7 +51,7 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         if aux.valid and not aux.point.visited_flag:
             print("breakpoint1")
             dir=Agente.direction
-            raiz.C_nodo_h(aux.point)
+            raiz.C_nodo_h(aux.point,raiz)
             n_raiz=raiz.hijo[-1]
             result=rec_busq1(n_raiz, Agente, Matrix, fin_pos, output, cost)
             if result:
@@ -69,13 +74,14 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         if aux.valid and not aux.point.visited_flag:
             counter+=1
     for dirs in range(4):
-        print("Esto 4 veces")
-        dir=Agente.direction
         Agente.turn_left()
+        print("Posicion "+str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+"  Direccion"+str(Agente.direction)+str())
+        dir=Agente.direction
         aux=Agente.scan_forward(True)
+        print(aux.point.Valor)
         if aux.valid and not aux.point.visited_flag:
             print("Valid scan")
-            raiz.C_nodo_h(aux.point)#Por cada escaneo valido creamos un nuevo nodo
+            raiz.C_nodo_h(aux.point,raiz)#Por cada escaneo valido creamos un nuevo nodo
             n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
             result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output.stack,output.cost)#si es verdadero vamos a tener el stack lleno       
             if result:
@@ -83,6 +89,8 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
             else:
                 Agente.direction=dir
                 Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
+                if Agente.position.Xcoordinate==raiz.point.Xcoordinate and Agente.direction==dir:
+                    print("Si volvio a casa")
         
     return resultado(None,0)
 #==================================================================================================================================

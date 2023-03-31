@@ -39,10 +39,10 @@ def read_matrix(puntos:list[Coord])->None:
             puntos_fila.append(coord)
         puntos.append(puntos_fila)
 
-    for rows in puntos:#Primero van los Y y luego los X
+    """for rows in puntos:#Primero van los Y y luego los X
         for cols in rows:
             print("("+str(cols.Xcoordinate)+','+str(cols.Ycoordinate)+')'+cols.Valor, end=' ')
-        print('\n')
+        print('\n')"""
 
         
     return

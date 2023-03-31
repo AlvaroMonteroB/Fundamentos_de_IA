@@ -34,7 +34,7 @@ class agente1:#left, forward
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear           
             
         elif self.direction==2:#Apunta hacia arriba
-            Y=self.position.Ycoordinate+1
+            Y=self.position.Ycoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)#Nos  retorna el objeto de la posicion a escanear
 
         elif self.direction==3:#Apunta a la izquierda
@@ -42,7 +42,7 @@ class agente1:#left, forward
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)
             
         elif self.direction==4:#Apunta hacia abajo
-            Y=self.position.Ycoordinate-1
+            Y=self.position.Ycoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
         if not scanned_pos:
             return cost_valid(0, False, None)
@@ -73,7 +73,7 @@ class agente1:#left, forward
             else:
                 print("No se movio")                   
                 return False
-                return True
+            return True
         elif movimientos>1:
             for casilla in range(movimientos):
                 band=self.scan_forward(True)
