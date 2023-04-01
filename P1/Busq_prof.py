@@ -178,6 +178,9 @@ def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         raiz.C_nodo_h(scan,raiz)
         n_raiz=raiz.hijo[-1]
         result=rec_busq3(n_raiz,Agente,Matrix,fin_pos,output,cost,scan.dirs)
+        if result:
+            return True
+    return False
     
 
 def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
