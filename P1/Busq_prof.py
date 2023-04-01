@@ -90,28 +90,115 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
 #==================================================================================================================================
 #==========================================Algoritmo para el segundo agente=================================================
 #==================================================================================================================================
-def rec_busq2(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord):
-    stack=list()        
+def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int):
+    mov=Agente.move_forward(cost,1)
+    if not mov:
+        print("No se mueve")
+        return False
+    output.append(Agente.position)
+    print('\n'+str(output[-1].Xcoordinate)+','+str(output[-1].Ycoordinate))
+    if Agente.position==fin_pos:
+        print("Enhorabuena, encontraste la salida")
+        return True
+    counter=0
+    for dirs in range(4):
+        Agente.turn_left()
+        aux=Agente.scan_forward(True)
+        if aux.valid:
+            counter+=1
+    print(str(counter)+" Valid directions")
+    if counter<1:
+        return False
+    elif counter>1:
+        Agente.position.deci_flag=True
+
+    for dirs in range(4):#analizamos en las 4 direcciones para generar los nuevos nodos
+        aux=Agente.scan_forward(True)
+        if aux.valid and not aux.point.visited_flag:
+            dir=Agente.direction
+            raiz.C_nodo_h(aux.point,raiz)
+            n_raiz=raiz.hijo[-1]
+            result=rec_busq1(n_raiz, Agente, Matrix, fin_pos, output, cost)
+            if result:
+                return True
+            Agente.direction=dir
+            output.pop()
+            Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
+        Agente.turn_rigth()
+    return False    
         
  
  
 def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:
-    stack=list()
-    output=resultado(stack, 0)
+    stack=[]
+    cost=0
     print("Scanning dirs")
+    counter=0
+    for dirs in range(4):
+        Agente.turn_left()
+        aux=Agente.scan_forward(True)
+        if aux.valid and not aux.point.visited_flag:
+            counter+=1
+    for dirs in range(4):
+        dir=Agente.direction
+        aux=Agente.scan_forward(True)
+        print(aux.point.Valor)
+        if aux.valid and not aux.point.visited_flag:
+            raiz.C_nodo_h(aux.point,raiz)#Por cada escaneo valido creamos un nuevo nodo
+            n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
+            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,stack,cost)#si es verdadero vamos a tener el stack lleno       
+            if result:
+                return resultado(stack,cost)
+            else:
+                Agente.direction=dir
+                Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
+        Agente.turn_rigth()       
         
+    return resultado(None,0)
 
  
 
 #==================================================================================================================================
 #==========================================Algoritmo para el tercer agente=================================================
 #==================================================================================================================================
-def rec_busq3():
-    new_scan=list()
-
-
-def alg_busq3():
+def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int,dir:int)->bool:
     scan=list()
+    m=Agente.move(dir,cost)
+    if not m:
+        return False
+    if Agente.position==fin_pos:
+        return True
+    scanned=Agente.scan()
+    if len(scanned)>1:
+        Agente.position.deci_flag=True
+    if len(scanned)==0:
+        print("No hay movimientos validos")
+        exit()
+    for scan in scanned:
+        raiz.C_nodo_h(scan,raiz)
+        n_raiz=raiz.hijo[-1]
+        result=rec_busq3(n_raiz,Agente,Matrix,fin_pos,output,cost,scan.dirs)
+    
+
+def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
+    stack=[]
+    print("Scanning dirs")
+    cost=0
+    raiz=Agente.position
+    scanned=Agente.scan()
+    if len(scanned)==0:
+        print("No hay movimientos validos")
+        exit()
+    for scan in scanned:
+        raiz.C_nodo_h(scan.c_v.point,raiz)
+        n_raiz=raiz.hijo[-1]
+        result=rec_busq3(n_raiz,Agente,Matrix,fin_pos,stack,cost,scan.dirs)
+        if result:
+            return resultado(stack,cost)
+    return resultado(None,0)
+        
+        
+    
 
 
 

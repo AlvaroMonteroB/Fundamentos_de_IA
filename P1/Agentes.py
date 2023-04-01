@@ -13,6 +13,11 @@ class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si 
         self.cost=cost
         self.valid=valid
         self.point=point
+        
+class ag34_out:
+    def __init__(self,c_v:cost_valid,dirs) -> None:
+        self.c_v=c_v
+        self.dirs=dirs
 #Tengo que cambiar las condiciones cuando el punto es no valido
 class agente1:#left, forward
     def __init__(self,direction,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool) -> None:
@@ -164,56 +169,56 @@ class Agente3:#move one cell any row or column
         self.cost=0
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
-    def scan(self)->cost_valid:#Se tiene que implementar la opcion auto como en los otros agentes
+    def scan(self)->ag34_out:#Se tiene que implementar la opcion auto como en los otros agentes
         points=list()
         scan_result=list()
+        direct=[]
         Not_valid=list()
         already_visited=list()
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1))#y-1
-        for x in points:
-            if x.Valor>=0:
-                if not x.visited_flag:
-                    scan_result.append(cost_valid(Criaturas.switch[self.charact](x.Valor),True,x))
-                else:
-                    already_visited.append(x)
-            elif x.Valor==-1:
-                Not_valid.append(x)
-        if len(scan_result)>0:
-            if len(scan_result)>1:
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1 izquierda
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1 abajo
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1 derecha
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1))#y-1 arriba
+        for x,i in zip(points,range(0,4)):#iteramos en los puntos y en el rango de direcciones
+            if x.Valor>=0:#Si el valor de la posicion es valido, entramos
+                cos=Criaturas.switch[self.charact][x.Valor]#Calculamos el costo, si es 0 o menor, no es valida la posicion
+                if not x.visited_flag and cos>0:#Si no hemos visitado y es validam, adjuntamos la nueva posicion
+                    scan_result.append(ag34_out(cost_valid(Criaturas.switch[self.charact](x.Valor),True,x),i))#Escaneos validos con la direccion en que se adquirieron
+        if len(scan_result)>0:#Si la longitud del escaneo es mayor a 0, es valida la funcion
+            if len(scan_result)>1:#Si hubo mas de 1, tomamos una desicion
                 self.position.deci_flag=True
             return scan_result#Sí hay por lo menos un camino para seguir, aqui lo veremos
-        elif len(already_visited)+len(Not_valid)==4:
+        elif len(scan_result)==0:#Si no hubo caminos, retornaremos como no valido
             result=Read_data.Coord('Not valid', -1, -1, False, False,False)#  no hay a donde moverse y hay que regresar
-            scan_result.append(cost_valid(0, False, result))
+            scan_result.append(ag34_out(cost_valid(0, False, result),0))
             return scan_result#so mp hay caminos disponibles 
 
 
      #These methods are for the movement  
      #this is a private method, only can be used by move     
     def scan_pos(self,direction)->cost_valid:#este solo lo usa el metodo move
-        if direction==1:
+        if direction==1:#izq
             scanned=various_methods.busq_point(self.Matrix, self.position.Xcoordinate+1,self.position.Ycoordinate)
-        elif direction==2:
-            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1)
-        elif direction==3:
-            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate)
-        elif direction==4:
+        elif direction==2:#arriba
             scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1)
+        elif direction==3:#derecha
+            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate)
+        elif direction==4:#abajo
+            scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1)
+        if scanned.Valor=='-1':
+            return cost_valid(0,False,None)
         cost=self.charact.cost(scanned.Valor)
-        if scanned.Valor>=0:
+        if cost>0:
             valid=cost_valid(Criaturas.switch[self.charact](scanned.Valor),True,scanned)
-        else:
-            valid=cost_valid(0,False,scanned)
+        elif cost<0:
+            valid=cost_valid(0,False,None)
         if valid.cost==0:#al final volvemos a evaluar para poder retornar
-            valid.valid=False
+            valid=cost_valid(0,False,scanned)
         return valid
             
             
     #pos-> d=->, w=^,a=<-,s=v: 1,2,3,4
-    def move(self,key,cost):
+    def move(self,key,cost)->bool:
       direction = arr[key]
       scannedpos=self.scan_pos(direction)#aqui directamente hacemos un auto escaneo
       var=self.scan_pos(direction)
