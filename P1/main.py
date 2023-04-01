@@ -16,21 +16,24 @@ def test(Matrix:Read_data.Coord):
     print('"'+agentA.position.Valor+'"'+'('+str(agentA.position.Xcoordinate)+','+str(agentA.position.Ycoordinate)+')')
     raiz=b_p.Nodo(point_ini,None)
     fin=various_methods.busq_point(Matrix,3,14)
+    fin.visited_flag=False
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
     if not output.stack:
         print("No se encontró ningun camino\n")
         exit()
-    print(str(output.stack[1].Xcoordinate)+','+str(output.stack[1].Xcoordinate)+"\n")
-    #print_stack(output.stack)
+    print(str(output.stack[-1].Xcoordinate)+','+str(output.stack[-1].Xcoordinate)+"\n")
+    print(str(output.cost)+" de costo")
+    print_stack(output.stack)
     a=input()
 
-def print_stack(output:Read_data.Coord):
+def print_stack(stack):
     i=0
     p=-1
     print("Agente terminado")
-    while i<len(output.stack):
-        print(str(output.stack[p].Xcoordinate)+","+str(output.stack.Ycoordinate)+"\n")
+    while i<len(stack):
+        print(str(stack[p].Xcoordinate)+","+str(stack[p].Ycoordinate)+"\n")
         p-=1
+        i+=1
         
         
         

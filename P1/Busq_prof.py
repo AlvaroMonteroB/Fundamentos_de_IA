@@ -24,31 +24,28 @@ class Nodo:
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
     new_scan=list()
     valid_scan=list()
-    print(str(Agente.direction))
     mov=Agente.move_forward(cost,1)
     if not mov:
         print("No se mueve")
         return False
     output.append(Agente.position)
-    if Agente.position==fin_pos:
-        return True
     print('\n'+str(output[-1].Xcoordinate)+','+str(output[-1].Ycoordinate))
+    if Agente.position==fin_pos:
+        print("Enhorabuena, encontraste la salida")
+        return True
     counter=0
     for dirs in range(4):
-        print("Esto 4 veces pero es del rec")
         Agente.turn_left()
         aux=Agente.scan_forward(True)
         if aux.valid:
             counter+=1
     print(str(counter)+" Valid directions")
     if counter<1:
-        print("Breakpoint0")
         return False
     elif counter>1:
         Agente.position.deci_flag=True
 
     for dirs in range(4):#analizamos en las 4 direcciones para generar los nuevos nodos
-        Agente.turn_left()
         aux=Agente.scan_forward(True)
         if aux.valid and not aux.point.visited_flag:
             dir=Agente.direction
@@ -60,13 +57,13 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
             Agente.direction=dir
             output.pop()
             Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
-            
+        Agente.turn_left()
     return False
       
     
 def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo  
     stack=[]
-    output=resultado(stack, 0)
+    cost=0
     print("Scanning dirs")
     counter=0
     for dirs in range(4):
@@ -75,45 +72,36 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         if aux.valid and not aux.point.visited_flag:
             counter+=1
     for dirs in range(4):
-        Agente.turn_left()
-        print("Posicion "+str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+"  Direccion"+str(Agente.direction)+str())
         dir=Agente.direction
         aux=Agente.scan_forward(True)
         print(aux.point.Valor)
         if aux.valid and not aux.point.visited_flag:
-            print("Valid scan")
             raiz.C_nodo_h(aux.point,raiz)#Por cada escaneo valido creamos un nuevo nodo
             n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
-            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,output.stack,output.cost)#si es verdadero vamos a tener el stack lleno       
+            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,stack,cost)#si es verdadero vamos a tener el stack lleno       
             if result:
-                return output
+                return resultado(stack,cost)
             else:
                 Agente.direction=dir
                 Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
-                if Agente.position.Xcoordinate==raiz.point.Xcoordinate and Agente.direction==dir:
-                    print("Si volvio a casa")
+        Agente.turn_left()        
         
     return resultado(None,0)
 #==================================================================================================================================
 #==========================================Algoritmo para el segundo agente=================================================
 #==================================================================================================================================
-def rec_busq2():
-    new_scan=list()        
+def rec_busq2(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord):
+    stack=list()        
         
  
  
-def alg_busq2(raiz:Nodo,Agente:Ag.Agente2)->r_d.Coord:
+def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:
     stack=list()
- 
+    output=resultado(stack, 0)
+    print("Scanning dirs")
         
 
-
-def stack_pop(stack:list[r_d.Coord]):
-    for node in stack_pop:
-        if not node.point.deci_flag:
-            stack.pop
-        else:
-            return    
+ 
 
 #==================================================================================================================================
 #==========================================Algoritmo para el tercer agente=================================================
