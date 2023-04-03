@@ -25,7 +25,7 @@ def read_matrix(puntos:list[Coord])->None:
         leer=Read_matrix.readline
         for line in Read_matrix:
             Matrix_rows.append(line)
-        Read_matrix.close
+        Read_matrix.close()
                                         #Lectura y remplazo de comas en el archiv
     print("Read successfully")
     for linea in Matrix_rows:
