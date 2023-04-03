@@ -132,13 +132,15 @@ class Agente2:#left,rigth, forward
         if not scanned_pos:
             return cost_valid(0,False,None)
         cost=Criaturas.switch[self.charact](scanned_pos.Valor)
-        if cost==-1&self.auto:
-                print("Not valid position")
+        if scanned_pos.visited_flag:
+            return cost_valid(0, False, scanned_pos)
+        if cost==-1:
+                return cost_valid(0, False, None)
         elif cost==0:
                 if auto:
-                    return cost_valid(0,False,None)
+                    return cost_valid(0,False,scanned_pos)
                 print("You cannot move there")
-                return cost_valid(0,False,None)
+                return cost_valid(0,False,scanned_pos)
         elif cost>0:  
                 if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica

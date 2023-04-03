@@ -22,8 +22,6 @@ class Nodo:
         return len(self.hijo)
     
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
-    new_scan=list()
-    valid_scan=list()
     mov=Agente.move_forward(cost,1)
     if not mov:
         print("No se mueve")
@@ -140,7 +138,6 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     for dirs in range(4):
         dir=Agente.direction
         aux=Agente.scan_forward(True)
-        print(aux.point.Valor)
         if aux.valid and not aux.point.visited_flag:
             raiz.C_nodo_h(aux.point,raiz)#Por cada escaneo valido creamos un nuevo nodo
             n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos

@@ -30,7 +30,10 @@ def test2(Matrix:Read_data.Coord):
     fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
     output=b_p.alg_busq2(raiz,agentA,Matrix,fin)
-    print_stack(output.stack)
+    if output.stack:
+        print_stack(output.stack)
+    else:
+        print("No se encontro el punto")
 
 def print_stack(stack):
     i=0
