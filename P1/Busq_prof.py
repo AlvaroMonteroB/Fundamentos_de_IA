@@ -52,7 +52,7 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
                 return True
             Agente.direction=dir
             output.pop()
-            Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
+            Agente.position=V_M.assign_point(Matrix,output[-1].Xcoordinate,output[-1].Ycoordinate,raiz.point)
         Agente.turn_left()
     return False
       
