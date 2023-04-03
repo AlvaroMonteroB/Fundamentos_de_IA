@@ -29,7 +29,6 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         print("No se mueve")
         return False
     output.append(Agente.position)
-    print('\n'+str(output[-1].Xcoordinate)+','+str(output[-1].Ycoordinate))
     if Agente.position==fin_pos:
         print("Enhorabuena, encontraste la salida")
         return True
@@ -39,7 +38,6 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         aux=Agente.scan_forward(True)
         if aux.valid:
             counter+=1
-    print(str(counter)+" Valid directions")
     if counter<1:
         return False
     elif counter>1:
@@ -63,6 +61,7 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     
 def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo  
     stack=[]
+    stack.append(Agente.position)
     cost=0
     print("Scanning dirs")
     counter=0
@@ -74,7 +73,6 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     for dirs in range(4):
         dir=Agente.direction
         aux=Agente.scan_forward(True)
-        print(aux.point.Valor)
         if aux.valid and not aux.point.visited_flag:
             raiz.C_nodo_h(aux.point,raiz)#Por cada escaneo valido creamos un nuevo nodo
             n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
@@ -96,7 +94,6 @@ def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         print("No se mueve")
         return False
     output.append(Agente.position)
-    print('\n'+str(output[-1].Xcoordinate)+','+str(output[-1].Ycoordinate))
     if Agente.position==fin_pos:
         print("Enhorabuena, encontraste la salida")
         return True
@@ -132,6 +129,7 @@ def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
 def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:
     stack=[]
     cost=0
+    stack.append(Agente.position)
     print("Scanning dirs")
     counter=0
     for dirs in range(4):

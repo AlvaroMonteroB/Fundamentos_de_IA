@@ -1,4 +1,5 @@
 import threading
+import multiprocessing
 import display_graphics
 import Read_data
 import Criaturas
@@ -15,16 +16,10 @@ def test(Matrix:Read_data.Coord):
     agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
     print('"'+agentA.position.Valor+'"'+'('+str(agentA.position.Xcoordinate)+','+str(agentA.position.Ycoordinate)+')')
     raiz=b_p.Nodo(point_ini,None)
-    fin=various_methods.busq_point(Matrix,3,14)
+    fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
-    if not output.stack:
-        print("No se encontró ningun camino\n")
-        exit()
-    print(str(output.stack[-1].Xcoordinate)+','+str(output.stack[-1].Xcoordinate)+"\n")
-    print(str(output.cost)+" de costo")
-    print_stack(output.stack)
-    a=input()
+    
 
 def print_stack(stack):
     i=0
