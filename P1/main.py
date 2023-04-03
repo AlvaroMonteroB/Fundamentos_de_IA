@@ -19,7 +19,18 @@ def test(Matrix:Read_data.Coord):
     fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
+    print_stack(output.stack)
     
+def test2(Matrix:Read_data.Coord):
+    print("Prueba con agente 2")
+    point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
+    agentA=Agentes.Agente2(1,point_ini,'1',Matrix,True)
+    print('"'+agentA.position.Valor+'"'+'('+str(agentA.position.Xcoordinate)+','+str(agentA.position.Ycoordinate)+')')
+    raiz=b_p.Nodo(point_ini,None)
+    fin=various_methods.busq_point(Matrix,7,14)
+    fin.visited_flag=False
+    output=b_p.alg_busq2(raiz,agentA,Matrix,fin)
+    print_stack(output.stack)
 
 def print_stack(stack):
     i=0
@@ -36,7 +47,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-test(Matrix)
+test2(matrix_agent[0])
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")
 aux=''

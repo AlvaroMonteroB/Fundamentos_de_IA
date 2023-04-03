@@ -130,13 +130,13 @@ class Agente2:#left,rigth, forward
             Y=self.position.Ycoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
         if not scanned_pos:
-            return(0,False,None)
+            return cost_valid(0,False,None)
         cost=Criaturas.switch[self.charact](scanned_pos.Valor)
         if cost==-1&self.auto:
                 print("Not valid position")
         elif cost==0:
                 if auto:
-                    return (0,False,None)
+                    return cost_valid(0,False,None)
                 print("You cannot move there")
                 return cost_valid(0,False,None)
         elif cost>0:  
@@ -152,7 +152,7 @@ class Agente2:#left,rigth, forward
             x=band.point.Xcoordinate
             y=band.point.Ycoordinate
             self.position.actual_flag=False
-            self.position=various_methods.assign_point(self.Matrix,x,y)#soplo usamos esa informacion para
+            self.position=various_methods.assign_point(self.Matrix,x,y,self.position)#soplo usamos esa informacion para
             cost=cost+band.cost                         #Para actualizar la posicion si es posible
             return True
         else:

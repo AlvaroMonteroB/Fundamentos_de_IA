@@ -115,7 +115,7 @@ def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
             dir=Agente.direction
             raiz.C_nodo_h(aux.point,raiz)
             n_raiz=raiz.hijo[-1]
-            result=rec_busq1(n_raiz, Agente, Matrix, fin_pos, output, cost)
+            result=rec_busq2(n_raiz, Agente, Matrix, fin_pos, output, cost)
             if result:
                 return True
             Agente.direction=dir
@@ -144,7 +144,7 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         if aux.valid and not aux.point.visited_flag:
             raiz.C_nodo_h(aux.point,raiz)#Por cada escaneo valido creamos un nuevo nodo
             n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
-            result=rec_busq1(n_raiz,Agente,Matrix,fin_pos,stack,cost)#si es verdadero vamos a tener el stack lleno       
+            result=rec_busq2(n_raiz,Agente,Matrix,fin_pos,stack,cost)#si es verdadero vamos a tener el stack lleno       
             if result:
                 return resultado(stack,cost)
             else:
