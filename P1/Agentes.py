@@ -60,7 +60,7 @@ class agente1:#left, forward
         elif cost==0:
                 return cost_valid(0, False, scanned_pos)
         elif cost>0:  
-                if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
+                if not self.user_flag and (not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica                         #TO DO
                 return cost_valid(cost,True,scanned_pos)
                 
@@ -142,13 +142,12 @@ class Agente2:#left,rigth, forward
                 print("You cannot move there")
                 return cost_valid(0,False,scanned_pos)
         elif cost>0:  
-                if not self.user_flag&(not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
+                if not self.user_flag and (not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
                     print(scanned_pos.print_data(cost))#Interfaz grafica
-                elif self.user_flag|self.auto:
-                    return cost_valid(cost,True,scanned_pos)
+                return cost_valid(cost,True,scanned_pos)
             
                 
-    def move_forward(self,cost:int,key)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
+    def move_forward(self,cost:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
         band=self.scan_forward(True)
         if band.valid:#el escaneo ya nos da toda la informacion para usarla
             x=band.point.Xcoordinate

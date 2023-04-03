@@ -87,10 +87,11 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
 #==========================================Algoritmo para el segundo agente=================================================
 #==================================================================================================================================
 def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int):
-    mov=Agente.move_forward(cost,1)
+    mov=Agente.move_forward(cost)
     if not mov:
         print("No se mueve")
         return False
+    print("Posicion actual ("+str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+')')
     output.append(Agente.position)
     if Agente.position==fin_pos:
         print("Enhorabuena, encontraste la salida")
@@ -118,7 +119,7 @@ def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
                 return True
             Agente.direction=dir
             output.pop()
-            Agente.position=V_M.assign_point(Matrix,raiz.point.Xcoordinate,raiz.point.Ycoordinate,raiz.point)
+            Agente.position=V_M.assign_point(Matrix,output[-1].Xcoordinate,output[-1].Ycoordinate,output[-1])
         Agente.turn_rigth()
     return False    
         
