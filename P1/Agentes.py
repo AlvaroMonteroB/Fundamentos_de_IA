@@ -99,12 +99,12 @@ class Agente2:#left,rigth, forward
 
     def turn_left(self):
         if self.direction<4 and self.direction>0:
-            self.direction+1
+            self.direction+=1
         elif self.direction==4:
             self.direction=1
     def turn_rigth(self):
         if self.direction<5 and self.direction>1:
-            self.direction-1
+            self.direction-=1
         elif self.direction==1:
             self.direction=4
         
