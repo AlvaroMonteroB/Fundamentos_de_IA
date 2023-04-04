@@ -158,7 +158,6 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
 #==========================================Algoritmo para el tercer agente=================================================
 #==================================================================================================================================
 def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int,dir:int)->bool:
-    scan=list()
     m=Agente.move(dir,cost)
     if not m:
         return False
@@ -199,11 +198,14 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
 #==================================================================================================================================
 #==========================================Algoritmo para el cuarto agente=================================================
 #==================================================================================================================================
-        
+def rec_busq4(Raiz:Nodo,Agente:Ag.Agente4,key,cost):
+    m=Agente.move(key,cost,1)
+            
     
 
 
-
+def alg_busq4(Raiz:Nodo):
+    stack=list()
 
 
 
@@ -212,6 +214,19 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
 #==================================================================================================================================
 #==========================================Algoritmo para el quinto agente=================================================
 #==================================================================================================================================
+def rec_busq5(Raiz:Nodo,Agente:Ag.Agente4,key,cost):
+    m=Agente.move(key,cost,1)
+
+
+
+
+
+
+def alg_busq5(Raiz:Nodo):
+    stack=list()
+
+
+
 
 
 
