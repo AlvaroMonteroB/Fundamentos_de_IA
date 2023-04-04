@@ -16,8 +16,8 @@ class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si 
         
 class ag34_out:
     def __init__(self,c_v:cost_valid,dirs) -> None:
-        self.c_v=c_v
-        self.dirs=dirs
+        self.c_v=c_v#Cost valid
+        self.dirs=dirs#direccion
 #Tengo que cambiar las condiciones cuando el punto es no valido
 class agente1:#left, forward
     def __init__(self,direction,position:Read_data.Coord,charact,Matrix:Read_data.Coord,user_flag:bool) -> None:
@@ -172,18 +172,15 @@ class Agente3:#move one cell any row or column
         self.user_flag=user_flag#true=PC, false=User
     def scan(self)->ag34_out:#Se tiene que implementar la opcion auto como en los otros agentes
         points=list()
-        scan_result=list()
-        direct=[]
-        Not_valid=list()
-        already_visited=list()
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1 izquierda
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1 abajo
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1 derecha
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1))#y-1 arriba
-        for x,i in zip(points,range(0,4)):#iteramos en los puntos y en el rango de direcciones
-            if x.Valor>=0:#Si el valor de la posicion es valido, entramos
-                cos=Criaturas.switch[self.charact][x.Valor]#Calculamos el costo, si es 0 o menor, no es valida la posicion
-                if not x.visited_flag and cos>0:#Si no hemos visitado y es validam, adjuntamos la nueva posicion
+        scan_result=list()#tenemos que seguir el orden de direcciones
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1 derecha
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1))#y+1 arriba
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1 izquierda
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y-1 abajo
+        for x,i in zip(points,range(1,5)):#iteramos en los puntos y en el rango de direcciones
+            cos=Criaturas.switch[self.charact](x.Valor)#Calculamos el costo, si es 0 o menor, no es valida la posicion
+            if cos>0:#Si el valor de la posicion es valido, entramos
+                if not x.visited_flag:#Si no hemos visitado y es validam, adjuntamos la nueva posicion
                     scan_result.append(ag34_out(cost_valid(Criaturas.switch[self.charact](x.Valor),True,x),i))#Escaneos validos con la direccion en que se adquirieron
         if len(scan_result)>0:#Si la longitud del escaneo es mayor a 0, es valida la funcion
             if len(scan_result)>1:#Si hubo mas de 1, tomamos una desicion
