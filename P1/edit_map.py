@@ -9,7 +9,4 @@ with open("matriz.txt","r+") as write_matrix:
         read_matrix.append(line)
     read_matrix.close()
 
-    for linea in Matrix_rows:
-        aux=linea.replace(',','')#cadena sin comas
-        aux=aux.strip()
-        Matrix_rows1.append(aux)
+ 
