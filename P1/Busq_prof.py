@@ -2,6 +2,7 @@ import Agentes as Ag
 import various_methods as V_M
 import Read_data as r_d
 import acciones as acc
+import Criaturas as cr
 import sys
 
 sys.setrecursionlimit(8000)
@@ -60,6 +61,9 @@ def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
 def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->resultado:#inicializacion del algoritmo  
     stack=[]
     stack.append(Agente.position)
+    if Agente.position==fin_pos:
+        print("Enhorabuena, encontraste la salida")
+        return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     cost=0
     print("Scanning dirs")
     counter=0
@@ -88,9 +92,6 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
 #==================================================================================================================================
 def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int):
     mov=Agente.move_forward(cost)
-    if not mov:
-        print("No se mueve")
-        return False
     print("Posicion actual ("+str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+')')
     output.append(Agente.position)
     if Agente.position==fin_pos:
@@ -129,6 +130,9 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     stack=[]
     cost=0
     stack.append(Agente.position)
+    if Agente.position==fin_pos:
+        print("Enhorabuena, encontraste la salida")
+        return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     print("Scanning dirs")
     counter=0
     for dirs in range(4):
@@ -180,6 +184,10 @@ def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
 
 def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     stack=[]
+    stack.append(Agente.position)
+    if Agente.position==fin_pos:
+        print("Enhorabuena, encontraste la salida")
+        return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     print("Scanning dirs")
     cost=0
     raiz=Agente.position

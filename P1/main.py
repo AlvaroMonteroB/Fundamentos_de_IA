@@ -50,7 +50,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-test(matrix_agent[0])
+test2(matrix_agent[0])
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")
 aux=''
