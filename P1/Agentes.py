@@ -55,7 +55,6 @@ class agente1:#left, forward
             return cost_valid(0,False,scanned_pos)
         cost = Criaturas.switch[self.charact](scanned_pos.Valor)
         if cost==-1:
-                print("No es valido")
                 return cost_valid(0,False,None)
         elif cost==0:
                 return cost_valid(0, False, scanned_pos)
@@ -73,19 +72,15 @@ class agente1:#left, forward
                 self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate,self.position)#Asignamos el valor del nuevo punto
                 cost=cost+band.cost                                             #Esto afectando al punto dentro de su matriz
                 if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
-                    print("Si se movio")
                     return True
-            else:
-                print("No se movio")                   
+            else:                  
                 return False
-            return True
         elif movimientos>1:
             for casilla in range(movimientos):
                 band=self.scan_forward(True)
-                print("aber")
                 if band.valid:
-                    print(str(band.point.Xcoordinate)+','+str(band.point.Ycoordinate))
-                    a=input()
+                    #print(str(band.point.Xcoordinate)+','+str(band.point.Ycoordinate))
+                    #a=input()
                     self.position.actual_flag=False
                     self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate)
                     cost=cost+band.cost
@@ -131,15 +126,15 @@ class Agente2:#left,rigth, forward
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
         if not scanned_pos:
             return cost_valid(0,False,None)
-        cost=Criaturas.switch[self.charact](scanned_pos.Valor)
+        
         if scanned_pos.visited_flag:
             return cost_valid(0, False, scanned_pos)
+        cost=Criaturas.switch[self.charact](scanned_pos.Valor)
         if cost==-1:
                 return cost_valid(0, False, None)
         elif cost==0:
-                if auto:
-                    return cost_valid(0,False,scanned_pos)
-                print("You cannot move there")
+                if not auto:
+                    print("You cannot move there")
                 return cost_valid(0,False,scanned_pos)
         elif cost>0:  
                 if not self.user_flag and (not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
@@ -148,16 +143,15 @@ class Agente2:#left,rigth, forward
             
                 
     def move_forward(self,cost:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v
-        band=self.scan_forward(True)
-        if band.valid:#el escaneo ya nos da toda la informacion para usarla
-            x=band.point.Xcoordinate
-            y=band.point.Ycoordinate
-            self.position.actual_flag=False
-            self.position=various_methods.assign_point(self.Matrix,x,y,self.position)#soplo usamos esa informacion para
-            cost=cost+band.cost                         #Para actualizar la posicion si es posible
-            return True
-        else:
-            return False
+            band=self.scan_forward(True)
+            if band.valid:
+                self.position.actual_flag=False
+                self.position=various_methods.assign_point(self.Matrix,band.point.Xcoordinate,band.point.Ycoordinate,self.position)#Asignamos el valor del nuevo punto
+                cost=cost+band.cost                                             #Esto afectando al punto dentro de su matriz
+                if self.position.Xcoordinate==band.point.Xcoordinate and self.position.Ycoordinate==band.point.Xcoordinate:
+                    return True
+            else:                  
+                return False
                 
             
 

@@ -7,6 +7,14 @@ import sys
 
 sys.setrecursionlimit(8000)
 
+
+"""
+Las funciones alg_busqX inicializan el proceso para que posteriormente entremos a la función recursiva "rec_busqX"
+si se encuentra el resultado, alg_busq devolvera la pila del camino correcto
+"""
+
+
+
 class resultado:
     def __init__(self,stack,cost):
         self.stack=stack
@@ -24,9 +32,6 @@ class Nodo:
     
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
     mov=Agente.move_forward(cost,1)
-    if not mov:
-        print("No se mueve")
-        return False
     output.append(Agente.position)
     if Agente.position==fin_pos:
         print("Enhorabuena, encontraste la salida")
@@ -65,7 +70,6 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         print("Enhorabuena, encontraste la salida")
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     cost=0
-    print("Scanning dirs")
     counter=0
     for dirs in range(4):
         Agente.turn_left()
@@ -141,8 +145,8 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         if aux.valid and not aux.point.visited_flag:
             counter+=1
     for dirs in range(4):
-        dir=Agente.direction
-        aux=Agente.scan_forward(True)
+        dir=Agente.direction#Guardamos la direccion inicial
+        aux=Agente.scan_forward(True)#Escaneamos lo que haya en esa direccion
         if aux.valid and not aux.point.visited_flag:
             raiz.C_nodo_h(aux.point,raiz)#Por cada escaneo valido creamos un nuevo nodo
             n_raiz=raiz.hijo[-1]#Guardamos como nueva raiz el nodo[N] de la lista de hijos
