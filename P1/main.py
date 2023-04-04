@@ -86,30 +86,7 @@ X=C_ini[0]
 Y=C_ini[1]
 point_ini=various_methods.assign_point(Matrix, X, Y)
 opt=input("Choose an Agent:\n1\n2\n3\n4\n5\n")#Menu para escoger el agente a usar
-if opt=='1':
-    if userband:
-        agent=Agentes.agente1(1,point_ini,opt,Matrix,userband)#true=PC, false=User
-        agentA=Agentes.agente1(1,point_ini,opt,Matrix,True)
-    else:
-        agentA=Agentes.agente1(1,point_ini,opt,Matrix,True)
-elif opt=='2':
-    if userband:
-        agent=Agentes.Agente2(1,point_ini,opt,Matrix,userband)#true=PC, false=User
-        agentA=Agentes.Agente2(1,point_ini,opt,Matrix,True)
-    else:
-        agentA=Agentes.Agente2(1,point_ini,opt,Matrix,True)
-elif opt=='3':
-    if userband:
-        agent=Agentes.Agente3(point_ini,opt,Matrix,True)
-        agentA=Agentes.Agente3(point_ini,opt,Matrix,True)
-    else:
-        agentA=Agentes.Agente3(point_ini,opt,Matrix,True)
-elif opt==4:
-    if userband:
-        agent=Agentes.Agente4(point_ini,opt,Matrix,True)
-    else:
-        agentA=Agentes.Agente4(point_ini,opt,Matrix,True)
-
+#Ejecutamos aqui los 5 agentes a la vez
 finx=C_fin[0]
 finy=C_fin[1]
 fpoint=various_methods.busq_point(Matrix,finx,finy)

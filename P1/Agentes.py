@@ -103,7 +103,7 @@ class Agente2:#left,rigth, forward
         self.user_flag=user_flag#true=PC, false=User
 
     def turn_left(self):
-        if self.direction<3 and self.direction>0:
+        if self.direction<4 and self.direction>0:
             self.direction+1
         elif self.direction==4:
             self.direction=1
@@ -119,7 +119,7 @@ class Agente2:#left,rigth, forward
             X=self.position.Xcoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)#Nos  retorna el objeto de la posicion a escanear
         elif self.direction==2:#Apunta hacia arriba
-            Y=self.position.Ycoordinate+1
+            Y=self.position.Ycoordinate-1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)#Nos  retorna el objeto de la posicion a escanear
        
         elif self.direction==3:#Apunta a la izquierda
@@ -127,7 +127,7 @@ class Agente2:#left,rigth, forward
             scanned_pos=various_methods.busq_point(self.Matrix,X,self.position.Ycoordinate)
             
         elif self.direction==4:#Apunta hacia abajo
-            Y=self.position.Ycoordinate-1
+            Y=self.position.Ycoordinate+1
             scanned_pos=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,Y)
         if not scanned_pos:
             return cost_valid(0,False,None)
