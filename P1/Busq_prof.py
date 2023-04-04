@@ -17,7 +17,7 @@ class Nodo:
         self.point=point
         self.hijo=[]
         self.padre=padre
-    def C_nodo_h(self,clave_hijo,padre):
+    def C_nodo_h(self,clave_hijo:r_d.Coord,padre):
         self.hijo.append(Nodo(clave_hijo,padre))
     def howm_son(self):#Para saber cuantos hijos tiene el nodo
         return len(self.hijo)
@@ -191,11 +191,11 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     print("Scanning dirs")
     cost=0
     raiz=Agente.position
-    scanned=Agente.scan()
+    scanned=Agente.scan()#Nos devolverá todas las posiciones validas con su direccion
     if len(scanned)==0:
         print("No hay movimientos validos")
         exit()
-    for scan in scanned:
+    for scan in scanned:#Iteramos sobre las posiciones y creamos la raiz
         raiz.C_nodo_h(scan.c_v.point,raiz)
         n_raiz=raiz.hijo[-1]
         result=rec_busq3(n_raiz,Agente,Matrix,fin_pos,stack,cost,scan.dirs)
