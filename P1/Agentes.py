@@ -129,7 +129,7 @@ class Agente2:#left,rigth, forward
         
         if scanned_pos.visited_flag:
             return cost_valid(0, False, scanned_pos)
-        cost=Criaturas.switch[self.charact](scanned_pos.Valor)
+        cost = Criaturas.switch[self.charact](scanned_pos.Valor)
         if cost==-1:
                 return cost_valid(0, False, None)
         elif cost==0:
@@ -174,14 +174,14 @@ class Agente3:#move one cell any row or column
         for x,i in zip(points,range(1,5)):#iteramos en los puntos y en el rango de direcciones
             cos=Criaturas.switch[self.charact](x.Valor)#Calculamos el costo, si es 0 o menor, no es valida la posicion
             if cos>0:#Si el valor de la posicion es valido, entramos
-                if not x.visited_flag:#Si no hemos visitado y es validam, adjuntamos la nueva posicion
+                if not x.visited_flag:#Si no hemos visitado y es valida, adjuntamos la nueva posicion
                     scan_result.append(ag34_out(cost_valid(Criaturas.switch[self.charact](x.Valor),True,x),i))#Escaneos validos con la direccion en que se adquirieron
         if len(scan_result)>0:#Si la longitud del escaneo es mayor a 0, es valida la funcion
             if len(scan_result)>1:#Si hubo mas de 1, tomamos una desicion
                 self.position.deci_flag=True
             return scan_result#Sí hay por lo menos un camino para seguir, aqui lo veremos
         elif len(scan_result)==0:#Si no hubo caminos, retornaremos como no valido
-            result=Read_data.Coord('Not valid', -1, -1, False, False,False)#  no hay a donde moverse y hay que regresar
+            result=Read_data.Coord('-1', -1, -1, False, False,False,False)#  no hay a donde moverse y hay que regresar
             scan_result.append(ag34_out(cost_valid(0, False, result),0))
             return scan_result#so mp hay caminos disponibles 
 
@@ -199,7 +199,7 @@ class Agente3:#move one cell any row or column
             scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1)
         if scanned.Valor=='-1':
             return cost_valid(0,False,None)
-        cost=self.charact.cost(scanned.Valor)
+        cost=Criaturas.switch[self.charact](self.position.Valor)
         if cost>0:
             valid=cost_valid(Criaturas.switch[self.charact](scanned.Valor),True,scanned)
         elif cost<0:
@@ -217,7 +217,7 @@ class Agente3:#move one cell any row or column
 
       if var.valid:
         self.position.actual_flag=False
-        self.position=various_methods.assign_point(self.Matrix,var.point.Xcoordinate, var.point.Ycoordinate)
+        self.position=various_methods.assign_point(self.Matrix,var.point.Xcoordinate, var.point.Ycoordinate,self.position)
         cost=cost+var.cost
         return True
       return False

@@ -166,9 +166,14 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
 #==========================================Algoritmo para el tercer agente=================================================
 #==================================================================================================================================
 def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int,dir:int)->bool:
-    m=Agente.move(dir,cost)
+    print(str(dir)+" direction")
+    if(dir==0):
+        return False
+    char_dir=switch2[dir]
+    m=Agente.move(char_dir,cost)
     if not m:
         return False
+    print("Posicion actual ("+str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+')')
     if Agente.position==fin_pos:
         return True
     scanned=Agente.scan()
@@ -194,7 +199,7 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     print("Scanning dirs")
     cost=0
-    raiz=Agente.position
+    raiz=Nodo(Agente.position,None)
     scanned=Agente.scan()#Nos devolverá todas las posiciones validas con su direccion
     if len(scanned)==0:
         print("No hay movimientos validos")
@@ -251,6 +256,12 @@ switch={#switch for the algorithms
     5:alg_busq5
 }
 
+switch2={
+    1:'d',
+    2:'w',
+    3:'a',
+    4:'s'
+}
 
 
 
