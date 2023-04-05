@@ -168,7 +168,6 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
 def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int,dir:int)->bool:
     if not dir:
         return False
-    print(str(dir)+" direction")
     char_dir=switch2[dir]
     m=Agente.move(char_dir,cost)
     if not m:
@@ -205,7 +204,6 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     cost=0
     raiz=Nodo(Agente.position,None)
     scanned=Agente.scan()#Nos devolverá todas las posiciones validas con su direccion
-    print(str(len(scanned))+" Valid scans")
     if len(scanned)==0:
         print("No hay movimientos validos")
         exit()
@@ -223,15 +221,57 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
 #==================================================================================================================================
 #==========================================Algoritmo para el cuarto agente=================================================
 #==================================================================================================================================
-def rec_busq4(Raiz:Nodo,Agente:Ag.Agente4,key,cost):
-    m=Agente.move(key,cost,1)
-            
+def rec_busq4(raiz:Nodo,Agente:Ag.Agente4,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int,dir:int):
+    if not dir:
+        return False
+    char_dir=switch2[dir]
+    m=Agente.move(char_dir,cost,1)
+    output.append(Agente.position)
+    if Agente.position==fin_pos:
+        return True
+    scanned=Agente.scan()
+    if len(scanned)>1:
+        Agente.position.deci_flag=True
+    elif len(scanned)==0:
+        return False
+    elif not scanned[-1].c_v.valid:
+        return False
+    for scan in scanned:
+        raiz.C_nodo_h(scan,raiz)
+        n_raiz=raiz.hijo[-1]
+        result=rec_busq4(n_raiz,Agente,Matrix,fin_pos,output,cost,scan.dirs)
+        if result:
+            return True
+        output.pop()
+        Agente.position=V_M.assign_point(Matrix,output[-1].Xcoordinate,output[-1].Ycoordinate,output[-1])
+        
+    return False            
     
 
 
-def alg_busq4(Raiz:Nodo):
+def alg_busq4(raiz:Nodo,Agente:Ag.Agente4,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     stack=list()
-
+    stack.append(Agente.position)
+    if Agente.position==fin_pos:
+        print("Enhorabuena, encontraste la salida")
+        return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
+    
+    cost=0
+    raiz=Nodo(Agente.position,None)
+    scanned=Agente.scan()#Nos devolverá todas las posiciones validas con su direccion
+    if len(scanned)==0:
+        print("No hay movimientos validos")
+        exit()
+    if len(scanned)>1:
+        Agente.position.deci_flag=True
+    for scan in scanned:#Iteramos sobre las posiciones y creamos la raiz
+        if not (scan.c_v.point.Valor=='-1'):
+            raiz.C_nodo_h(scan.c_v.point,raiz)
+            n_raiz=raiz.hijo[-1]
+            result=rec_busq4(n_raiz,Agente,Matrix,fin_pos,stack,cost,scan.dirs)
+            if result:
+                return resultado(stack,cost)
+    return resultado(None,0)
 
 
 
@@ -239,17 +279,58 @@ def alg_busq4(Raiz:Nodo):
 #==================================================================================================================================
 #==========================================Algoritmo para el quinto agente=================================================
 #==================================================================================================================================
-def rec_busq5(Raiz:Nodo,Agente:Ag.Agente4,key,cost):
-    m=Agente.move(key,cost,1)
+def rec_busq5(raiz:Nodo,Agente:Ag.Agente5,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int,dir:int):
+    if not dir:
+        return False
+    char_dir=switch2[dir]
+    m=Agente.move(char_dir,cost,1)
+    output.append(Agente.position)
+    if Agente.position==fin_pos:
+        return True
+    scanned=Agente.scan()
+    if len(scanned)>1:
+        Agente.position.deci_flag=True
+    elif len(scanned)==0:
+        return False
+    elif not scanned[-1].c_v.valid:
+        return False
+    for scan in scanned:
+        raiz.C_nodo_h(scan,raiz)
+        n_raiz=raiz.hijo[-1]
+        result=rec_busq5(n_raiz,Agente,Matrix,fin_pos,output,cost,scan.dirs)
+        if result:
+            return True
+        output.pop()
+        Agente.position=V_M.assign_point(Matrix,output[-1].Xcoordinate,output[-1].Ycoordinate,output[-1])
+        
+    return False            
 
 
 
 
-
-
-def alg_busq5(Raiz:Nodo):
+def alg_busq5(raiz:Nodo,Agente:Ag.Agente5,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     stack=list()
-
+    stack.append(Agente.position)
+    if Agente.position==fin_pos:
+        print("Enhorabuena, encontraste la salida")
+        return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
+    
+    cost=0
+    raiz=Nodo(Agente.position,None)
+    scanned=Agente.scan_data()#Nos devolverá todas las posiciones validas con su direccion
+    if len(scanned)==0:
+        print("No hay movimientos validos")
+        exit()
+    if len(scanned)>1:
+        Agente.position.deci_flag=True
+    for scan in scanned:#Iteramos sobre las posiciones y creamos la raiz
+        if not (scan.c_v.point.Valor=='-1'):
+            raiz.C_nodo_h(scan.c_v.point,raiz)
+            n_raiz=raiz.hijo[-1]
+            result=rec_busq5(n_raiz,Agente,Matrix,fin_pos,stack,cost,scan.dirs)
+            if result:
+                return resultado(stack,cost)
+    return resultado(None,0)
 
 
 

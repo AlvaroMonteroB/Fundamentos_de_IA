@@ -18,7 +18,9 @@ def calc_cost(stack,Agente)->int:
         cost=cost+Criaturas.switch[Agente.charact](layer.Valor)
     return cost
 
-
+#================================================================================================
+#==========================================test_01===============================================
+#================================================================================================
 
 def test(Matrix:Read_data.Coord):
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
@@ -31,6 +33,9 @@ def test(Matrix:Read_data.Coord):
     print_stack(output.stack)
     c=calc_cost(output.stack,agentA)
     print("El costo es "+str(c))
+#================================================================================================
+#==========================================test_02===============================================
+#================================================================================================
     
 def test2(Matrix:Read_data.Coord):
     print("Prueba con agente 2")
@@ -46,9 +51,11 @@ def test2(Matrix:Read_data.Coord):
     else:
         print("No se encontro el punto")
         
-        
+#================================================================================================
+#==========================================test_03===============================================
+#================================================================================================        
 def test3(Matrix:Read_data.Coord):
-    print("Prueba agente3")
+    print("rueba con agente 3")
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
@@ -57,11 +64,51 @@ def test3(Matrix:Read_data.Coord):
     output=b_p.alg_busq3(raiz,AgentA,Matrix,fin)
     if output.stack:
         print_stack(output.stack)
-        c=calc_cost(stack, AgentA)
+        c=calc_cost(output.stack, AgentA)
         print("El costo es "+str(c))
 
     else:
         print("No se encontro el punto")
+
+#================================================================================================
+#==========================================test_04===============================================
+#================================================================================================
+def test4(Matrix:Read_data.Coord):
+    print("rueba con agente 4")
+    point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
+    AgentA=Agentes.Agente4(point_ini,'1',Matrix,False)
+    raiz=b_p.Nodo(AgentA.position,None)
+    fin=various_methods.busq_point(Matrix,7,14)
+    fin.visited_flag=False
+    output=b_p.alg_busq4(raiz,AgentA,Matrix,fin)
+    if output.stack:
+        print_stack(output.stack)
+        c=calc_cost(output.stack, AgentA)
+        print("El costo es "+str(c))
+
+    else:
+        print("No se encontro el punto")
+
+
+#================================================================================================
+#==========================================test_05===============================================
+#================================================================================================
+def test5(Matrix:Read_data.Coord):
+    print("rueba con agente 5")
+    point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
+    AgentA=Agentes.Agente5(point_ini,'1',Matrix,False)
+    raiz=b_p.Nodo(AgentA.position,None)
+    fin=various_methods.busq_point(Matrix,7,14)
+    fin.visited_flag=False
+    output=b_p.alg_busq5(raiz,AgentA,Matrix,fin)
+    if output.stack:
+        print_stack(output.stack)
+        c=calc_cost(output.stack, AgentA)
+        print("El costo es "+str(c))
+
+    else:
+        print("No se encontro el punto")
+
 
 def print_stack(stack):
     i=0
@@ -78,7 +125,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-test3(matrix_agent[0])
+test5(matrix_agent[0])
 exit()
 
 Coo1=input("Ingrese coordenada de inicio\n")
