@@ -78,7 +78,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-test2(matrix_agent[0])
+test3(matrix_agent[0])
 exit()
 
 Coo1=input("Ingrese coordenada de inicio\n")

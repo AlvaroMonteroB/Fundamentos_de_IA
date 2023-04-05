@@ -96,7 +96,6 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
 #==================================================================================================================================
 def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int):
     mov=Agente.move_forward(cost)
-    print("Posicion actual ("+str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+')')
     output.append(Agente.position)
     if Agente.position==fin_pos:
         print("Enhorabuena, encontraste la salida")
@@ -107,7 +106,6 @@ def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
         aux=Agente.scan_forward(True)
         if aux.valid:
             counter+=1
-    print(str(counter)+" Valid directions")
     if counter<1:
         return False
     elif counter>1:
@@ -144,6 +142,8 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         aux=Agente.scan_forward(True)
         if aux.valid and not aux.point.visited_flag:
             counter+=1
+    if counter>1:
+        Agente.position.deci_flag=True
     for dirs in range(4):
         dir=Agente.direction#Guardamos la direccion inicial
         aux=Agente.scan_forward(True)#Escaneamos lo que haya en esa direccion
@@ -166,28 +166,32 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
 #==========================================Algoritmo para el tercer agente=================================================
 #==================================================================================================================================
 def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int,dir:int)->bool:
-    print(str(dir)+" direction")
-    if(dir==0):
+    if not dir:
         return False
+    print(str(dir)+" direction")
     char_dir=switch2[dir]
     m=Agente.move(char_dir,cost)
     if not m:
         return False
-    print("Posicion actual ("+str(Agente.position.Xcoordinate)+','+str(Agente.position.Ycoordinate)+')')
+    output.append(Agente.position)
     if Agente.position==fin_pos:
         return True
     scanned=Agente.scan()
     if len(scanned)>1:
         Agente.position.deci_flag=True
-    if len(scanned)==0:
-        print("No hay movimientos validos")
-        exit()
+    elif len(scanned)==0:
+        return False
+    elif not scanned[-1].c_v.valid:
+        return False
     for scan in scanned:
         raiz.C_nodo_h(scan,raiz)
         n_raiz=raiz.hijo[-1]
         result=rec_busq3(n_raiz,Agente,Matrix,fin_pos,output,cost,scan.dirs)
         if result:
             return True
+        output.pop()
+        Agente.position=V_M.assign_point(Matrix,output[-1].Xcoordinate,output[-1].Ycoordinate,output[-1])
+        
     return False
     
 
@@ -197,19 +201,23 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     if Agente.position==fin_pos:
         print("Enhorabuena, encontraste la salida")
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
-    print("Scanning dirs")
+    
     cost=0
     raiz=Nodo(Agente.position,None)
     scanned=Agente.scan()#Nos devolverá todas las posiciones validas con su direccion
+    print(str(len(scanned))+" Valid scans")
     if len(scanned)==0:
         print("No hay movimientos validos")
         exit()
+    if len(scanned)>1:
+        Agente.position.deci_flag=True
     for scan in scanned:#Iteramos sobre las posiciones y creamos la raiz
-        raiz.C_nodo_h(scan.c_v.point,raiz)
-        n_raiz=raiz.hijo[-1]
-        result=rec_busq3(n_raiz,Agente,Matrix,fin_pos,stack,cost,scan.dirs)
-        if result:
-            return resultado(stack,cost)
+        if not (scan.c_v.point.Valor=='-1'):
+            raiz.C_nodo_h(scan.c_v.point,raiz)
+            n_raiz=raiz.hijo[-1]
+            result=rec_busq3(n_raiz,Agente,Matrix,fin_pos,stack,cost,scan.dirs)
+            if result:
+                return resultado(stack,cost)
     return resultado(None,0)
         
 #==================================================================================================================================
@@ -241,6 +249,16 @@ def rec_busq5(Raiz:Nodo,Agente:Ag.Agente4,key,cost):
 
 def alg_busq5(Raiz:Nodo):
     stack=list()
+
+
+
+
+
+
+
+
+
+
 
 
 

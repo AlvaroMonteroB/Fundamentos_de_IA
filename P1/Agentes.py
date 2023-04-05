@@ -164,31 +164,34 @@ class Agente3:#move one cell any row or column
         self.cost=0
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
-    def scan(self)->ag34_out:#Se tiene que implementar la opcion auto como en los otros agentes
+    def scan(self)->list[ag34_out]:#Se tiene que implementar la opcion auto como en los otros agentes
         points=list()
         scan_result=list()#tenemos que seguir el orden de direcciones
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate))#x+1 derecha
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1))#y+1 arriba
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1))#y-1 arriba
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate))#x-1 izquierda
-        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y-1 abajo
+        points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1 abajo
         for x,i in zip(points,range(1,5)):#iteramos en los puntos y en el rango de direcciones
             cos=Criaturas.switch[self.charact](x.Valor)#Calculamos el costo, si es 0 o menor, no es valida la posicion
-            if cos>0:#Si el valor de la posicion es valido, entramos
-                if not x.visited_flag:#Si no hemos visitado y es valida, adjuntamos la nueva posicion
-                    scan_result.append(ag34_out(cost_valid(Criaturas.switch[self.charact](x.Valor),True,x),i))#Escaneos validos con la direccion en que se adquirieron
+            if cos>0 and not x.visited_flag:#Si el valor de la posicion es valido, entramos
+                #Si no hemos visitado y es valida, adjuntamos la nueva posicion
+                print("El costo es "+str(cos)+" en direccion "+str(i))
+                scan_result.append(ag34_out(cost_valid(Criaturas.switch[self.charact](x.Valor),True,x),i))#Escaneos validos con la direccion en que se adquirieron
+                
         if len(scan_result)>0:#Si la longitud del escaneo es mayor a 0, es valida la funcion
             if len(scan_result)>1:#Si hubo mas de 1, tomamos una desicion
                 self.position.deci_flag=True
             return scan_result#Sí hay por lo menos un camino para seguir, aqui lo veremos
         elif len(scan_result)==0:#Si no hubo caminos, retornaremos como no valido
             result=Read_data.Coord('-1', -1, -1, False, False,False,False)#  no hay a donde moverse y hay que regresar
-            scan_result.append(ag34_out(cost_valid(0, False, result),0))
+            scan_result.append(ag34_out(cost_valid(0, False, result),None))
             return scan_result#so mp hay caminos disponibles 
 
 
      #These methods are for the movement  
      #this is a private method, only can be used by move     
     def scan_pos(self,direction)->cost_valid:#este solo lo usa el metodo move
+        
         if direction==1:#izq
             scanned=various_methods.busq_point(self.Matrix, self.position.Xcoordinate+1,self.position.Ycoordinate)
         elif direction==2:#arriba
@@ -197,14 +200,14 @@ class Agente3:#move one cell any row or column
             scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate)
         elif direction==4:#abajo
             scanned=various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1)
-        if scanned.Valor=='-1':
+        elif direction==0:
             return cost_valid(0,False,None)
         cost=Criaturas.switch[self.charact](self.position.Valor)
         if cost>0:
-            valid=cost_valid(Criaturas.switch[self.charact](scanned.Valor),True,scanned)
+            valid=cost_valid(cost,True,scanned)
         elif cost<0:
             valid=cost_valid(0,False,None)
-        if valid.cost==0:#al final volvemos a evaluar para poder retornar
+        elif cost==0:#al final volvemos a evaluar para poder retornar
             valid=cost_valid(0,False,scanned)
         return valid
             
