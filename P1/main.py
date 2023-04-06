@@ -55,7 +55,7 @@ def test2(Matrix:Read_data.Coord):
 #==========================================test_03===============================================
 #================================================================================================        
 def test3(Matrix:Read_data.Coord):
-    print("rueba con agente 3")
+    print("Prueba con agente 3")
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
@@ -74,7 +74,7 @@ def test3(Matrix:Read_data.Coord):
 #==========================================test_04===============================================
 #================================================================================================
 def test4(Matrix:Read_data.Coord):
-    print("rueba con agente 4")
+    print("Prueba con agente 4")
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     AgentA=Agentes.Agente4(point_ini,'1',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
@@ -94,7 +94,7 @@ def test4(Matrix:Read_data.Coord):
 #==========================================test_05===============================================
 #================================================================================================
 def test5(Matrix:Read_data.Coord):
-    print("rueba con agente 5")
+    print("Prueba con agente 5")
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     AgentA=Agentes.Agente5(point_ini,'1',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
@@ -125,7 +125,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-test5(matrix_agent[0])
+test4(matrix_agent[0])
 exit()
 
 Coo1=input("Ingrese coordenada de inicio\n")
