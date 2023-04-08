@@ -24,9 +24,9 @@ def calc_cost(stack,Agente)->int:
 #================================================================================================
 
 def test(Matrix:Read_data.Coord):
+    print("Prueba con agente 1")
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
-    print('"'+agentA.position.Valor+'"'+'('+str(agentA.position.Xcoordinate)+','+str(agentA.position.Ycoordinate)+')')
     raiz=b_p.Nodo(point_ini,None)
     fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
@@ -34,6 +34,7 @@ def test(Matrix:Read_data.Coord):
     print_stack(output.stack)
     c=calc_cost(output.stack,agentA)
     print("El costo es "+str(c))
+    print_tree_console.print_tree(raiz)
 #================================================================================================
 #==========================================test_02===============================================
 #================================================================================================
@@ -126,7 +127,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-test4(matrix_agent[0])
+test(matrix_agent[0])
 exit()
 
 Coo1=input("Ingrese coordenada de inicio\n")

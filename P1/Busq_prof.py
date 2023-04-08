@@ -29,10 +29,19 @@ class Nodo(NodeMixin):
         self.padre=padre
     def C_nodo_h(self,clave_hijo:r_d.Coord,padre):
         self.hijo.append(Nodo(clave_hijo,padre))
-    def howm_son(self):#Para saber cuantos hijos tiene el nodo
-        return len(self.hijo)
     def __str__(self) -> str:
-        return f"self.point.Xcoordinate"
+        if self.point.deci_flag:
+            str_out="O({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
+        elif self.point.actual_flag:
+            str_out="Fin({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
+        else:
+            str_out="({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
+        return str_out+')'
+    
+    
+    
+    
+    
     
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
     mov=Agente.move_forward(cost,1)
