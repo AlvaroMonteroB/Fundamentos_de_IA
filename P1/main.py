@@ -6,6 +6,7 @@ import Criaturas
 import various_methods
 import Busq_prof as b_p
 import Agentes
+import print_tree_console
 b_p.sys.setrecursionlimit(8000)
 C_aux:str=list()
 C_ini=list()

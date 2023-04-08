@@ -4,7 +4,8 @@ import Read_data as r_d
 import acciones as acc
 import Criaturas as cr
 import sys
-
+from anytree import Node
+from anytree import NodeMixin
 sys.setrecursionlimit(8000)
 
 
@@ -20,8 +21,9 @@ class resultado:
         self.stack=stack
         self.cost=cost
 
-class Nodo:
+class Nodo(NodeMixin):
     def __init__(self,point:r_d.Coord,padre):
+        super(Nodo,self).__init__()
         self.point=point
         self.hijo=[]
         self.padre=padre
@@ -29,6 +31,8 @@ class Nodo:
         self.hijo.append(Nodo(clave_hijo,padre))
     def howm_son(self):#Para saber cuantos hijos tiene el nodo
         return len(self.hijo)
+    def __str__(self) -> str:
+        return f"self.point.Xcoordinate"
     
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
     mov=Agente.move_forward(cost,1)
