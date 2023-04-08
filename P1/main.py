@@ -1,11 +1,11 @@
 import threading
 import multiprocessing
-import display_graphics
 import Read_data
 import Criaturas
 import various_methods
 import Busq_prof as b_p
 import Agentes
+import interfaz as ifz
 import print_tree_console
 b_p.sys.setrecursionlimit(8000)
 C_aux:str=list()
@@ -34,6 +34,7 @@ def test(Matrix:Read_data.Coord):
     print_stack(output.stack)
     c=calc_cost(output.stack,agentA)
     print("El costo es "+str(c))
+    ifz.interfaz(Matrix)
     print_tree_console.print_tree(raiz)
 #================================================================================================
 #==========================================test_02===============================================
