@@ -4,7 +4,7 @@ import Read_data as rd
 
 
 
-def interfaz(Matrix:rd.Coord,jugador:bool):
+def interfaz(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):
     list = Matrix
     a = len(list)
     length = 500//a
@@ -25,7 +25,11 @@ def interfaz(Matrix:rd.Coord,jugador:bool):
             if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
                 color="#000000"
             elif terrain.visited_flag:
-                if terrain.Valor == '0': #montaña
+                if terrain==fin_pos:
+                    color="#FF0000"
+                elif terrain==ini_pos:
+                    color="#0000FF"
+                elif terrain.Valor == '0': #montaña
                     color = "#57605A"
                 elif terrain.Valor == '1': #tierra
                     color = "#5D370F"

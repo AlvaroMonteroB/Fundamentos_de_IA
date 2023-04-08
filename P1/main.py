@@ -34,7 +34,7 @@ def test(Matrix:Read_data.Coord):
     print_stack(output.stack)
     c=calc_cost(output.stack,agentA)
     print("El costo es "+str(c))
-    ifz.interfaz(Matrix)
+    ifz.interfaz(Matrix,False,fin,point_ini)
     print_tree_console.print_tree(raiz)
 #================================================================================================
 #==========================================test_02===============================================
