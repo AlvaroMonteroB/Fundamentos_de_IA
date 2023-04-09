@@ -44,6 +44,7 @@ class Nodo(NodeMixin):
     
     
 def rec_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord,output:list[r_d.Coord],cost:int)->bool:
+    Agente.position.actual_flag=False
     mov=Agente.move_forward(cost,1)
     output.append(Agente.position)
     if Agente.position==fin_pos:
