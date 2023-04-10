@@ -8,6 +8,7 @@ import Agentes
 import interfaz as ifz
 import print_tree_console
 import A_estrella
+import Busq_Anch
 b_p.sys.setrecursionlimit(8000)
 C_aux:str=list()
 C_ini=list()
@@ -130,9 +131,34 @@ def testAE(Matrix:Read_data.Coord):
         print_stack(output.stack)
         c=calc_cost(output.stack, AgentA)
         print("El costo es "+str(c))
+        
+        print_tree_console.print_tree(raiz)
 
     else:
         print("No se encontro el punto")
+    ifz.interfaz(Matrix,False,fin,point_ini)
+
+#================================================================================================
+#==========================================test_Anch=============================================
+#================================================================================================
+def testAnch(Matrix:Read_data.Coord):
+    print("Prueba por anchura")
+    point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
+    AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
+    raiz=b_p.Nodo(AgentA.position,None)
+    fin=various_methods.busq_point(Matrix,7,14)
+    fin.visited_flag=False
+    output=Busq_Anch.alg_busq1(raiz,Matrix,AgentA,fin)
+    if output:
+        print_stack(output)
+        c=calc_cost(output, AgentA)
+        print("El costo es "+str(c))
+        
+        print_tree_console.print_tree(raiz)
+
+    else:
+        print("No se encontro el punto")
+    ifz.interfaz(Matrix,False,fin,point_ini)
 
 
 
@@ -152,7 +178,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-testAE(matrix_agent[0])
+testAnch(matrix_agent[0])
 exit()
 
 Coo1=input("Ingrese coordenada de inicio\n")

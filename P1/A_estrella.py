@@ -39,8 +39,8 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
         n_raiz=raiz.hijo[-1]
         result=rec_busq(raiz, Agente, Matrix, fin_pos, output, cost, obj.dirs)
         if result:
-            return bp.resultado(stack,cost)
-    return bp.resultado(None,0)
+            return True
+    return False
 
     
 
@@ -70,7 +70,7 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
         result=rec_busq(raiz, Agente, Matrix, fin_pos, stack, cost, obj.dirs)
         if result:
             return bp.resultado(stack,cost)
-    return resultado(None,0)
+    return bp.resultado(None,0)
 
 
     

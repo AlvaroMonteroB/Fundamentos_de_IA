@@ -15,7 +15,7 @@ class cost_valid:#Retornaremos esto en todos los casos para revisar a la vez si 
         self.point=point
         
 class ag34_out:
-    def __init__(self,c_v:cost_valid,dirs) -> None:
+    def __init__(self,c_v:cost_valid,dirs:int) -> None:
         self.c_v=c_v#Cost valid
         self.dirs=dirs#direccion
 #Tengo que cambiar las condiciones cuando el punto es no valido
