@@ -29,36 +29,10 @@ def interfaz(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):
                     color="#FF0000"
                 elif terrain==ini_pos:
                     color="#0000FF"
-                elif terrain.Valor == '0': #montaña
-                    color = "#57605A"
-                elif terrain.Valor == '1': #tierra
-                    color = "#5D370F"
-                elif terrain.Valor == '2': #agua
-                    color = "#06ACEE"
-                elif terrain.Valor == '3': #arena
-                    color = "#E2C58B"
-                elif terrain.Valor == '4': #bosque
-                    color = "#00C606"
-                elif terrain.Valor == '5': #pantano
-                    color = "#830EC6"
                 else:
-                    color = "FFFFFF"
+                    color=visited_switch[terrain.Valor]
             elif terrain.seen_flag and not terrain.visited_flag:
-                if terrain.Valor == '0': #montaña
-                    color = "#7D7D7D"
-                elif terrain.Valor == '1': #tierra
-                    color = "#7D5F3F"
-                elif terrain.Valor == '2': #agua
-                    color = "#6DADBB"
-                elif terrain.Valor == '3': #arena
-                    color = "#B8A972"
-                elif terrain.Valor == '4': #bosque
-                    color = "#007F00"
-                elif terrain.Valor == '5': #pantano
-                    color = "#7D3F7D"
-
-                else:
-                    color = "FFFFFF"
+                color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
 
     f = Frame(ventana, bg="#FDF6FF")
@@ -78,5 +52,23 @@ def interfaz(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):
 
 
     ventana.mainloop()
+#=========================Valores de color que se pueden tomar en la matrix===============================
+#key/value
+visited_switch={
+    '0':"#57605A",
+    '1':"#5D370F",
+    '2':"#06ACEE",
+    '3':"#E2C58B",
+    '4':"#00C606",
+    '5':"#830EC6"
+}
 
-
+only_seen_switch={
+    '0':"#7D7D7D",
+    '1':"#7D5F3F",
+    '2':"#6DADBB",
+    '3':"#B8A972",
+    '4':"#007F00",
+    '5':"#7D3F7D"
+}
+#=========================================================================================================
