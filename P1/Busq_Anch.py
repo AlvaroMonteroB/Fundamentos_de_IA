@@ -29,6 +29,7 @@ def alg_busq1(Raiz:b_p.Nodo,Matrix:rd.Coord,Agente:Ag.Agente3,fin_pos:rd.Coord):
     queue = deque([(Agente.position, [])])
     visited = set()
     cost=0
+    queue = deque([(Agente.position, [Agente.position])])
     while queue:
         node, path = queue.popleft()
         if node == fin_pos:
@@ -39,7 +40,7 @@ def alg_busq1(Raiz:b_p.Nodo,Matrix:rd.Coord,Agente:Ag.Agente3,fin_pos:rd.Coord):
         Agente.position = node
         scanned=Agente.scan()
         for direction in scanned:
-            if not dir:
+            if not direction.dirs:
                 continue
             else:
                 Agente.position.actual_flag=False
@@ -47,6 +48,7 @@ def alg_busq1(Raiz:b_p.Nodo,Matrix:rd.Coord,Agente:Ag.Agente3,fin_pos:rd.Coord):
                 m=Agente.move(char_dir,cost)
                 if m:
                     queue.append((Agente.position, path + [Agente.position]))
-        Agente.position =vm.assign_point(Matrix,node.Xcoordinate,node.Ycoordinate,node)
+                    Agente.position =vm.assign_point(Matrix,node.Xcoordinate,node.Ycoordinate,node)
+        
     
     return None
