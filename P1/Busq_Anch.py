@@ -3,27 +3,6 @@ import Read_data as rd
 import Agentes as Ag
 import various_methods as vm
 from collections import deque
-class Queue:
-    def __init__(self) -> None:
-        self.items=[]
-    def is_empty(self):
-        return len(self.items) == 0
-
-    def enqueue(self, item):
-        self.items.append(item)
-
-    def dequeue(self):
-        if self.is_empty():
-            return None
-        return self.items.pop(0)
-
-    def size(self):
-        return len(self.items)
-
-
-
-
-
 
 def alg_busq1(Raiz:b_p.Nodo,Matrix:rd.Coord,Agente:Ag.Agente3,fin_pos:rd.Coord):
     queue = deque([(Agente.position, [])])
