@@ -298,7 +298,7 @@ class Agente5:#Move to any cell in any diagonal
         self.auto=False
         self.user_flag=user_flag#true=PC, false=User
     
-    def scan_data(self)->Read_data.Coord:#escanea en diagonal
+    def scan_data(self)->ag34_out:#escanea en diagonal
         points=list()
         scan_result=list()
         Not_valid=list()

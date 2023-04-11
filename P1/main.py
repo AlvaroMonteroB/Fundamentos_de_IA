@@ -36,7 +36,7 @@ def test(Matrix:Read_data.Coord):
     print_stack(output.stack)
     c=calc_cost(output.stack,agentA)
     print("El costo es "+str(c))
-    ifz.interfaz(Matrix,False,fin,point_ini)
+    #ifz.mapaR(Matrix,True,fin,point_ini)
     print_tree_console.print_tree(raiz)
     #print_tree_console.print_tre_pre(raiz)
 #================================================================================================
@@ -54,6 +54,7 @@ def test2(Matrix:Read_data.Coord):
     output=b_p.alg_busq2(raiz,agentA,Matrix,fin)
     if output.stack:
         print_stack(output.stack)
+        print_tree_console.print_tree(raiz)
     else:
         print("No se encontro el punto")
         
@@ -72,6 +73,7 @@ def test3(Matrix:Read_data.Coord):
         print_stack(output.stack)
         c=calc_cost(output.stack, AgentA)
         print("El costo es "+str(c))
+        print_tree_console.print_tree(raiz)
 
     else:
         print("No se encontro el punto")
@@ -91,6 +93,7 @@ def test4(Matrix:Read_data.Coord):
         print_stack(output.stack)
         c=calc_cost(output.stack, AgentA)
         print("El costo es "+str(c))
+        print_tree_console.print_tree(raiz)
 
     else:
         print("No se encontro el punto")
@@ -111,6 +114,7 @@ def test5(Matrix:Read_data.Coord):
         print_stack(output.stack)
         c=calc_cost(output.stack, AgentA)
         print("El costo es "+str(c))
+        print_tree_console.print_tree(raiz)
 
     else:
         print("No se encontro el punto")
@@ -153,7 +157,6 @@ def testAnch(Matrix:Read_data.Coord):
         print_stack(output)
         c=calc_cost(output, AgentA)
         print("El costo es "+str(c))
-        
         print_tree_console.print_tree(raiz)
 
     else:
@@ -178,9 +181,8 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-testAnch(matrix_agent[0])
+test3(matrix_agent[0])
 exit()
-
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")
 aux=''
