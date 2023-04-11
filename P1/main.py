@@ -74,6 +74,7 @@ def test3(Matrix:Read_data.Coord):
         c=calc_cost(output.stack, AgentA)
         print("El costo es "+str(c))
         print_tree_console.print_tree(raiz)
+        print_tree_console.tree_to_file(raiz)
 
     else:
         print("No se encontro el punto")
@@ -161,7 +162,6 @@ def testAnch(Matrix:Read_data.Coord):
 
     else:
         print("No se encontro el punto")
-    ifz.interfaz(Matrix,False,fin,point_ini)
 
 
 

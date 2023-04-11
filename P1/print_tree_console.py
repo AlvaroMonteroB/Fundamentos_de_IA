@@ -21,7 +21,7 @@ def print_tree(raiz: Busq_prof.Node, nivel=0):
 """
 
 def tree_to_file(raiz:Busq_prof.Nodo):
-    with open("tree.txt",'w') as f:
+    with open("tree.txt",'w',encoding="utf-8") as f:
         sys.stdout=f
         print_tree(raiz)
         sys.stdout = sys.__stdout__
