@@ -21,7 +21,7 @@ def read_matrix(puntos:list[Coord])->None:
     Matrix_rows=list()
     Matrix_rows1=list()
     list_aux=list()
-    with open("matriz.txt","r") as Read_matrix:
+    with open("map.txt","r") as Read_matrix:
         leer=Read_matrix.readline
         for line in Read_matrix:
             Matrix_rows.append(line)

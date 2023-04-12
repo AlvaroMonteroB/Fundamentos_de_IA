@@ -127,10 +127,10 @@ def test5(Matrix:Read_data.Coord):
 #================================================================================================
 def testAE(Matrix:Read_data.Coord):
     print("Prueba con A*")
-    point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
+    point_ini=various_methods.assign_point(Matrix,1,5,Matrix[0][0])
     AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
-    fin=various_methods.busq_point(Matrix,7,14)
+    fin=various_methods.busq_point(Matrix,6,5)
     fin.visited_flag=False
     output=A_estrella.Init_busq(raiz,AgentA,Matrix,fin)
     if output.stack:
@@ -142,7 +142,7 @@ def testAE(Matrix:Read_data.Coord):
 
     else:
         print("No se encontro el punto")
-    ifz.interfaz(Matrix,False,fin,point_ini)
+    ifz.mapaR(Matrix[0],False,fin,point_ini)
 
 #================================================================================================
 #==========================================test_Anch=============================================
