@@ -3,7 +3,7 @@ import numpy as np
 import Read_data as rd
 
 ## creo que se puede optimizar si cambiamos la forma en la que llamamos las funciones
-def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord): ##le cambie el nombre porque agregué otras funciones dependiendo de lo que se está haciendo en ese momento 
+def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:rd.Coord): ##le cambie el nombre porque agregué otras funciones dependiendo de lo que se está haciendo en ese momento 
 
     list = Matrix
     a = len(list)
@@ -29,6 +29,8 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord): ##le 
                     color="#FF0000"
                 elif terrain==ini_pos:
                     color="#0000FF"
+                elif terrain in stack:
+                    color=path_swich[terrain.Valor]
                 else:
                     color=visited_switch[terrain.Valor]
             elif terrain.seen_flag and not terrain.visited_flag:
@@ -268,5 +270,14 @@ only_seen_switch={
     '3':"#B8A972",
     '4':"#007F00",
     '5':"#7D3F7D"
+}
+
+path_swich={
+    '0': "#8A938D",
+    '1': "#8F520E",
+    '2': "#0AB9FF",
+    '3': "#F5E0A7",
+    '4': "#18FF08",
+    '5': "#BB22FF"
 }
 #=========================================================================================================

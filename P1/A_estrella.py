@@ -23,7 +23,6 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
     if not m:
         return False
     output.append(Agente.position)
-    print('('+str(output[-1].Xcoordinate)+','+str(output[-1].Ycoordinate)+')')
     if Agente.position==fin_pos:
         return True
     scanned=Agente.scan()#Posiciones escaneadas
@@ -37,9 +36,13 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
     cola=gen_q(scanned, fin_pos, Agente)#Iniciamos la cola de prioridad
     for i in range(len(scanned)):
         #Cola tiene estructura cost, manht dist, euc dist y el objeto
-        cost,manh_dist,euc_dist,obj=heapq.heappop(cola)
+        cost,manh_dist,euc_dist=cola[0]
+        heapq.heappop(cola)
         #obj tiene estructura cost valid y direction
-        print(str(obj.c_v.point.Xcoordinate)+','+str(obj.c_v.point.Ycoordinate)+' '+str(obj.dirs))
+        for slf in scanned:
+            if (-cr.switch[Agente.charact](slf.c_v.point.Valor))==cost and manh_dist==manhattan_dis(fin_pos,slf.c_v.point) and euc_dist==euc_dis(fin_pos,slf.c_v.point):
+                obj=slf
+                break
         n_raiz=bp.Nodo(obj.c_v.point, raiz)
         result=rec_busq(n_raiz, Agente, Matrix, fin_pos, output, cost, obj.dirs)
         if result:
@@ -70,8 +73,12 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
         return False
     for i in range(len(scanned)):
         #Cola tiene estructura cost, manht dist, euc dist y el objeto
-        cost,manh_dist,euc_dist,obj=cola[0]
+        cost,manh_dist,euc_dist=cola[0]
         heapq.heappop(cola)
+        for slf in scanned:
+            if (-cr.switch[Agente.charact](slf.c_v.point.Valor))==cost and manh_dist==manhattan_dis(fin_pos,slf.c_v.point) and euc_dist==euc_dis(fin_pos,slf.c_v.point):
+                obj=slf
+                break
         #obj tiene estructura cost valid y direction
         n_raiz=bp.Nodo(obj.c_v.point,raiz)
         result=rec_busq(n_raiz, Agente, Matrix, fin_pos, stack, cost, obj.dirs)
@@ -92,5 +99,5 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
 def gen_q(lista:Ag.ag34_out,fin_pos:rd.Coord,Agente:Ag.Agente3)->list():#Vamos a generar la priority queue
     cola=list()
     for elementos in lista:#heap, costo para moverse, dist manhattan, dist euclidiana
-        heapq.heappush(cola, (-cr.switch[Agente.charact](elementos.c_v.point.Valor),manhattan_dis(fin_pos, elementos.c_v.point),euc_dis(fin_pos, elementos.c_v.point),elementos))
+        heapq.heappush(cola, (-cr.switch[Agente.charact](elementos.c_v.point.Valor),manhattan_dis(fin_pos, elementos.c_v.point),euc_dis(fin_pos, elementos.c_v.point)))
     return cola

@@ -30,13 +30,15 @@ def test(Matrix:Read_data.Coord):
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
     raiz=b_p.Nodo(point_ini,None)
-    fin=various_methods.busq_point(Matrix,7,14)
+    fin=various_methods.busq_point(Matrix,13,13)
     fin.visited_flag=False
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
+    if not output.stack:
+        exit()
     print_stack(output.stack)
     c=calc_cost(output.stack,agentA)
     print("El costo es "+str(c))
-    #ifz.mapaR(Matrix,True,fin,point_ini)
+    ifz.mapaR(Matrix,True,fin,point_ini)
     print_tree_console.print_tree(raiz)
     print_tree_console.tree_to_file(raiz)
     #print_tree_console.print_tre_pre(raiz)
@@ -127,10 +129,10 @@ def test5(Matrix:Read_data.Coord):
 #================================================================================================
 def testAE(Matrix:Read_data.Coord):
     print("Prueba con A*")
-    point_ini=various_methods.assign_point(Matrix,1,5,Matrix[0][0])
+    point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
-    fin=various_methods.busq_point(Matrix,6,5)
+    fin=various_methods.busq_point(Matrix,13,13)
     fin.visited_flag=False
     output=A_estrella.Init_busq(raiz,AgentA,Matrix,fin)
     if output.stack:
@@ -142,7 +144,7 @@ def testAE(Matrix:Read_data.Coord):
 
     else:
         print("No se encontro el punto")
-    ifz.mapaR(Matrix[0],False,fin,point_ini)
+    ifz.mapaR(Matrix,False,fin,point_ini,output.stack)
 
 #================================================================================================
 #==========================================test_Anch=============================================
