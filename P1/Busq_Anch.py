@@ -3,7 +3,7 @@ import Read_data as rd
 import Agentes as Ag
 import various_methods as vm
 from collections import deque
-
+#Hay que construir el arbol
 def alg_busq1(Raiz:b_p.Nodo,Matrix:rd.Coord,Agente:Ag.Agente3,fin_pos:rd.Coord):
     queue = deque([(Agente.position, [])])
     visited = set()

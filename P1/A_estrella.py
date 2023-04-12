@@ -18,10 +18,12 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
     if not dir:
         return False
     char_dir=bp.switch2[dir]
+    Agente.position.actual_flag=False
     m=Agente.move(char_dir,cost)
     if not m:
         return False
     output.append(Agente.position)
+    print('('+str(output[-1].Xcoordinate)+','+str(output[-1].Ycoordinate)+')')
     if Agente.position==fin_pos:
         return True
     scanned=Agente.scan()#Posiciones escaneadas
@@ -30,16 +32,20 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
         exit()
     if len(scanned)>1:#Si hay mas de un escaneo valido hub una desicion
         Agente.position.deci_flag=True
+    if not scanned[-1].c_v.valid:
+        return False
     cola=gen_q(scanned, fin_pos, Agente)#Iniciamos la cola de prioridad
     for i in range(len(scanned)):
         #Cola tiene estructura cost, manht dist, euc dist y el objeto
         cost,manh_dist,euc_dist,obj=heapq.heappop(cola)
         #obj tiene estructura cost valid y direction
-        raiz.C_nodo_h(obj.c_v.point, raiz)
-        n_raiz=raiz.hijo[-1]
-        result=rec_busq(raiz, Agente, Matrix, fin_pos, output, cost, obj.dirs)
+        print(str(obj.c_v.point.Xcoordinate)+','+str(obj.c_v.point.Ycoordinate)+' '+str(obj.dirs))
+        n_raiz=bp.Nodo(obj.c_v.point, raiz)
+        result=rec_busq(n_raiz, Agente, Matrix, fin_pos, output, cost, obj.dirs)
         if result:
             return True
+        output.pop()
+        Agente.position=vm.assign_point(Matrix,output[-1].Xcoordinate,output[-1].Ycoordinate,output[-1])
     return False
 
     
@@ -53,7 +59,6 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
     if Agente.position==fin_pos:
         return bp.resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     cost=0
-    raiz=bp.Nodo(Agente.position,None)#Iniciamos la primera posicion como la raiz
     scanned=Agente.scan()#Posiciones escaneadas
     if len(scanned)==0:
         print("No hay movimientos validos")
@@ -61,15 +66,19 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
     if len(scanned)>1:#Si hay mas de un escaneo valido hub una desicion
         Agente.position.deci_flag=True
     cola=gen_q(scanned, fin_pos, Agente)#Iniciamos la cola de prioridad
+    if not scanned[-1].c_v.valid:
+        return False
     for i in range(len(scanned)):
         #Cola tiene estructura cost, manht dist, euc dist y el objeto
-        cost,manh_dist,euc_dist,obj=heapq.heappop(cola)
+        cost,manh_dist,euc_dist,obj=cola[0]
+        heapq.heappop(cola)
         #obj tiene estructura cost valid y direction
-        raiz.C_nodo_h(obj.c_v.point, raiz)
-        n_raiz=raiz.hijo[-1]
-        result=rec_busq(raiz, Agente, Matrix, fin_pos, stack, cost, obj.dirs)
+        n_raiz=bp.Nodo(obj.c_v.point,raiz)
+        result=rec_busq(n_raiz, Agente, Matrix, fin_pos, stack, cost, obj.dirs)
         if result:
             return bp.resultado(stack,cost)
+        stack.pop()
+        Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
     return bp.resultado(None,0)
 
 

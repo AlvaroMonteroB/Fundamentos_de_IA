@@ -38,6 +38,7 @@ def test(Matrix:Read_data.Coord):
     print("El costo es "+str(c))
     #ifz.mapaR(Matrix,True,fin,point_ini)
     print_tree_console.print_tree(raiz)
+    print_tree_console.tree_to_file(raiz)
     #print_tree_console.print_tre_pre(raiz)
 #================================================================================================
 #==========================================test_02===============================================
@@ -158,7 +159,7 @@ def testAnch(Matrix:Read_data.Coord):
         print_stack(output)
         c=calc_cost(output, AgentA)
         print("El costo es "+str(c))
-        print_tree_console.print_tree(raiz)
+        #print_tree_console.print_tree(raiz)
 
     else:
         print("No se encontro el punto")
@@ -181,7 +182,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-test3(matrix_agent[0])
+testAE(matrix_agent[0])
 exit()
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")

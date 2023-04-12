@@ -175,6 +175,7 @@ def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     if not dir:
         return False
     char_dir=switch2[dir]
+    Agente.position.actual_flag=False
     m=Agente.move(char_dir,cost)
     if not m:
         return False
@@ -219,6 +220,8 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
             result=rec_busq3(n_raiz,Agente,Matrix,fin_pos,stack,cost,scan.dirs)
             if result:
                 return resultado(stack,cost)
+            stack.pop()
+            Agente.position=V_M.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
     return resultado(None,0)
         
 #==================================================================================================================================
