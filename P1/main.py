@@ -14,11 +14,22 @@ C_aux:str=list()
 C_ini=list()
 C_fin=list()
 Matrix=list()
-
+#================================================================================================
+#=============================Funciones para calcular el costo===================================
+#================================================================================================
+#Costo de la solucion
 def calc_cost(stack,Agente)->int:
     cost=0
     for layer in stack:
         cost=cost+Criaturas.switch[Agente.charact](layer.Valor)
+    return cost
+#Costo de recorrer todo el arbol
+def calc_tree_cost(Agente, Raiz: b_p.Nodo):
+    if Raiz is None:
+        return 0
+    cost = Criaturas.switch[Agente.charact](Raiz.point.Valor)
+    for hijo in Raiz.children:
+        cost += calc_tree_cost(Agente, hijo)
     return cost
 
 #================================================================================================
@@ -38,10 +49,12 @@ def test(Matrix:Read_data.Coord):
     print_stack(output.stack)
     c=calc_cost(output.stack,agentA)
     print("El costo es "+str(c))
-    ifz.mapaR(Matrix,True,fin,point_ini)
     print_tree_console.print_tree(raiz)
-    print_tree_console.tree_to_file(raiz)
-    #print_tree_console.print_tre_pre(raiz)
+    ifz.mapaR(Matrix,True,fin,point_ini,output.stack)
+    #print_tree_console.tree_to_file(raiz)
+    costo=calc_tree_cost(agentA,raiz)
+    print("El costo del arbol es "+str(costo))
+    
 #================================================================================================
 #==========================================test_02===============================================
 #================================================================================================
@@ -162,6 +175,7 @@ def testAnch(Matrix:Read_data.Coord):
         c=calc_cost(output, AgentA)
         print("El costo es "+str(c))
         #print_tree_console.print_tree(raiz)
+        ifz.mapaR(Matrix,False,fin,point_ini,output)
 
     else:
         print("No se encontro el punto")
@@ -184,7 +198,7 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-testAE(matrix_agent[0])
+test(matrix_agent[0])
 exit()
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")
