@@ -37,6 +37,14 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:r
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
 
+    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+    Fy = fin_pos.Ycoordinate
+    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+
+    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+    Iy = ini_pos.Ycoordinate
+    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
+
     ventana.mainloop()
 
 ######################################################
@@ -78,6 +86,14 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botone
             elif terrain.seen_flag and not terrain.visited_flag:
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+
+    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+    Fy = fin_pos.Ycoordinate
+    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+
+    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+    Iy = ini_pos.Ycoordinate
+    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
 
     avance = Button(ventana, text="avance", command=pressA)
     avance.pack(side=RIGHT, anchor=CENTER, padx=50)
@@ -127,7 +143,13 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botone
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
 
-    
+    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+    Fy = fin_pos.Ycoordinate
+    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+
+    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+    Iy = ini_pos.Ycoordinate
+    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
 
     avance = Button(ventana, text="avance", command=pressA)
     avance.pack(side=RIGHT, padx=50)
@@ -182,6 +204,14 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Boton
             elif terrain.seen_flag and not terrain.visited_flag:
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+
+    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+    Fy = fin_pos.Ycoordinate
+    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+
+    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+    Iy = ini_pos.Ycoordinate
+    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
 
     up = Button(ventana, text="arriba", command=pressUp)
     up.pack(side=RIGHT, padx=50)
@@ -239,6 +269,14 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Boton
             elif terrain.seen_flag and not terrain.visited_flag:
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+    
+    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+    Fy = fin_pos.Ycoordinate
+    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+
+    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+    Iy = ini_pos.Ycoordinate
+    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
 
     A = Button(ventana, text="A", command=pressA)
     A.pack(side=RIGHT, padx=50)
@@ -251,6 +289,54 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Boton
 
     B = Button(ventana, text="D", command=pressD)
     B.pack(side=RIGHT, padx=50)
+
+def select_Ag():  #es para escoger el agente, al final retorna el numero que indica cada agente
+
+    def mostrar_descripcion(event):
+
+        global agente_seleccionado
+        agente_seleccionado = agente.get()
+        opcion = agente.get()
+        descripcion = descripciones[opcion]
+        lbl_descripcion.config(text=descripcion)
+        ventana.destroy()
+
+    def selec():
+        opcion = agente.get()
+        descripcion = descripciones[opcion]
+        print(f"Opción seleccionada: {opcion} - {descripcion}")
+
+    ventana = Tk()
+    ventana.title("Seleccionar agente")
+    ventana.geometry("600x400")
+    ventana.configure(bg="#FDF6FF")
+
+    # Definir opciones y descripciones
+    opciones = [1, 2, 3, 4, 5]
+    descripciones = {
+        1: "Movimiento de giro izquierda y avance",
+        2: "Movimiento de giro izquierda, giro derecha y avance",
+        3: "Movimietno de avance hacia las 4 diracciones",
+        4: "Movimieto igual a una reina en ajedrez",
+        5: "Movimietno igual a un alfil en ajedrez",
+    }
+
+    # Crear widgets
+    agente = IntVar()
+    menu = OptionMenu(ventana, agente, *opciones, command=mostrar_descripcion)
+    menu.pack(side=LEFT, padx=10)
+
+    lbl_descripcion = Label(ventana, text="", bg="#FDF6FF", font=("Arial", 12), justify=LEFT)
+    lbl_descripcion.pack(side=RIGHT, padx=30)
+
+    btn_guardar = Button(ventana, text="Guardar", font=("Arial", 16), command=selec)
+    btn_guardar.pack(side=LEFT, padx=10)
+
+    
+    ventana.mainloop()
+    return agente_seleccionado
+
+
 
 #=========================Valores de color que se pueden tomar en la matrix===============================
 #key/value
@@ -281,3 +367,11 @@ path_swich={
     '5': "#BB22FF"
 }
 #=========================================================================================================
+
+selec_agent_interface={
+    1:BAg1,
+    2:BAg2,
+    3:BAg34,
+    4:BAg34,
+    5:BAg34
+}
