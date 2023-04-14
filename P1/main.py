@@ -41,7 +41,7 @@ def test(Matrix:Read_data.Coord):
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     agentA=Agentes.agente1(1,point_ini,'1',Matrix,True)
     raiz=b_p.Nodo(point_ini,None)
-    fin=various_methods.busq_point(Matrix,13,13)
+    fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
     output=b_p.alg_busq1(raiz,agentA,Matrix,fin)
     if not output.stack:
@@ -50,10 +50,11 @@ def test(Matrix:Read_data.Coord):
     c=calc_cost(output.stack,agentA)
     print("El costo es "+str(c))
     print_tree_console.print_tree(raiz)
-    ifz.mapaR(Matrix,True,fin,point_ini,output.stack)
-    #print_tree_console.tree_to_file(raiz)
     costo=calc_tree_cost(agentA,raiz)
     print("El costo del arbol es "+str(costo))
+    
+    ifz.mapaR(Matrix,True,fin,point_ini,output.stack)
+    #print_tree_console.tree_to_file(raiz)
     
 #================================================================================================
 #==========================================test_02===============================================
@@ -91,6 +92,7 @@ def test3(Matrix:Read_data.Coord):
         print("El costo es "+str(c))
         print_tree_console.print_tree(raiz)
         print_tree_console.tree_to_file(raiz)
+        ifz.mapaR(Matrix,False,fin,point_ini,output.stack)
 
     else:
         print("No se encontro el punto")
@@ -145,7 +147,7 @@ def testAE(Matrix:Read_data.Coord):
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
     AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
-    fin=various_methods.busq_point(Matrix,13,13)
+    fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
     output=A_estrella.Init_busq(raiz,AgentA,Matrix,fin)
     if output.stack:
@@ -198,57 +200,54 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-test(matrix_agent[0])
+testAE(matrix_agent[0])
 exit()
+select=ifz.select_Ag()#Seleccion del agente
+#Aqui debe haber para seleccionar personaje
+pers=input("Selecciona personaje, 1 2 3 4")
 Coo1=input("Ingrese coordenada de inicio\n")
 Coo2=input("Ingrese coordenada de fin\n")
 aux=''
 for letra in Coo1:
     if not letra==',' :#Si no es ',' pasa al siguiente paso
         C_aux.append(letra)
-    for val in C_aux:
-        aux=aux+val#Construimos el string atraves de los char en la lista
-    C_ini.append(int(aux))
-    C_aux.clear()
-    aux=''
+        continue
+    else:
+        for val in C_aux:
+            aux=aux+val#Construimos el string atraves de los char en la lista
+        C_ini.append(int(aux))
+        C_aux.clear()
+        aux=''
 
 for letra in Coo2:
     if not letra==',':
         C_aux.append(letra)
-    for val in C_aux:
-        aux=aux+val
-    C_fin.append(int(aux))
-    C_aux.clear()
+    else:
+        for val in C_aux:
+            aux=aux+val
+        C_fin.append(int(aux))
+        C_aux.clear()
 aux=''
-#Puntos con sus respectivas coordenadas
 
-various_methods.busq_point(Matrix, C_ini[0], C_ini[1])
-pepito=input("Choose a name\n")
-opt=input("Choose a character:\n1.-Human\n2.-Sasquatch\n3.-Monkey\n4.-Octopus\n")
-user=input("Do you ant to play against the machine?  y/n\n")
-if user=='y':
-    userband=False #not the user
-else:
-     userband=True
-    
+
+#Puntos con sus respectivas coordenadas
+various_methods.busq_point(Matrix, C_ini[0], C_ini[1]) 
 X=C_ini[0]
 Y=C_ini[1]
 point_ini=various_methods.assign_point(Matrix, X, Y)
-opt=input("Choose an Agent:\n1\n2\n3\n4\n5\n")#Menu para escoger el agente a usar
-#Ejecutamos aqui los 5 agentes a la vez
 finx=C_fin[0]
 finy=C_fin[1]
 fpoint=various_methods.busq_point(Matrix,finx,finy)
-Raiz=b_p.Nodo(agentA.position)#Iniciando la raiz
-if userband: #true if user doesnt do anything
-    Raiz.append(agentA.position)#aqui se añade el elemento a la raiz
-else:
-    Raiz.append(agent.position)
-    Raiz2=list()
-    Raiz2.append(agentA.position)
-#AgentA es el algoritmo de busqueda
-stack=b_p.switch[opt](Raiz,agentA,Matrix,fpoint)
-
+#Switch para seleccionar agentes
+if 0<select<3:
+    Agentejugador=Agentes.switch_dir[select](1,point_ini,pers,Matrix[0],False)
+    AgentePC=Agentes.switch_dir[select](1,point_ini,pers,Matrix[1],True)
+elif 6>select>2:
+    Agentejugador=Agentes.switch(point_ini,pers,Matrix[0],False)
+    AgentePC=Agentes.switch(point_ini,pers,Matrix[1],True)
+raiz=b_p.Nodo(point_ini,None)
+b_p.switch[select](raiz,AgentePC,Matrix[1],fpoint)
+ifz.selec_agent_interface[select](Matrix[0],True,fpoint,point_ini)
 
 
 enter_game=True

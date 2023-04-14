@@ -359,8 +359,15 @@ class Agente5:#Move to any cell in any diagonal
                 
             
             
+switch_dir={
+    1:agente1,
+    2:Agente2,
+}           
             
-            
-            
+switch={
+    3:Agente3,
+    4:Agente4,
+    5:Agente5
+}  
             
             

@@ -39,11 +39,11 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:r
 
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
     Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+    canvas.create_text(((Fx+.5)*length,(Fy+.5)*length), text="X")
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
 
     ventana.mainloop()
 
