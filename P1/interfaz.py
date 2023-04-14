@@ -16,27 +16,45 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:r
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
-
-    for i in range(a):
-        y = i * length
-        for j in range(a):
-            x = j * length
-            terrain=list[i][j]
-            if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
-                color="#000000"
-            elif terrain.visited_flag:
-                if terrain==fin_pos:
-                    color="#FF0000"
-                elif terrain==ini_pos:
-                    color="#0000FF"
-                elif terrain in stack:
-                    color=path_swich[terrain.Valor]
-                else:
-                    color=visited_switch[terrain.Valor]
-            elif terrain.seen_flag and not terrain.visited_flag:
-                color=only_seen_switch[terrain.Valor]
-            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
-
+    if stack:
+        for i in range(a):
+            y = i * length
+            for j in range(a):
+                x = j * length
+                terrain=list[i][j]
+                if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
+                    color="#000000"
+                elif terrain.visited_flag:
+                    if terrain==fin_pos:
+                        color="#FF0000"
+                    elif terrain==ini_pos:
+                        color="#0000FF"
+                    elif terrain in stack:
+                        color=path_swich[terrain.Valor]
+                    else:
+                        color=visited_switch[terrain.Valor]
+                elif terrain.seen_flag and not terrain.visited_flag:
+                    color=only_seen_switch[terrain.Valor]
+                canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+    else:
+          for i in range(a):
+            y = i * length
+            for j in range(a):
+                x = j * length
+                terrain=list[i][j]
+                if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
+                    color="#000000"
+                elif terrain.visited_flag:
+                    if terrain==fin_pos:
+                        color="#FF0000"
+                    elif terrain==ini_pos:
+                        color="#0000FF"
+                    else:
+                        color=visited_switch[terrain.Valor]
+                elif terrain.seen_flag and not terrain.visited_flag:
+                    color=only_seen_switch[terrain.Valor]
+                canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+                
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
     Fy = fin_pos.Ycoordinate
     canvas.create_text(((Fx+.5)*length,(Fy+.5)*length), text="X")
@@ -350,12 +368,12 @@ visited_switch={
 }
 
 only_seen_switch={
-    '0':"#7D7D7D",
-    '1':"#7D5F3F",
-    '2':"#6DADBB",
-    '3':"#B8A972",
-    '4':"#007F00",
-    '5':"#7D3F7D"
+    '0':"#666666",
+    '1':"#665030",
+    '2':"#5A7F8C",
+    '3':"#A69867",
+    '4':"#005500",
+    '5':"#663366"
 }
 
 path_swich={

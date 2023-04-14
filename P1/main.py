@@ -145,7 +145,7 @@ def test5(Matrix:Read_data.Coord):
 def testAE(Matrix:Read_data.Coord):
     print("Prueba con A*")
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
-    AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
+    AgentA=Agentes.Agente3(point_ini,'4',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
     fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
@@ -155,11 +155,12 @@ def testAE(Matrix:Read_data.Coord):
         c=calc_cost(output.stack, AgentA)
         print("El costo es "+str(c))
         
-        print_tree_console.print_tree(raiz)
-
+        
     else:
         print("No se encontro el punto")
+    print_tree_console.print_tree(raiz)
     ifz.mapaR(Matrix,False,fin,point_ini,output.stack)
+    
 
 #================================================================================================
 #==========================================test_Anch=============================================
