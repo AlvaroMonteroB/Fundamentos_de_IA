@@ -290,7 +290,7 @@ def rec_busq5(raiz:Nodo,Agente:Ag.Agente5,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     output.append(Agente.position)
     if Agente.position==fin_pos:
         return True
-    scanned=Agente.scan()
+    scanned=Agente.scan_data()
     if len(scanned)>1:
         Agente.position.deci_flag=True
     elif len(scanned)==0:
