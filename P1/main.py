@@ -210,8 +210,8 @@ optn=True
 #Puntos con sus respectivas coordenadas
 print("Coordenadas del primer punto")
 while optn:
-    X=input("X=")
-    Y=input("Y=")
+    X=int(input("X="))
+    Y=int(input("Y="))
     point_ini=various_methods.busq_point(Matrix,X,Y)
     if point_ini.Valor=='-1':
         print("Introduce un valor valido")
@@ -221,27 +221,24 @@ while optn:
         optn=False
     else:
         print("Posicion no valida para el personaje")
-    
+optn=True   
 print("Coordenadas del segundo punto")
 while optn:
-    finx=C_fin[0]
-    finy=C_fin[1]
+    finx=int(input("X="))
+    finy=int(input("Y="))
     fpoint=various_methods.busq_point(Matrix,finx,finy)
     if fpoint.Valor=='-1':
         print("Introduce un punto valido")
         continue
     elif Criaturas.switch[pers](point_ini.Valor)!=0:#Significa que la posicion es valida para el personaje
-        optn=False
-    
-point_ini=various_methods.assign_point(Matrix, X, Y)
-
+        optn=False 
 #Switch para seleccionar agentes
 if 0<select<3:
     Agentejugador=Agentes.switch_dir[select](1,point_ini,pers,Matrix[0],False)
     AgentePC=Agentes.switch_dir[select](1,point_ini,pers,Matrix[1],True)
 elif 6>select>2:
-    Agentejugador=Agentes.switch(point_ini,pers,Matrix[0],False)
-    AgentePC=Agentes.switch(point_ini,pers,Matrix[1],True)
+    Agentejugador=Agentes.switch[select](point_ini,pers,Matrix[0],False)
+    AgentePC=Agentes.switch[select](point_ini,pers,Matrix[1],True)
 raiz=b_p.Nodo(point_ini,None)
 b_p.switch[select](raiz,AgentePC,Matrix[1],fpoint)
 ifz.selec_agent_interface[select](Matrix[0],True,fpoint,point_ini)
