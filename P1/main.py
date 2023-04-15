@@ -81,7 +81,7 @@ def test2(Matrix:Read_data.Coord):
 def test3(Matrix:Read_data.Coord):
     print("Prueba con agente 3")
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
-    AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
+    AgentA=Agentes.switch[3](point_ini,'1',Matrix,False)  
     raiz=b_p.Nodo(AgentA.position,None)
     fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
@@ -200,8 +200,10 @@ def print_stack(stack):
         
 Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
-for ent in range(5):#Mapa para cada agente
-    matrix_agent.append(Matrix)
+Matrix1=Matrix
+Matrix2=Matrix
+   
+    
 select=ifz.select_Ag()#Seleccion del agente
 
 #Aqui debe haber para seleccionar personaje
@@ -230,18 +232,18 @@ while optn:
     if fpoint.Valor=='-1':
         print("Introduce un punto valido")
         continue
-    elif Criaturas.switch[pers](point_ini.Valor)!=0:#Significa que la posicion es valida para el personaje
+    elif Criaturas.switch[pers](fpoint.Valor)!=0:#Significa que la posicion es valida para el personaje
         optn=False 
 #Switch para seleccionar agentes
 if 0<select<3:
-    Agentejugador=Agentes.switch_dir[select](1,point_ini,pers,Matrix[0],False)
-    AgentePC=Agentes.switch_dir[select](1,point_ini,pers,Matrix[1],True)
+    Agentejugador=Agentes.switch_dir[select](1,point_ini,pers,Matrix1,False)
+    AgentePC=Agentes.switch_dir[select](1,point_ini,pers,Matrix2,True)
 elif 6>select>2:
-    Agentejugador=Agentes.switch[select](point_ini,pers,Matrix[0],False)
-    AgentePC=Agentes.switch[select](point_ini,pers,Matrix[1],True)
+    Agentejugador=Agentes.switch[select](point_ini,pers,Matrix1,False)
+    AgentePC=Agentes.switch[select](point_ini,pers,Matrix2,True)
 raiz=b_p.Nodo(point_ini,None)
-b_p.switch[select](raiz,AgentePC,Matrix[1],fpoint)
-ifz.selec_agent_interface[select](Matrix[0],True,fpoint,point_ini)
+b_p.switch[select](raiz,AgentePC,Matrix2,fpoint)
+ifz.selec_agent_interface[select](Matrix1,True,fpoint,point_ini)#Para desplegar botones dependiendo nuestro agente
 
 
 enter_game=True
