@@ -134,6 +134,7 @@ def test5(Matrix:Read_data.Coord):
         c=calc_cost(output.stack, AgentA)
         print("El costo es "+str(c))
         print_tree_console.print_tree(raiz)
+        ifz.mapaR(Matrix,False,fin,point_ini,output.stack)
 
     else:
         print("No se encontro el punto")
@@ -201,44 +202,39 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 for ent in range(5):#Mapa para cada agente
     matrix_agent.append(Matrix)
-testAE(matrix_agent[0])
-exit()
 select=ifz.select_Ag()#Seleccion del agente
+
 #Aqui debe haber para seleccionar personaje
-pers=input("Selecciona personaje, 1 2 3 4")
-Coo1=input("Ingrese coordenada de inicio\n")
-Coo2=input("Ingrese coordenada de fin\n")
-aux=''
-for letra in Coo1:
-    if not letra==',' :#Si no es ',' pasa al siguiente paso
-        C_aux.append(letra)
-        continue
-    else:
-        for val in C_aux:
-            aux=aux+val#Construimos el string atraves de los char en la lista
-        C_ini.append(int(aux))
-        C_aux.clear()
-        aux=''
-
-for letra in Coo2:
-    if not letra==',':
-        C_aux.append(letra)
-    else:
-        for val in C_aux:
-            aux=aux+val
-        C_fin.append(int(aux))
-        C_aux.clear()
-aux=''
-
-
+pers=input("Selecciona personaje, 1 2 3 4\n")
+optn=True
 #Puntos con sus respectivas coordenadas
-various_methods.busq_point(Matrix, C_ini[0], C_ini[1]) 
-X=C_ini[0]
-Y=C_ini[1]
+print("Coordenadas del primer punto")
+while optn:
+    X=input("X=")
+    Y=input("Y=")
+    point_ini=various_methods.busq_point(Matrix,X,Y)
+    if point_ini.Valor=='-1':
+        print("Introduce un valor valido")
+        continue
+    elif Criaturas.switch[pers](point_ini.Valor)!=0:#Significa que la posicion es valida para el personaje
+        point_ini=various_methods.assign_point(Matrix,X,Y,Matrix[X][Y])
+        optn=False
+    else:
+        print("Posicion no valida para el personaje")
+    
+print("Coordenadas del segundo punto")
+while optn:
+    finx=C_fin[0]
+    finy=C_fin[1]
+    fpoint=various_methods.busq_point(Matrix,finx,finy)
+    if fpoint.Valor=='-1':
+        print("Introduce un punto valido")
+        continue
+    elif Criaturas.switch[pers](point_ini.Valor)!=0:#Significa que la posicion es valida para el personaje
+        optn=False
+    
 point_ini=various_methods.assign_point(Matrix, X, Y)
-finx=C_fin[0]
-finy=C_fin[1]
-fpoint=various_methods.busq_point(Matrix,finx,finy)
+
 #Switch para seleccionar agentes
 if 0<select<3:
     Agentejugador=Agentes.switch_dir[select](1,point_ini,pers,Matrix[0],False)
