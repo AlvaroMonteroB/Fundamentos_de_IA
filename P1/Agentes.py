@@ -59,8 +59,6 @@ class agente1:#left, forward
         elif cost==0:
                 return cost_valid(0, False, scanned_pos)
         elif cost>0:  
-                if not self.user_flag and (not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
-                    print(scanned_pos.print_data(cost))#Interfaz grafica                         #TO DO
                 return cost_valid(cost,True,scanned_pos)
                 
     def move_forward(self,cost:int,movimientos:int)->bool:#dirs: 1=-> 2=^ 3=<- 4=v

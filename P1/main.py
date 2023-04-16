@@ -239,14 +239,16 @@ while optn:
         optn=False 
 #Switch para seleccionar agentes
 if 0<select<3:#Como los primeros 2 tienen un atributo de direccion, lo separamos
+    point_ini=various_methods.assign_point(Matrix1,X,Y,Matrix1[X][Y])
     Agentejugador=Agentes.switch_dir[select](1,point_ini,pers,Matrix1,False)
     AgentePC=Agentes.switch_dir[select](1,point_ini,pers,Matrix2,True)
 elif 6>select>2:
+    point_ini=various_methods.assign_point(Matrix1,X,Y,Matrix1[X][Y])
     Agentejugador=Agentes.switch[select](point_ini,pers,Matrix1,False)
     AgentePC=Agentes.switch[select](point_ini,pers,Matrix2,True)
 raiz=b_p.Nodo(point_ini,None)
 solution=b_p.switch[select](raiz,AgentePC,Matrix2,fpoint)#Busquedas
-ifz.selec_agent_interface[select](Matrix1,True,fpoint,point_ini)#Para desplegar botones dependiendo nuestro agente
+ifz.selec_agent_interface[select](Matrix1,True,fpoint,point_ini,Agentejugador)#Para desplegar botones dependiendo nuestro agente
 
 
 

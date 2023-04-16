@@ -1,7 +1,7 @@
 from tkinter import *
 import numpy as np
 import Read_data as rd
-
+import Agentes as ag
 ## creo que se puede optimizar si cambiamos la forma en la que llamamos las funciones
 def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:rd.Coord): ##le cambie el nombre porque agregué otras funciones dependiendo de lo que se está haciendo en ese momento 
 
@@ -67,13 +67,21 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:r
 
 ######################################################
 
-def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botones Agente 1
-
+def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.agente1):#Botones Agente 1
+    stack=[]
+    stack.append(Agente.position)
     def pressA():
         print("boton avance") #aqui es donde quiero hacer prubas para agregar las funciones y ver como cambia en la tabla pero aun estoy investigando como actualizarla o con el delay
+        Agente.move_forward(0,1)
+        stack.append(Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos)
+        
 
     def pressG():
         print("boton giro")
+        Agente.turn_left()
+        Agente.scan_forward(True)
+        update_map(canvas,Matrix,fin_pos,ini_pos)
     
     list = Matrix
     a = len(list)
@@ -353,6 +361,45 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
     
     ventana.mainloop()
     return agente_seleccionado
+
+
+
+#================Funcion para actualizar el mapa===============
+def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos):
+    list = Matrix
+    a = len(list)
+    length = 500//a
+    canvas.delete("all")
+    for i in range(a):
+        y = i * length
+        for j in range(a):
+            x = j * length
+            terrain=list[i][j]
+            if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
+                color="#000000"
+            elif terrain.visited_flag:
+                if terrain==fin_pos:
+                    color="#FF0000"
+                elif terrain==ini_pos:
+                    color="#0000FF"
+                else:
+                    color=visited_switch[terrain.Valor]
+            elif terrain.seen_flag and not terrain.visited_flag:
+                color=only_seen_switch[terrain.Valor]
+            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+    Fy = fin_pos.Ycoordinate
+    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
+
+    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+    Iy = ini_pos.Ycoordinate
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+
+    canvas.update() # actualiza el widget canvas
+
+
+
+
 
 
 
