@@ -16,7 +16,7 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:r
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
-    if stack:
+    if stack:#Aqui imprimimos la solucion 
         for i in range(a):
             y = i * length
             for j in range(a):
@@ -36,7 +36,7 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:r
                 elif terrain.seen_flag and not terrain.visited_flag:
                     color=only_seen_switch[terrain.Valor]
                 canvas.create_rectangle(x, y, x+length, y+length, fill=color)
-    else:
+    else:#Si no hubo solucion, mostramos que lugares visitó
           for i in range(a):
             y = i * length
             for j in range(a):
@@ -107,18 +107,18 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botone
 
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
     Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
 
     avance = Button(ventana, text="avance", command=pressA)
-    avance.pack(side=RIGHT, anchor=CENTER, padx=50)
+    avance.pack(side=RIGHT, anchor=CENTER, padx=20)
 
     giro = Button(ventana, text="giro", command=pressG)
-    giro.pack(side=RIGHT, anchor=CENTER, padx=50)
-
+    giro.pack(side=RIGHT, anchor=CENTER, padx=20)
+    ventana.mainloop()
 
 def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botones Agente 2
 
@@ -163,21 +163,20 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botone
 
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
     Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
 
     avance = Button(ventana, text="avance", command=pressA)
-    avance.pack(side=RIGHT, padx=50)
+    avance.pack(side=RIGHT, padx=20)
 
     giroR = Button(ventana, text="GDerecha", command=pressR)
-    giroR.pack(side=RIGHT, padx=50)
-
+    giroR.pack(side=RIGHT, padx=20)
     giroL = Button(ventana, text="GIzquierda", command=pressL)
-    giroL.pack(side=RIGHT, padx=50)
-
+    giroL.pack(side=RIGHT, padx=20)
+    ventana.mainloop()
 
 def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botones Agente 3/4
 
@@ -225,24 +224,24 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Boton
 
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
     Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
 
     up = Button(ventana, text="arriba", command=pressUp)
-    up.pack(side=RIGHT, padx=50)
+    up.pack(side=RIGHT, padx=20)
 
     right = Button(ventana, text="Derecha", command=pressRight)
-    right.pack(side=RIGHT, padx=50)
+    right.pack(side=RIGHT, padx=20)
 
     left = Button(ventana, text="Izquierda", command=pressLeft)
-    left.pack(side=RIGHT, padx=50)
+    left.pack(side=RIGHT, padx=20)
 
     down = Button(ventana, text="abajo", command=pressDown)
-    down.pack(side=RIGHT, padx=50)
-
+    down.pack(side=RIGHT, padx=20)
+    ventana.mainloop()
 
 def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botones Agente 5
 
@@ -290,23 +289,24 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Boton
     
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
     Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx-0.5)*length,(Fy-0.5)*length), text="X")
+    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix-0.5)*length,(Iy-0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
 
     A = Button(ventana, text="A", command=pressA)
-    A.pack(side=RIGHT, padx=50)
+    A.pack(side=RIGHT, padx=20)
 
     B = Button(ventana, text="B", command=pressB)
-    B.pack(side=RIGHT, padx=50)
+    B.pack(side=RIGHT, padx=20)
 
     B = Button(ventana, text="C", command=pressC)
-    B.pack(side=RIGHT, padx=50)
+    B.pack(side=RIGHT, padx=20)
 
     B = Button(ventana, text="D", command=pressD)
-    B.pack(side=RIGHT, padx=50)
+    B.pack(side=RIGHT, padx=20)
+    ventana.mainloop()
 
 def select_Ag():  #es para escoger el agente, al final retorna el numero que indica cada agente
 
@@ -322,7 +322,7 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
     def selec():
         opcion = agente.get()
         descripcion = descripciones[opcion]
-        print(f"Opción seleccionada: {opcion} - {descripcion}")
+        print(f"Opción seleccionada: {opcion} + {descripcion}")
 
     ventana = Tk()
     ventana.title("Seleccionar agente")
