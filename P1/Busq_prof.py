@@ -74,7 +74,6 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     stack=[]
     stack.append(Agente.position)
     if Agente.position==fin_pos:
-        print("Enhorabuena, encontraste la salida")
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     cost=0
     counter=0
@@ -105,7 +104,6 @@ def rec_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     mov=Agente.move_forward(cost)
     output.append(Agente.position)
     if Agente.position==fin_pos:
-        print("Enhorabuena, encontraste la salida")
         return True
     counter=0
     for dirs in range(4):
@@ -139,9 +137,7 @@ def alg_busq2(raiz:Nodo,Agente:Ag.Agente2,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
     cost=0
     stack.append(Agente.position)
     if Agente.position==fin_pos:
-        print("Enhorabuena, encontraste la salida")
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
-    print("Scanning dirs")
     counter=0
     for dirs in range(4):
         Agente.turn_left()
@@ -204,13 +200,11 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     stack=[]
     stack.append(Agente.position)
     if Agente.position==fin_pos:
-        print("Enhorabuena, encontraste la salida")
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     
     cost=0
     scanned=Agente.scan()#Nos devolverá todas las posiciones validas con su direccion
     if len(scanned)==0:
-        print("No hay movimientos validos")
         exit()
     if len(scanned)>1:
         Agente.position.deci_flag=True
@@ -258,13 +252,11 @@ def alg_busq4(raiz:Nodo,Agente:Ag.Agente4,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     stack=list()
     stack.append(Agente.position)
     if Agente.position==fin_pos:
-        print("Enhorabuena, encontraste la salida")
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     
     cost=0
     scanned=Agente.scan()#Nos devolverá todas las posiciones validas con su direccion
     if len(scanned)==0:
-        print("No hay movimientos validos")
         exit()
     if len(scanned)>1:
         Agente.position.deci_flag=True
@@ -314,13 +306,11 @@ def alg_busq5(raiz:Nodo,Agente:Ag.Agente5,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     stack=list()
     stack.append(Agente.position)
     if Agente.position==fin_pos:
-        print("Enhorabuena, encontraste la salida")
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
     
     cost=0
     scanned=Agente.scan_data()#Nos devolverá todas las posiciones validas con su direccion
     if len(scanned)==0:
-        print("No hay movimientos validos")
         exit()
     if len(scanned)>1:
         Agente.position.deci_flag=True
@@ -334,7 +324,35 @@ def alg_busq5(raiz:Nodo,Agente:Ag.Agente5,Matrix:r_d.Coord,fin_pos:r_d.Coord):
 
 
 
-
+def iter_dfs(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
+    stack=[]
+    stack.append([raiz, Agente, [], 0])  # nodo actual, agente, camino, costo acumulado
+    visited=set()  # conjunto de nodos visitados
+    while stack:
+        nodo, agente, camino, costo = stack.pop()
+        if nodo in visited:
+            continue
+        visited.add(nodo)
+        camino.append(nodo.pos)
+        if nodo.pos==fin_pos:
+            return resultado(camino, costo)
+        if not agente.position.actual_flag:
+            agente.position.actual_flag=True
+            agente.scan()
+        if agente.position.deci_flag:
+            agente.position.deci_flag=False
+        for scan in agente.position.vecinos:
+            if scan in visited:
+                continue
+            if not (scan.c_v.point.Valor=='-1'):
+                n_raiz=Nodo(scan.c_v.point,nodo)
+                char_dir=switch2[scan.dirs]
+                n_agente=Agente.move(char_dir,costo)
+                if not n_agente:
+                    continue
+                stack.append([n_raiz, n_agente, camino[:], costo + cr.switch[Agente.charact](nodo.pos.Valor)])
+        agente.position=V_M.assign_point(Matrix,camino[-2].Xcoordinate,camino[-2].Ycoordinate,camino[-2])
+    return resultado(None, 0)
 
 
 
@@ -352,7 +370,7 @@ switch={#switch for the algorithms
     2:alg_busq2,
     3:alg_busq3,
     4:alg_busq4,
-    5:alg_busq5
+    5:alg_busq5,
 }
 
 switch2={
