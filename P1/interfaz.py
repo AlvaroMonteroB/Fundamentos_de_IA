@@ -79,7 +79,6 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if Agente.position==fin_pos:
             ventana.after(7000,ventana.destroy())
         
-
     def pressG():
         Agente.turn_left()
         Agente.scan_forward(True)
@@ -137,10 +136,14 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
     retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
     
     ventana.mainloop()
-def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botones Agente 2
-
+def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente2):#Botones Agente 2
+    stack=[]
+    stack.append(Agente.position)
     def pressA():
-        print("boton avance") 
+        Agente.move_forward(0)
+        Agente.scan_forward(True)
+        stack.append(Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos)
 
     def pressR():
         print("boton giroR")
@@ -374,7 +377,7 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
 
 
 #================Funcion para actualizar el mapa===============
-def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos):
+def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
     list = Matrix
     a = len(list)
     length = 500//a
@@ -391,6 +394,8 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos):
                     color="#FF0000"
                 elif terrain==ini_pos:
                     color="#0000FF"
+                elif terrain==act_pos:
+                    color="FFFFFF"
                 else:
                     color=visited_switch[terrain.Valor]
             elif terrain.seen_flag and not terrain.visited_flag:
@@ -403,6 +408,7 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos):
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
     canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    
 
     canvas.update() # actualiza el widget canvas
 
