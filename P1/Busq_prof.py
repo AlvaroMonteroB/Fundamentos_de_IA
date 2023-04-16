@@ -1,7 +1,6 @@
 import Agentes as Ag
 import various_methods as V_M
 import Read_data as r_d
-import acciones as acc
 import Criaturas as cr
 import sys
 from anytree import Node

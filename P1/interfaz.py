@@ -2,6 +2,7 @@ from tkinter import *
 import numpy as np
 import Read_data as rd
 import Agentes as ag
+import various_methods as vm
 ## creo que se puede optimizar si cambiamos la forma en la que llamamos las funciones
 def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:rd.Coord): ##le cambie el nombre porque agregué otras funciones dependiendo de lo que se está haciendo en ese momento 
 
@@ -70,18 +71,23 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:r
 def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.agente1):#Botones Agente 1
     stack=[]
     stack.append(Agente.position)
-    def pressA():
-        print("boton avance") #aqui es donde quiero hacer prubas para agregar las funciones y ver como cambia en la tabla pero aun estoy investigando como actualizarla o con el delay
+    def pressA(): #aqui es donde quiero hacer prubas para agregar las funciones y ver como cambia en la tabla pero aun estoy investigando como actualizarla o con el delay
         Agente.move_forward(0,1)
+        Agente.scan_forward(True) 
         stack.append(Agente.position)
         update_map(canvas,Matrix,fin_pos,ini_pos)
+        if Agente.position==fin_pos:
+            ventana.after(7000,ventana.destroy())
         
 
     def pressG():
-        print("boton giro")
         Agente.turn_left()
         Agente.scan_forward(True)
         update_map(canvas,Matrix,fin_pos,ini_pos)
+        
+    def PressRet():
+        stack.pop()
+        Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
     
     list = Matrix
     a = len(list)
@@ -126,8 +132,11 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     giro = Button(ventana, text="giro", command=pressG)
     giro.pack(side=RIGHT, anchor=CENTER, padx=20)
+    
+    retorno=Button(ventana,text="Regresar",command=PressRet)
+    retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
+    
     ventana.mainloop()
-
 def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botones Agente 2
 
     def pressA():
