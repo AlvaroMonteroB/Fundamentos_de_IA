@@ -433,14 +433,18 @@ def recorrido(Matrix,fin_pos,ini_pos,stack):
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
     canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    if len(stack)>35:
+        tim=250
+    else:
+        tim=500
     
-    ventana.after(500,print(""))
+    ventana.after(tim,print(""))
     while stack:
         if not stack:
             continue
         Agente.move()
         Agente.scan()
-        ventana.after(750,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position))
+        ventana.after(tim,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position))
 
     ventana.mainloop()
 
