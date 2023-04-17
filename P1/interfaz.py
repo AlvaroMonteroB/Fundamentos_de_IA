@@ -3,6 +3,22 @@ import numpy as np
 import Read_data as rd
 import Agentes as ag
 import various_methods as vm
+class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
+    def __init__(self,Matrix,stack:list()):
+        self.Matrix=Matrix
+        self.stack=stack
+        self.position=vm.assign_point(Matrix, stack[0].Xcoordinate, stack[0].Ycoordinate, Matrix[stack[0].Ycoordinate][stack[0].Xcoordinate])
+    def scan(self):
+        vm.busq_point(self.Matrix, self.position.Xcoordinate+1, self.position.Ycoordinate)
+        vm.busq_point(self.Matrix, self.position.Xcoordinate, self.position.Ycoordinate+1)
+        vm.busq_point(self.Matrix, self.position.Xcoordinate-1, self.position.Ycoordinate)
+        vm.busq_point(self.Matrix, self.position.Xcoordinate, self.position.Ycoordinate-1)
+    def move(self):
+        self.stack.pop(0)
+        if not self.stack:
+            return
+        self.position=vm.assign_point(self.Matrix, self.stack[0].Xcoordinate, self.stack[0].Ycoordinate, self.Matrix[self.stack[0].Ycoordinate][self.stack[0].Xcoordinate])
+        
 ## creo que se puede optimizar si cambiamos la forma en la que llamamos las funciones
 def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:rd.Coord): ##le cambie el nombre porque agregué otras funciones dependiendo de lo que se está haciendo en ese momento 
 
@@ -377,6 +393,59 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
 
 
 
+
+def recorrido(Matrix,fin_pos,ini_pos,stack):
+    list = Matrix
+    Agente=agente(Matrix,stack)
+    a = len(list)
+    length = 500//a
+
+    ventana = Tk()
+    ventana.title("Mapa")
+    ventana.geometry("850x600")
+    ventana.configure(bg="#FDF6FF")
+
+    canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
+    canvas.pack(side=LEFT,padx=50)
+    Agente.scan()
+    for i in range(a):
+        y = i * length
+        for j in range(a):
+            x = j * length
+            terrain=list[i][j]
+            if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
+                color="#000000"
+            elif terrain.visited_flag:
+                if terrain==fin_pos:
+                    color="#FF0000"
+                elif terrain==ini_pos:
+                    color="#0000FF"
+                else:
+                    color=visited_switch[terrain.Valor]
+            elif terrain.seen_flag and not terrain.visited_flag:
+                color=only_seen_switch[terrain.Valor]
+            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+
+    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+    Fy = fin_pos.Ycoordinate
+    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
+
+    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+    Iy = ini_pos.Ycoordinate
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    
+    ventana.after(500,print(""))
+    while stack:
+        if not stack:
+            continue
+        Agente.move()
+        Agente.scan()
+        ventana.after(750,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position))
+
+    ventana.mainloop()
+
+
+
 #================Funcion para actualizar el mapa===============
 def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
     list = Matrix
@@ -456,3 +525,5 @@ selec_agent_interface={
     4:BAg34,
     5:BAg34
 }
+
+
