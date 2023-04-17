@@ -32,12 +32,14 @@ def calc_tree_cost(Agente, Raiz: b_p.Nodo):
     for hijo in Raiz.children:
         cost += calc_tree_cost(Agente, hijo)
     return cost
-def player_cost(Matrix:Read_data.Coord,Agente):
+def player_cost(Matrix:Read_data.Coord,Agente,ini:Read_data.Coord):
     cost=0
     for i in range(len(Matrix)):
         for j in range(len(Matrix[0])):
             if Matrix[j][i].visited_flag:
                 cost+=Criaturas.switch[Agente.charact](Matrix[j][i].Valor)
+    cost=cost-Criaturas.switch[Agente.charact](ini.Valor)
+    
     return cost
 #================================================================================================
 #==========================================test_01===============================================
@@ -209,8 +211,8 @@ Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 Matrix1=copy.deepcopy(Matrix)#Separamos la matriz en 2 variables, dejando la original para despues
 Matrix2=copy.deepcopy(Matrix)
-matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
-matrix3=copy.deepcopy(Matrix)#Esta es para A*
+Matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
+Matrix4=copy.deepcopy(Matrix)#Esta es para A*
    
     
 select=ifz.select_Ag()#Seleccion del agente
@@ -259,11 +261,12 @@ elif 6>select>2:
 raiz=b_p.Nodo(point_ini,None)
 solution=b_p.switch[select](raiz,AgentePC,Matrix2,fpoint_a)#Busquedas
 ifz.selec_agent_interface[select](Matrix1,True,fpoint,point_ini,Agentejugador)#Para desplegar botones dependiendo nuestro agente
-costo_jugador=player_cost(Matrix1,Agentejugador)
+costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
+costo_pc=calc_cost(solution.stack,AgentePC)
 #===========Vamos a mostrar que hizo el agente
-ifz.mapaR(Matrix2,False,fpoint,point_ini,solution.stack)   
-
-print("El algoritmo hizo el camino con un costo de "+str(calc_cost(solution.stack,AgentePC)))
+#ifz.mapaR(Matrix2,False,fpoint,point_ini,solution.stack)   
+ifz.recorrido(Matrix3, fpoint, point_ini,solution.stack)#Solucion paso por paso
+print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 print("Mientras tu hiciste un costo de "+str(costo_jugador))
 
 
