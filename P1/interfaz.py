@@ -75,18 +75,19 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         Agente.move_forward(0,1)
         Agente.scan_forward(True) 
         stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
         if Agente.position==fin_pos:
             ventana.after(7000,ventana.destroy())
         
     def pressG():
         Agente.turn_left()
         Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
         
     def PressRet():
         stack.pop()
         Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
     
     list = Matrix
     a = len(list)
@@ -395,7 +396,7 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
                 elif terrain==ini_pos:
                     color="#0000FF"
                 elif terrain==act_pos:
-                    color="FFFFFF"
+                    color="#FFFFFF"
                 else:
                     color=visited_switch[terrain.Valor]
             elif terrain.seen_flag and not terrain.visited_flag:
