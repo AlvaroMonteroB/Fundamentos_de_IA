@@ -32,7 +32,13 @@ def calc_tree_cost(Agente, Raiz: b_p.Nodo):
     for hijo in Raiz.children:
         cost += calc_tree_cost(Agente, hijo)
     return cost
-
+def player_cost(Matrix:Read_data.Coord,Agente):
+    cost=0
+    for i in range(len(Matrix)):
+        for j in range(len(Matrix[0])):
+            if Matrix[j][i].visited_flag:
+                cost+=Criaturas.switch[Agente.charact](Matrix[j][i].Valor)
+    return cost
 #================================================================================================
 #==========================================test_01===============================================
 #================================================================================================
@@ -208,7 +214,7 @@ matrix3=copy.deepcopy(Matrix)#Esta es para A*
    
     
 select=ifz.select_Ag()#Seleccion del agente
-
+""""""
 #Aqui debe haber para seleccionar personaje
 pers=input("Selecciona personaje, 1 2 3 4\n")
 optn=True
@@ -253,13 +259,12 @@ elif 6>select>2:
 raiz=b_p.Nodo(point_ini,None)
 solution=b_p.switch[select](raiz,AgentePC,Matrix2,fpoint_a)#Busquedas
 ifz.selec_agent_interface[select](Matrix1,True,fpoint,point_ini,Agentejugador)#Para desplegar botones dependiendo nuestro agente
-
-
-
-
-
+costo_jugador=player_cost(Matrix1,Agentejugador)
 #===========Vamos a mostrar que hizo el agente
 ifz.mapaR(Matrix2,False,fpoint,point_ini,solution.stack)   
+
+print("El algoritmo hizo el camino con un costo de "+str(calc_cost(solution.stack,AgentePC)))
+print("Mientras tu hiciste un costo de "+str(costo_jugador))
 
 
 
@@ -272,3 +277,6 @@ ifz.mapaR(Matrix2,False,fpoint,point_ini,solution.stack)
     
     
     
+
+
+
