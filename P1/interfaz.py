@@ -5,6 +5,7 @@ import Agentes as ag
 import various_methods as vm
 from collections import deque
 import Busq_prof as b_p
+import tree_to_list
 class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
     def __init__(self,Matrix,stack:list()):
         self.Matrix=Matrix
@@ -18,7 +19,7 @@ class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
         vm.busq_point(self.Matrix, self.position.Xcoordinate, self.position.Ycoordinate-1)
     def move(self):
         self.stack.pop(0)
-        if not self.stack:
+        if len(self.stack)==0:
             return
         if self.stack[0].deci_flag:
             self.position.deci_flag=True
@@ -93,13 +94,12 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
     stack=[]
     stack.append(Agente.position)
     def pressA(): #aqui es donde quiero hacer prubas para agregar las funciones y ver como cambia en la tabla pero aun estoy investigando como actualizarla o con el delay
-        m=Agente.move_forward(0,1)
-        if m:
-            Agente.scan_forward(True) 
-            stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
-                ventana.after(7000,ventana.destroy())
+        Agente.move_forward(0,1)
+        Agente.scan_forward(True) 
+        stack.append(Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        if Agente.position==fin_pos:
+            ventana.after(7000,ventana.destroy())
         
     def pressG():
         Agente.turn_left()
@@ -107,7 +107,6 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
         
     def PressRet():
-        stack.pop()
         Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
         update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
     
@@ -168,7 +167,7 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:
             Agente.scan_forward(True)
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
 
     def pressR():
         Agente.turn_rigth()
@@ -230,9 +229,9 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
     giroR.pack(side=RIGHT, padx=20)
     giroL = Button(ventana, text="GIzquierda", command=pressL)
     giroL.pack(side=RIGHT, padx=20)
-    ventana.mainloop()
     retorno=Button(ventana,text="Regresar",command=PressRet)
     retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
+    ventana.mainloop()
 #Estos agentes deberían usar el teclado en forma wasd para moverse
 def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente3):#Botones Agente 3/4
     stack=[]
@@ -242,8 +241,8 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         if m:            
             Agente.scan()
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)    
+        if Agente.position==fin_pos:
                 ventana.destroy()
 
         
@@ -253,8 +252,8 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         if m:            
             Agente.scan()
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        if Agente.position==fin_pos:
                 ventana.destroy()
 
     def pressLeft():
@@ -262,8 +261,8 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         if m:            
             Agente.scan()
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        if Agente.position==fin_pos:
                 ventana.destroy()
 
     def pressRight():
@@ -271,8 +270,8 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         if m:            
             Agente.scan()
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        if Agente.position==fin_pos:
                 ventana.destroy()
 
     def PressRet():
@@ -330,11 +329,12 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
 
     down = Button(ventana, text="abajo", command=pressDown)
     down.pack(side=RIGHT, padx=20)
-    ventana.mainloop()
     
     retorno=Button(ventana,text="Regresar",command=PressRet)
     retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
+    ventana.mainloop()
 
+    
 def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente5):#Botones Agente 5
     stack=[]
     stack.append(Agente.position)
@@ -343,16 +343,16 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:            
             Agente.scan_data()
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        if Agente.position==fin_pos:
                 ventana.destroy()
     def pressB():
         m=Agente.move('d',1)
         if m:            
             Agente.scan_data()
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        if Agente.position==fin_pos:
                 ventana.destroy()  
 
     def pressC():
@@ -360,8 +360,8 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:            
             Agente.scan_data()
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        if Agente.position==fin_pos:
                 ventana.destroy()  
 
     def pressD():
@@ -369,8 +369,8 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:            
             Agente.scan_data()
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-            if Agente.position==fin_pos:
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        if Agente.position==fin_pos:
                 ventana.destroy()  
     
     list = Matrix
@@ -665,7 +665,9 @@ def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
     while queue:
         node, path = queue.popleft()
         if node == fin_pos:
-            return path
+            ventana.after(400,print(""))
+            ventana.destroy()
+            return
         if node in visited:
             continue
         visited.add(node)
@@ -683,12 +685,16 @@ def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
                     queue.append((Agente.position, path + [Agente.position]))
                     Agente.position =vm.assign_point(Matrix,node.Xcoordinate,node.Ycoordinate,node)
         
-    
+    update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position)
+    ventana.after(750,print(""))
+    ventana.destroy()
     ventana.mainloop()
 
 
-def recorrido(Matrix,fin_pos,ini_pos,stack):
+def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo):
     list = Matrix
+    if raiz:
+        stack=tree_to_list.list_tree(raiz)
     Agente=agente(Matrix,stack)
     a = len(list)
     length = 500//a
@@ -726,10 +732,9 @@ def recorrido(Matrix,fin_pos,ini_pos,stack):
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
     canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
-    if len(stack)>35:
-        tim=250
-    else:
-        tim=500
+
+       # stack=tree_to_list.tree_list(raiz)
+    tim=125
     
     ventana.after(tim,print(""))
     while stack:
@@ -740,7 +745,6 @@ def recorrido(Matrix,fin_pos,ini_pos,stack):
         ventana.after(tim,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position))
 
     ventana.mainloop()
-
 
 
 #================Funcion para actualizar el mapa===============
@@ -757,10 +761,7 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
             if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
                 color="#000000"
             elif terrain.visited_flag:
-                if terrain.deci_flag:
-                    canvas.create_text(((j+.5)*length,(i-.5)*length),text="V,O")
-                else:
-                    canvas.create_text(((j+.5)*length,(i-.5)*length),text="V")
+                #Dinujar colores
                 if terrain==fin_pos:
                     color="#FF0000"
                 elif terrain==ini_pos:
@@ -769,9 +770,19 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
                     color="#FFFFFF"
                 else:
                     color=visited_switch[terrain.Valor]
+                #dibujar texto arriba del color
             elif terrain.seen_flag and not terrain.visited_flag:
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+    for i in range(a):
+        for j in range(a):
+            terrain=list[i][j]
+            if terrain.deci_flag:
+                    canvas.create_text(((j+.5)*length,(i+.5)*length),text="V,O")
+            elif terrain.visited_flag:
+                    canvas.create_text(((j+.5)*length,(i+.5)*length),text="V")
+
+            
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
     Fy = fin_pos.Ycoordinate
     canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")

@@ -10,6 +10,7 @@ import print_tree_console
 import A_estrella
 import Busq_Anch
 import copy
+import arboli
 b_p.sys.setrecursionlimit(8000)
 C_aux:str=list()
 C_ini=list()
@@ -195,16 +196,16 @@ def print_stack(stack):
         print(str(stack[p].Xcoordinate)+","+str(stack[p].Ycoordinate)+"\n")
         p-=1
         i+=1
-        
-#Aqui empieza
-        
+#==================================================================================================
+#==================================Aqui empieza====================================================
+#==================================================================================================        
 Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 Matrix1=copy.deepcopy(Matrix)#Separamos la matriz en 2 variables, dejando la original para despues
 Matrix2=copy.deepcopy(Matrix)
 Matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
 Matrix4=copy.deepcopy(Matrix)#Esta es para A*
-testAnch(Matrix)  
+#testAnch(Matrix)  
     
 select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
 #Switch para seleccionar agentes
@@ -227,12 +228,12 @@ costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
 costo_pc=calc_cost(solution.stack,AgentePC)
 #===========Vamos a mostrar que hizo el agente
 #ifz.mapaR(Matrix2,False,fpoint,point_ini,solution.stack)   
-ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack)#Solucion paso por paso
-
-ifz.recorrido_anchura(Matrix4, fin_posA, ini_posA)
+ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack,raiz)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 print("Mientras tu hiciste un costo de "+str(costo_jugador))
-print_tree_console.print_tree(raiz)
+print_tree_console.tree_to_file(raiz)
+arboli.show_tree()
+
 
 
 

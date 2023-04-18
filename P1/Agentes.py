@@ -133,8 +133,6 @@ class Agente2:#left,rigth, forward
         elif cost==0:
                 return cost_valid(0,False,scanned_pos)
         elif cost>0:  
-                if not self.user_flag and (not self.auto):#not false=true, false=user: not true=false, true = pc, not auto=we see the data
-                    print(scanned_pos.print_data(cost))#Interfaz grafica
                 return cost_valid(cost,True,scanned_pos)
             
                 

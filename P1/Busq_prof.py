@@ -81,6 +81,8 @@ def alg_busq1(raiz:Nodo,Agente:Ag.agente1,Matrix:r_d.Coord,fin_pos:r_d.Coord)->r
         aux=Agente.scan_forward(True)
         if aux.valid and not aux.point.visited_flag:
             counter+=1
+    if counter>1:
+        Agente.deci_flag=True
     for dirs in range(4):
         dir=Agente.direction
         aux=Agente.scan_forward(True)
@@ -180,8 +182,10 @@ def rec_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord,out
     scanned=Agente.scan()
     if len(scanned)>1:
         Agente.position.deci_flag=True
+        output[-1].deci_flag=True
     elif len(scanned)==0:
         return False
+        
     elif not scanned[-1].c_v.valid:
         return False
     for scan in scanned:
@@ -200,13 +204,13 @@ def alg_busq3(raiz:Nodo,Agente:Ag.Agente3,Matrix:r_d.Coord,fin_pos:r_d.Coord):
     stack.append(Agente.position)
     if Agente.position==fin_pos:
         return resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
-    
     cost=0
     scanned=Agente.scan()#Nos devolverá todas las posiciones validas con su direccion
     if len(scanned)==0:
         exit()
     if len(scanned)>1:
         Agente.position.deci_flag=True
+    stack.append(Agente.position)
     for scan in scanned:#Iteramos sobre las posiciones y creamos la raiz
         if not (scan.c_v.point.Valor=='-1'):
             n_raiz=Nodo(scan.c_v.point,raiz)
