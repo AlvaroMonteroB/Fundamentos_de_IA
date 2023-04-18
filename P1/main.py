@@ -154,24 +154,17 @@ def test5(Matrix:Read_data.Coord):
 #==========================================test_A*===============================================
 #================================================================================================
 def testAE(Matrix:Read_data.Coord):
+    Matrix1=copy.deepcopy(Matrix)
     print("Prueba con A*")
     point_ini=various_methods.assign_point(Matrix,1,1,Matrix[0][0])
-    AgentA=Agentes.Agente3(point_ini,'4',Matrix,False)
+    AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
     fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
     output=A_estrella.Init_busq(raiz,AgentA,Matrix,fin)
-    if output.stack:
-        print_stack(output.stack)
-        c=calc_cost(output.stack, AgentA)
-        print("El costo es "+str(c))
-        
-        
-    else:
-        print("No se encontro el punto")
-    print_tree_console.print_tree(raiz)
-    ifz.mapaR(Matrix,False,fin,point_ini,output.stack)
-    
+    print_tree_console.tree_to_file(raiz)
+    ifz.recorrido(Matrix1, fin, point_ini, None, raiz)
+    arboli.show_tree()
 
 #================================================================================================
 #==========================================test_Anch=============================================
@@ -184,6 +177,7 @@ def testAnch(Matrix:Read_data.Coord):
     fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
     ifz.recorrido_anchura(Matrix, fin, point_ini,AgentA)
+    arboli.show_tree()
 
 
 
@@ -205,7 +199,9 @@ Matrix1=copy.deepcopy(Matrix)#Separamos la matriz en 2 variables, dejando la ori
 Matrix2=copy.deepcopy(Matrix)
 Matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
 Matrix4=copy.deepcopy(Matrix)#Esta es para A*
-#testAnch(Matrix)  
+Matrix5=copy.deepcopy(Matrix)
+testAnch(Matrix4)  
+testAE(Matrix5)
     
 select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
 #Switch para seleccionar agentes
@@ -226,8 +222,7 @@ solution=b_p.switch[select](raiz,AgentePC,Matrix2,fpoint_a)#Busquedas
 ifz.selec_agent_interface[select](Matrix1,True,fpoint_a,point_ini,Agentejugador)#Para desplegar botones dependiendo nuestro agente
 costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
 costo_pc=calc_cost(solution.stack,AgentePC)
-#===========Vamos a mostrar que hizo el agente
-#ifz.mapaR(Matrix2,False,fpoint,point_ini,solution.stack)   
+#===========Vamos a mostrar que hizo el agente  
 ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack,raiz)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 print("Mientras tu hiciste un costo de "+str(costo_jugador))
