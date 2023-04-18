@@ -330,16 +330,39 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
 def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente5):#Botones Agente 5
 
     def pressA():                              # A B   la esquina en la que está cada letra 
-        print("boton A")                       # C D   representa su direccion
-
+        m=Agente.move('w',1)                      # C D   representa su direccion
+        if m:            
+            Agente.scan_data()
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.destroy()
     def pressB():
-        print("boton B")
+        m=Agente.move('d',1)
+        if m:            
+            Agente.scan_data()
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.destroy()  
 
     def pressC():
-        print("boton C")
+        m=Agente.move('a',1)
+        if m:            
+            Agente.scan_data()
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.destroy()  
 
     def pressD():
-        print("boton D")
+        m=Agente.move('s',1)
+        if m:            
+            Agente.scan_data()
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.destroy()  
     
     list = Matrix
     a = len(list)
