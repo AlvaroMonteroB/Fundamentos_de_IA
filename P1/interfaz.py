@@ -21,10 +21,12 @@ class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
         self.stack.pop(0)
         if len(self.stack)==0:
             return
+        self.position=vm.assign_point(self.Matrix, self.stack[0].Xcoordinate, self.stack[0].Ycoordinate, self.Matrix[self.stack[0].Ycoordinate][self.stack[0].Xcoordinate])
         if self.stack[0].deci_flag:
             self.position.deci_flag=True
-        self.position=vm.assign_point(self.Matrix, self.stack[0].Xcoordinate, self.stack[0].Ycoordinate, self.Matrix[self.stack[0].Ycoordinate][self.stack[0].Xcoordinate])
-        
+
+
+
 ## creo que se puede optimizar si cambiamos la forma en la que llamamos las funciones
 def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:rd.Coord): ##le cambie el nombre porque agregué otras funciones dependiendo de lo que se está haciendo en ese momento 
 
@@ -334,7 +336,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
     retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
     ventana.mainloop()
 
-    
+
 def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente5):#Botones Agente 5
     stack=[]
     stack.append(Agente.position)
