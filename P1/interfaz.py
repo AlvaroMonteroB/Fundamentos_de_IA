@@ -9,6 +9,7 @@ class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
         self.stack=stack
         self.position=vm.assign_point(Matrix, stack[0].Xcoordinate, stack[0].Ycoordinate, Matrix[stack[0].Ycoordinate][stack[0].Xcoordinate])
     def scan(self):
+        scanned=[]
         vm.busq_point(self.Matrix, self.position.Xcoordinate+1, self.position.Ycoordinate)
         vm.busq_point(self.Matrix, self.position.Xcoordinate, self.position.Ycoordinate+1)
         vm.busq_point(self.Matrix, self.position.Xcoordinate-1, self.position.Ycoordinate)
@@ -17,6 +18,8 @@ class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
         self.stack.pop(0)
         if not self.stack:
             return
+        if self.stack[0].deci_flag:
+            self.position.deci_flag=True
         self.position=vm.assign_point(self.Matrix, self.stack[0].Xcoordinate, self.stack[0].Ycoordinate, self.Matrix[self.stack[0].Ycoordinate][self.stack[0].Xcoordinate])
         
 ## creo que se puede optimizar si cambiamos la forma en la que llamamos las funciones
@@ -142,7 +145,7 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
 
     avance = Button(ventana, text="avance", command=pressA)
     avance.pack(side=RIGHT, anchor=CENTER, padx=20)
@@ -163,17 +166,17 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:
             Agente.scan_forward(True)
             stack.append(Agente.position)
-            update_map(canvas,Matrix,fin_pos,ini_pos)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
 
     def pressR():
         Agente.turn_rigth()
         Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
 
     def pressL():
         Agente.turn_left()
         Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
 
     def PressRet():
         stack.pop()
@@ -216,7 +219,7 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
 
     avance = Button(ventana, text="avance", command=pressA)
     avance.pack(side=RIGHT, padx=20)
@@ -233,7 +236,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
     stack=[]
     stack.append(Agente.position)
     def pressUp():
-        m=Agente.move('w')
+        m=Agente.move('w',0)
         if m:            
             Agente.scan()
             stack.append(Agente.position)
@@ -244,7 +247,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         
 
     def pressDown():
-        m=Agente.move('s')
+        m=Agente.move('s',0)
         if m:            
             Agente.scan()
             stack.append(Agente.position)
@@ -253,7 +256,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
                 ventana.destroy()
 
     def pressLeft():
-        m=Agente.move('a')
+        m=Agente.move('a',0)
         if m:            
             Agente.scan()
             stack.append(Agente.position)
@@ -262,7 +265,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
                 ventana.destroy()
 
     def pressRight():
-        m=agente.move('d')
+        m=Agente.move('d',0)
         if m:            
             Agente.scan()
             stack.append(Agente.position)
@@ -312,7 +315,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
 
     up = Button(ventana, text="arriba", command=pressUp)
     up.pack(side=RIGHT, padx=20)
@@ -326,9 +329,13 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
     down = Button(ventana, text="abajo", command=pressDown)
     down.pack(side=RIGHT, padx=20)
     ventana.mainloop()
+    
+    retorno=Button(ventana,text="Regresar",command=PressRet)
+    retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
 
 def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente5):#Botones Agente 5
-
+    stack=[]
+    stack.append(Agente.position)
     def pressA():                              # A B   la esquina en la que está cada letra 
         m=Agente.move('w',1)                      # C D   representa su direccion
         if m:            
@@ -400,7 +407,7 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
 
     A = Button(ventana, text="A", command=pressA)
     A.pack(side=RIGHT, padx=20)
@@ -413,6 +420,8 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     B = Button(ventana, text="D", command=pressD)
     B.pack(side=RIGHT, padx=20)
+    
+    
     ventana.mainloop()
 
 
@@ -441,7 +450,7 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
     ventana.configure(bg="#FDF6FF")
 
     # Definir opciones y descripciones
-    opciones = [1, 2, 3, 4, 5]
+    opcionesA = [1, 2, 3, 4, 5]
     descripciones = {
         1: "Movimiento de giro izquierda y avance",
         2: "Movimiento de giro izquierda, giro derecha y avance",
@@ -646,7 +655,7 @@ def recorrido(Matrix,fin_pos,ini_pos,stack):
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
     if len(stack)>35:
         tim=250
     else:
@@ -678,6 +687,10 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
             if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
                 color="#000000"
             elif terrain.visited_flag:
+                if terrain.deci_flag:
+                    canvas.create_text(((j+.5)*length,(i-.5)*length),text="V,O")
+                else:
+                    canvas.create_text(((j+.5)*length,(i-.5)*length),text="V")
                 if terrain==fin_pos:
                     color="#FF0000"
                 elif terrain==ini_pos:
@@ -695,7 +708,7 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
 
     Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
     Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
     
 
     canvas.update() # actualiza el widget canvas
