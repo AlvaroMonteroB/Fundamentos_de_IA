@@ -375,7 +375,7 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
-
+    Agente.scan_data()
     for i in range(a):
         y = i * length
         for j in range(a):
