@@ -239,6 +239,7 @@ costo_pc=calc_cost(solution.stack,AgentePC)
 ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 print("Mientras tu hiciste un costo de "+str(costo_jugador))
+print_tree_console.print_tree(raiz)
 
 
 
