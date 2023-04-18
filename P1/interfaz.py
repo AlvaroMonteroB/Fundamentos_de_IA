@@ -88,12 +88,13 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
     stack=[]
     stack.append(Agente.position)
     def pressA(): #aqui es donde quiero hacer prubas para agregar las funciones y ver como cambia en la tabla pero aun estoy investigando como actualizarla o con el delay
-        Agente.move_forward(0,1)
-        Agente.scan_forward(True) 
-        stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-            ventana.after(7000,ventana.destroy())
+        m=Agente.move_forward(0,1)
+        if m:
+            Agente.scan_forward(True) 
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.after(7000,ventana.destroy())
         
     def pressG():
         Agente.turn_left()
@@ -153,20 +154,31 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
     retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
     
     ventana.mainloop()
+
 def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente2):#Botones Agente 2
     stack=[]
     stack.append(Agente.position)
     def pressA():
-        Agente.move_forward(0)
-        Agente.scan_forward(True)
-        stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos)
+        m=Agente.move_forward(0)
+        if m:
+            Agente.scan_forward(True)
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos)
 
     def pressR():
-        print("boton giroR")
+        Agente.turn_rigth()
+        Agente.scan_forward(True)
+        update_map(canvas,Matrix,fin_pos,ini_pos)
 
     def pressL():
-        print("boton giroL")
+        Agente.turn_left()
+        Agente.scan_forward(True)
+        update_map(canvas,Matrix,fin_pos,ini_pos)
+
+    def PressRet():
+        stack.pop()
+        Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
     
     list = Matrix
     a = len(list)
@@ -214,20 +226,55 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
     giroL = Button(ventana, text="GIzquierda", command=pressL)
     giroL.pack(side=RIGHT, padx=20)
     ventana.mainloop()
-
-def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botones Agente 3/4
-
+    retorno=Button(ventana,text="Regresar",command=PressRet)
+    retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
+#Estos agentes deberían usar el teclado en forma wasd para moverse
+def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente3):#Botones Agente 3/4
+    stack=[]
+    stack.append(Agente.position)
     def pressUp():
-        print("boton arriba") 
+        m=Agente.move('w')
+        if m:            
+            Agente.scan()
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.destroy()
+
+        
 
     def pressDown():
-        print("boton abajo")
+        m=Agente.move('s')
+        if m:            
+            Agente.scan()
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.destroy()
 
     def pressLeft():
-        print("boton izquierda")
+        m=Agente.move('a')
+        if m:            
+            Agente.scan()
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.destroy()
 
     def pressRight():
-        print("boton derecha")
+        m=agente.move('d')
+        if m:            
+            Agente.scan()
+            stack.append(Agente.position)
+            update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+            if Agente.position==fin_pos:
+                ventana.destroy()
+
+    def PressRet():
+        stack.pop()
+        Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+
     
     list = Matrix
     a = len(list)
@@ -280,7 +327,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Boton
     down.pack(side=RIGHT, padx=20)
     ventana.mainloop()
 
-def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Botones Agente 5
+def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente5):#Botones Agente 5
 
     def pressA():                              # A B   la esquina en la que está cada letra 
         print("boton A")                       # C D   representa su direccion
@@ -345,15 +392,19 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord):#Boton
     B.pack(side=RIGHT, padx=20)
     ventana.mainloop()
 
-def select_Ag():  #es para escoger el agente, al final retorna el numero que indica cada agente
 
     def mostrar_descripcion(event):
 
-        global agente_seleccionado
+        global agente_seleccionado, cxi,cyi,cxf,cyf, personaje_seleccionado
+        cxi = int(Xinicio.get())
+        cyi = int(Yinicio.get())
+        cxf = int(Xfin.get())
+        cyf = int(Yfin.get())
+        personaje_seleccionado = personaje.get()
         agente_seleccionado = agente.get()
         opcion = agente.get()
         descripcion = descripciones[opcion]
-        lbl_descripcion.config(text=descripcion)
+        print(f"Opción seleccionada: {opcion} + {descripcion}")
         ventana.destroy()
 
     def selec():
@@ -375,21 +426,161 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
         4: "Movimieto igual a una reina en ajedrez",
         5: "Movimietno igual a un alfil en ajedrez",
     }
+    opcionesP = [1, 2, 3, 4]
+
+    FSAP = Frame(ventana)#Frame Seleccion Agente/ Personaje
+    FSAP.pack(pady=20)
+    FSAP.configure(bg="#FDF6FF")
 
     # Crear widgets
-    agente = IntVar()
-    menu = OptionMenu(ventana, agente, *opciones, command=mostrar_descripcion)
-    menu.pack(side=LEFT, padx=10)
+    personaje = IntVar()
+    menuP = OptionMenu(FSAP,personaje,*opcionesP)
+    menuP.pack(side=LEFT, padx=10)
 
-    lbl_descripcion = Label(ventana, text="", bg="#FDF6FF", font=("Arial", 12), justify=LEFT)
+    agente = IntVar()
+    menuA = OptionMenu(FSAP, agente, *opcionesA, command=mostrar_descripcion)
+    menuA.pack(side=LEFT, padx=10)
+
+    lbl_descripcion = Label(FSAP, text="", bg="#FDF6FF", font=("Arial", 12), justify=LEFT)
     lbl_descripcion.pack(side=RIGHT, padx=30)
 
-    btn_guardar = Button(ventana, text="Guardar", font=("Arial", 16), command=selec)
-    btn_guardar.pack(side=LEFT, padx=10)
+    FCI = Frame(ventana)#Frame coordenadas de inicio
+    FCI.pack(pady=20)
+    FCI.configure(bg="#FDF6FF")
+
+    lbl_inicio = Label(FCI, text="Coordenadas de inicio", bg="#FDF6FF", font=("Arial", 12))
+    lbl_inicio.pack(padx=10)
+
+    label_texto = Label(FCI, text="X:",bg="#FDF6FF",font=("Arial", 12))
+    label_texto.pack(side=LEFT)
+    Xinicio = Entry(FCI)
+    Xinicio.pack(side=LEFT,)
+
+    label_texto = Label(FCI, text="Y:",bg="#FDF6FF",font=("Arial", 12))
+    label_texto.pack(side=LEFT)
+    Yinicio = Entry(FCI)
+    Yinicio.pack(side=LEFT)
+
+    FCF = Frame(ventana)#Frame coordenadas de fin
+    FCF.pack(pady=20)
+    FCF.configure(bg="#FDF6FF")
+
+    lbl_inicio = Label(FCF, text="Coordenadas de fin", bg="#FDF6FF", font=("Arial", 12))
+    lbl_inicio.pack(padx=10)
+
+    label_texto = Label(FCF, text="X:",bg="#FDF6FF",font=("Arial", 12))
+    label_texto.pack(side=LEFT)
+    Xfin = Entry(FCF)
+    Xfin.pack(side=LEFT,)
+
+    label_texto = Label(FCF, text="Y:",bg="#FDF6FF",font=("Arial", 12))
+    label_texto.pack(side=LEFT)
+    Yfin = Entry(FCF)
+    Yfin.pack(side=LEFT)
+
+
+    btn_guardar = Button(ventana, text="Guardar", font=("Arial", 16), command=guardar)
+    btn_guardar.pack(padx=10)
 
     
     ventana.mainloop()
-    return agente_seleccionado
+    return agente_seleccionado, cxi, cyi, cxf, cyf,personaje_seleccionado#
+
+def select_Ag():  #es para escoger el agente, al final retorna el numero que indica cada agente
+
+    def guardar():
+        global agente_seleccionado, cxi,cyi,cxf,cyf, personaje_seleccionado
+        cxi = int(Xinicio.get())
+        cyi = int(Yinicio.get())
+        cxf = int(Xfin.get())
+        cyf = int(Yfin.get())
+        personaje_seleccionado = str(personaje.get())
+        agente_seleccionado = agente.get()
+        ventana.destroy()
+
+    def mostrar_descripcion(event):
+        opcion = agente.get()
+        descripcion = descripciones[opcion]
+        lbl_descripcion.config(text=descripcion)
+
+    def selec():
+        opcion = agente.get()
+        descripcion = descripciones[opcion]
+        print(f"Opción seleccionada: {opcion} + {descripcion}")
+
+    ventana = Tk()
+    ventana.title("Seleccionar agente")
+    ventana.geometry("600x400")
+    ventana.configure(bg="#FDF6FF")
+
+    # Definir opciones y descripciones
+    opcionesA = [1, 2, 3, 4, 5]
+    descripciones = {
+        1: "Movimiento de giro izquierda y avance",
+        2: "Movimiento de giro izquierda, giro derecha y avance",
+        3: "Movimietno de avance hacia las 4 diracciones",
+        4: "Movimieto igual a una reina en ajedrez",
+        5: "Movimietno igual a un alfil en ajedrez",
+    }
+    opcionesP = [1, 2, 3, 4]
+
+    FSAP = Frame(ventana)#Frame Seleccion Agente/ Personaje
+    FSAP.pack(pady=20)
+    FSAP.configure(bg="#FDF6FF")
+
+    # Crear widgets
+    personaje = IntVar()
+    menuP = OptionMenu(FSAP,personaje,*opcionesP)
+    menuP.pack(side=LEFT, padx=10)
+
+    agente = IntVar()
+    menuA = OptionMenu(FSAP, agente, *opcionesA, command=mostrar_descripcion)
+    menuA.pack(side=LEFT, padx=10)
+
+    lbl_descripcion = Label(FSAP, text="", bg="#FDF6FF", font=("Arial", 12), justify=LEFT)
+    lbl_descripcion.pack(side=RIGHT, padx=30)
+
+    FCI = Frame(ventana)#Frame coordenadas de inicio
+    FCI.pack(pady=20)
+    FCI.configure(bg="#FDF6FF")
+
+    lbl_inicio = Label(FCI, text="Coordenadas de inicio", bg="#FDF6FF", font=("Arial", 12))
+    lbl_inicio.pack(padx=10)
+
+    label_texto = Label(FCI, text="X:",bg="#FDF6FF",font=("Arial", 12))
+    label_texto.pack(side=LEFT)
+    Xinicio = Entry(FCI)
+    Xinicio.pack(side=LEFT,)
+
+    label_texto = Label(FCI, text="Y:",bg="#FDF6FF",font=("Arial", 12))
+    label_texto.pack(side=LEFT)
+    Yinicio = Entry(FCI)
+    Yinicio.pack(side=LEFT)
+
+    FCF = Frame(ventana)#Frame coordenadas de fin
+    FCF.pack(pady=20)
+    FCF.configure(bg="#FDF6FF")
+
+    lbl_inicio = Label(FCF, text="Coordenadas de fin", bg="#FDF6FF", font=("Arial", 12))
+    lbl_inicio.pack(padx=10)
+
+    label_texto = Label(FCF, text="X:",bg="#FDF6FF",font=("Arial", 12))
+    label_texto.pack(side=LEFT)
+    Xfin = Entry(FCF)
+    Xfin.pack(side=LEFT,)
+
+    label_texto = Label(FCF, text="Y:",bg="#FDF6FF",font=("Arial", 12))
+    label_texto.pack(side=LEFT)
+    Yfin = Entry(FCF)
+    Yfin.pack(side=LEFT)
+
+
+    btn_guardar = Button(ventana, text="Guardar", font=("Arial", 16), command=guardar)
+    btn_guardar.pack(padx=10)
+
+    
+    ventana.mainloop()
+    return agente_seleccionado, cxi, cyi, cxf, cyf,personaje_seleccionado#
 
 
 
@@ -527,7 +718,7 @@ selec_agent_interface={
     2:BAg2,
     3:BAg34,
     4:BAg34,
-    5:BAg34
+    5:BAg5
 }
 
 

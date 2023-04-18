@@ -215,40 +215,11 @@ Matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
 Matrix4=copy.deepcopy(Matrix)#Esta es para A*
    
     
-select=ifz.select_Ag()#Seleccion del agente
-""""""
-#Aqui debe haber para seleccionar personaje
-pers=input("Selecciona personaje, 1 2 3 4\n")
-optn=True
-#Puntos con sus respectivas coordenadas
-print("Coordenadas del primer punto")
-while optn:
-    X=int(input("X="))
-    Y=int(input("Y="))
-    point_ini=various_methods.busq_point(Matrix,X,Y)
-    if point_ini.Valor=='-1':
-        print("Introduce un valor valido")
-        continue
-    elif Criaturas.switch[pers](point_ini.Valor)!=0:#Significa que la posicion es valida para el personaje
-        point_ini=various_methods.assign_point(Matrix,X,Y,Matrix[X][Y])
-        optn=False
-    else:
-        print("Posicion no valida para el personaje")
-optn=True   
-print("Coordenadas del segundo punto")
-while optn:
-    finx=int(input("X="))
-    finy=int(input("Y="))
-    fpoint=various_methods.busq_point(Matrix1,finx,finy)
-    if fpoint.Valor=='-1':
-        print("Introduce un punto valido")
-        continue
-    elif Criaturas.switch[pers](fpoint.Valor)!=0:#Significa que la posicion es valida para el personaje
-        optn=False 
+select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
 #Switch para seleccionar agentes
 #Matrix1->Jugador
 #Matrix2->Agente
-    fpoint_a=various_methods.busq_point(Matrix2,finx,finy)
+fpoint_a=various_methods.busq_point(Matrix2,finx,finy)
 if 0<select<3:#Como los primeros 2 tienen un atributo de direccion, lo separamos
     point_ini=various_methods.assign_point(Matrix1,X,Y,Matrix1[X][Y])#Asignar el punto en la matriz del jugador
     Agentejugador=Agentes.switch_dir[select](1,point_ini,pers,Matrix1,False)
@@ -260,12 +231,12 @@ elif 6>select>2:
     AgentePC=Agentes.switch[select](point_ini,pers,Matrix2,True)
 raiz=b_p.Nodo(point_ini,None)
 solution=b_p.switch[select](raiz,AgentePC,Matrix2,fpoint_a)#Busquedas
-ifz.selec_agent_interface[select](Matrix1,True,fpoint,point_ini,Agentejugador)#Para desplegar botones dependiendo nuestro agente
+ifz.selec_agent_interface[select](Matrix1,True,fpoint_a,point_ini,Agentejugador)#Para desplegar botones dependiendo nuestro agente
 costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
 costo_pc=calc_cost(solution.stack,AgentePC)
 #===========Vamos a mostrar que hizo el agente
 #ifz.mapaR(Matrix2,False,fpoint,point_ini,solution.stack)   
-ifz.recorrido(Matrix3, fpoint, point_ini,solution.stack)#Solucion paso por paso
+ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 print("Mientras tu hiciste un costo de "+str(costo_jugador))
 
