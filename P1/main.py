@@ -182,16 +182,7 @@ def testAnch(Matrix:Read_data.Coord):
     raiz=b_p.Nodo(AgentA.position,None)
     fin=various_methods.busq_point(Matrix,7,14)
     fin.visited_flag=False
-    output=Busq_Anch.alg_busq1(raiz,Matrix,AgentA,fin)
-    if output:
-        print_stack(output)
-        c=calc_cost(output, AgentA)
-        print("El costo es "+str(c))
-        #print_tree_console.print_tree(raiz)
-        ifz.mapaR(Matrix,False,fin,point_ini,output)
-
-    else:
-        print("No se encontro el punto")
+    ifz.recorrido_anchura(Matrix, fin, point_ini,AgentA)
 
 
 
@@ -213,7 +204,7 @@ Matrix1=copy.deepcopy(Matrix)#Separamos la matriz en 2 variables, dejando la ori
 Matrix2=copy.deepcopy(Matrix)
 Matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
 Matrix4=copy.deepcopy(Matrix)#Esta es para A*
-   
+testAnch(Matrix)  
     
 select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
 #Switch para seleccionar agentes
@@ -237,6 +228,8 @@ costo_pc=calc_cost(solution.stack,AgentePC)
 #===========Vamos a mostrar que hizo el agente
 #ifz.mapaR(Matrix2,False,fpoint,point_ini,solution.stack)   
 ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack)#Solucion paso por paso
+
+ifz.recorrido_anchura(Matrix4, fin_posA, ini_posA)
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 print("Mientras tu hiciste un costo de "+str(costo_jugador))
 print_tree_console.print_tree(raiz)

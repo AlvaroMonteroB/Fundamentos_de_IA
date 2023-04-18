@@ -3,6 +3,8 @@ import numpy as np
 import Read_data as rd
 import Agentes as ag
 import various_methods as vm
+from collections import deque
+import Busq_prof as b_p
 class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
     def __init__(self,Matrix,stack:list()):
         self.Matrix=Matrix
@@ -615,6 +617,74 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
     return agente_seleccionado, cxi, cyi, cxf, cyf,personaje_seleccionado#
 
 
+def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
+    list = Matrix
+    a = len(list)
+    length = 500//a
+
+    ventana = Tk()
+    ventana.title("Mapa")
+    ventana.geometry("850x600")
+    ventana.configure(bg="#FDF6FF")
+
+    canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
+    canvas.pack(side=LEFT,padx=50)
+    Agente.scan()
+    for i in range(a):
+        y = i * length
+        for j in range(a):
+            x = j * length
+            terrain=list[i][j]
+            if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
+                color="#000000"
+            elif terrain.visited_flag:
+                if terrain==fin_pos:
+                    color="#FF0000"
+                elif terrain==ini_pos:
+                    color="#0000FF"
+                else:
+                    color=visited_switch[terrain.Valor]
+            elif terrain.seen_flag and not terrain.visited_flag:
+                color=only_seen_switch[terrain.Valor]
+            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+
+    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+    Fy = fin_pos.Ycoordinate
+    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
+
+    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+    Iy = ini_pos.Ycoordinate
+    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
+    
+    #=====Algoritmo de busqueda======
+
+    queue = deque([(Agente.position, [])])
+    visited = set()
+    cost=0
+    queue = deque([(Agente.position, [Agente.position])])
+    while queue:
+        node, path = queue.popleft()
+        if node == fin_pos:
+            return path
+        if node in visited:
+            continue
+        visited.add(node)
+        Agente.position = node
+        scanned=Agente.scan()
+        ventana.after(100,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position))
+        for direction in scanned:
+            if not direction.dirs:
+                continue
+            else:
+                Agente.position.actual_flag=False
+                char_dir=b_p.switch2[direction.dirs]
+                m=Agente.move(char_dir,cost)
+                if m:
+                    queue.append((Agente.position, path + [Agente.position]))
+                    Agente.position =vm.assign_point(Matrix,node.Xcoordinate,node.Ycoordinate,node)
+        
+    
+    ventana.mainloop()
 
 
 def recorrido(Matrix,fin_pos,ini_pos,stack):
