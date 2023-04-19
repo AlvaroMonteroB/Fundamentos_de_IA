@@ -458,8 +458,8 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
     descripciones = {
         1: "Movimiento de giro izquierda y avance",
         2: "Movimiento de giro izquierda, giro derecha y avance",
-        3: "Movimietno de avance hacia las 4 diracciones",
-        4: "Movimieto igual a una reina en ajedrez",
+        3: "Movimiento de avance hacia las 4 diracciones",
+        4: "Movimiento igual a una reina en ajedrez",
         5: "Movimietno igual a un alfil en ajedrez",
     }
     opcionesP = [1, 2, 3, 4]
