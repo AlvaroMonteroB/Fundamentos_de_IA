@@ -11,6 +11,7 @@ import A_estrella
 import Busq_Anch
 import copy
 import arboli
+import edit_map
 b_p.sys.setrecursionlimit(8000)
 C_aux:str=list()
 C_ini=list()
@@ -192,7 +193,8 @@ def print_stack(stack):
         i+=1
 #==================================================================================================
 #==================================Aqui empieza====================================================
-#==================================================================================================        
+#==================================================================================================    
+edit_map.edit()    
 Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 Matrix1=copy.deepcopy(Matrix)#Separamos la matriz en 2 variables, dejando la original para despues
