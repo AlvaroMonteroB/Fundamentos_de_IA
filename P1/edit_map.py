@@ -1,46 +1,42 @@
-import tkinter
+from tkinter import *
 import Read_data as rd
+import various_methods as vm
 import sys
 
 class Agente_edit:
-    def __init__(self,Matrix):
+    def __init__(self,Matrix,position):
         self.Matrix=Matrix
+        self.position=vm.assign_point(Matrix,0,0,Matrix[0][0]) 
+    def up(self):
+        self.position=vm.assign_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate-1,self.position)
+    def right(self):
+        self.position=vm.assign_point(self.Matrix,self.position.Xcoordinate+1,self.position.Ycoordinate,self.position)
+    def left(self):
+        self.position=vm.assign_point(self.Matrix,self.position.Xcoordinate-1,self.position.Ycoordinate,self.position)
+    def down(self):
+        self.position=vm.assign_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1,self.position)
 
 def most_map(Matrix,Agente:Agente_edit):
 
     
     def pressUp():
-        m=Agente.move('w',0)
-        if m:            
-            Agente.scan()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)    
-        if Agente.position==fin_pos:
-                ventana.destroy()
+        Agente.up()
+        update_window(canvas,Matrix,Agente.position)
 
         
 
     def pressDown():
-        m=Agente.move('s',0)
-        if m:            
-            Agente.scan()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()
+        Agente.down()
+        update_window(canvas,Matrix,Agente.position)
 
     def pressLeft():
-        m=Agente.move('a',0)
-        if m:            
-            Agente.scan()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()
+        Agente.left()
+        update_window(canvas,Matrix,Agente.position)
 
     def pressRight():
-        Agente
-        
+        Agente.right
+        update_window(canvas,Matrix,Agente.position)
+                
     list = Matrix
     a = len(list)
     length = 500//a
@@ -51,14 +47,13 @@ def most_map(Matrix,Agente:Agente_edit):
     ventana.configure(bg="#FDF6FF")
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
-    if stack:#Aqui imprimimos la solucion 
-        for i in range(a):
-            y = i * length
-            for j in range(a):
-                x = j * length
-                terrain=list[i][j]
-                color=visited_switch[terrain.Valor]
-                canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+    for i in range(a):
+        y = i * length
+        for j in range(a):
+            x = j * length
+            terrain=list[i][j]
+            color=visited_switch[terrain.Valor]
+            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
 
     up = Button(ventana, text="arriba", command=pressUp)
     up.pack(side=TOP, padx=20)
@@ -76,7 +71,7 @@ def most_map(Matrix,Agente:Agente_edit):
 
 
 
-def update_window(canvas,matrix,act_pos):
+def update_window(canvas,Matrix,act_pos):
     list = Matrix
     a = len(list)
     length = 500//a
@@ -90,14 +85,13 @@ def update_window(canvas,matrix,act_pos):
     ventana.configure(bg="#FDF6FF")
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
-    if stack:#Aqui imprimimos la solucion 
-        for i in range(a):
-            y = i * length
-            for j in range(a):
-                x = j * length
-                terrain=list[i][j]
-                color=visited_switch[terrain.Valor]
-                canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+    for i in range(a):
+        y = i * length
+        for j in range(a):
+            x = j * length
+            terrain=list[i][j]
+            color=visited_switch[terrain.Valor]
+            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
 
 
 def update_file(Matrix:rd.Coord):
