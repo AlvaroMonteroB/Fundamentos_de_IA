@@ -90,7 +90,10 @@ def update_window(canvas,Matrix,act_pos):
         for j in range(a):
             x = j * length
             terrain=list[i][j]
-            color=visited_switch[terrain.Valor]
+            if terrain==act_pos:
+                color="#FFFFFF"
+            else:
+                color=visited_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
 
 
