@@ -13,9 +13,10 @@ class Coord():
         self.seen_flag=seen_flag
         self.deci_flag=deci_flag #Bandera para ver si se ha tomado una desicion
         self.actual_flag=actual_flag
-    def print_data(self,cost):
-        print("Data of point "+str(self.Xcoordinate)+","+str(self.Ycoordinate))
-        print("El terreno es "+data_terrain[self.Valor]+" Tiene un costo de "+cost+" Esta casilla")
+    def __str__(self):
+        one=("Data of point "+str(self.Xcoordinate)+","+str(self.Ycoordinate))
+        two=("El terreno es "+data_terrain[self.Valor])
+        return one+' '+two
 
 def read_matrix(puntos:list[Coord])->None:
     Matrix_rows=list()
@@ -51,3 +52,11 @@ def read_matrix(puntos:list[Coord])->None:
 def access_obj(cols,rows,Mat_obj:Coord):#Hay que modificar este
     return Mat_obj[rows][cols]
 
+data_terrain={
+    '0':"Montana",
+    '1':"Tierra",
+    '2':"Agua",
+    '3':"Arena",
+    '4':"Bosque",
+    '5':"Pantano"
+}
