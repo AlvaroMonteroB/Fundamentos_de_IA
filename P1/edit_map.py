@@ -18,7 +18,11 @@ class Agente_edit:
 
 def most_map(Matrix,Agente:Agente_edit):
     def update_pos():
-        canvas
+        if -1<ter_num[Agente.position.Valor]<5:
+         Agente.position.Valor=terrain_switch[ter_num[Agente.position.Valor]+1]
+        elif ter_num[Agente.position.Valor]==5:
+            Agente.position.Valor=terrain_switch[0]
+        update_window(canvas,Matrix,Agente.position,text)
     
     def pressUp():
         Agente.up()
@@ -34,12 +38,14 @@ def most_map(Matrix,Agente:Agente_edit):
         update_window(canvas,Matrix,Agente.position,text)
 
     def pressRight():
-        Agente.right
+        Agente.right()
         update_window(canvas,Matrix,Agente.position,text)
 
     def pressDone():
         update_file(Matrix)
+        update_window(canvas,Matrix,Agente.position,text)
         ventana.destroy()
+    
                 
     list = Matrix
     a = len(list)
@@ -59,7 +65,7 @@ def most_map(Matrix,Agente:Agente_edit):
             color=visited_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
 
-    text=Canvas(ventana,width=100,height=100,bg="#FDF6FF")
+    text=Canvas(ventana,width=150,height=100,bg="#FDF6FF")
     text.pack(side=LEFT)
     text.create_text((1,7),text=str(Agente.position))
 
@@ -77,6 +83,9 @@ def most_map(Matrix,Agente:Agente_edit):
 
     done=Button(ventana,text="Hecho", command=pressDone)
     done.pack(side=RIGHT,padx=20)
+    
+    update=Button(ventana,text="Act pos",command=update_pos)
+    update.pack(side=LEFT,padx=20)
 
     ventana.mainloop()
 
@@ -91,11 +100,6 @@ def update_window(canvas,Matrix,act_pos,text):
     list = Matrix
     a = len(list)
     length = 500//a
-    ventana = Tk()
-    ventana.title("Mapa")
-    ventana.geometry("850x600")
-    ventana.configure(bg="#FDF6FF")
-    canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
     for i in range(a):
         y = i * length
@@ -108,9 +112,8 @@ def update_window(canvas,Matrix,act_pos,text):
                 color=visited_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
     text.delete("all")
-    text=Canvas(ventana,width=100,height=100,bg="#FDF6FF")
     text.pack(side=LEFT)
-    text.create_text((1,7),text=str(Agente.position))
+    text.create_text((1,7),text=str(act_pos))
     canvas.update()
     text.update()
 
@@ -120,14 +123,15 @@ def update_window(canvas,Matrix,act_pos,text):
 def update_file(Matrix:rd.Coord):
     with open("matrix.tx",'w',encoding="utf-8") as f:
         sys.stdout=f
-    for J in len(Matrix):
-        for I in len(Matrix[0]):
+    for J in range(len(Matrix)):
+        for I in range(len(Matrix[0])):
             terreno=Matrix[J][I]
             if I<len(Matrix[0]):
                 print(terreno.Valor+',')
             else:
                 print(terreno.Valor+'\n')
     sys.stdout = sys.__stdout__
+    f.close()
     return
 
 
@@ -148,4 +152,23 @@ visited_switch={
     '3':"#E2C58B",
     '4':"#00C606",
     '5':"#830EC6"
+}
+
+
+terrain_switch={#Numero a terreno
+    0:'0',
+    1:'1',
+    2:'2',
+    3:'3',
+    4:'4',
+    5:'5'
+}
+
+ter_num={#Terreno a numero
+    '0':0,
+    '1':1,
+    '2':2,
+    '3':3,
+    '4':4,
+    '5':5
 }
