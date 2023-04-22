@@ -99,18 +99,19 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         Agente.move_forward(0,1)
         Agente.scan_forward(True) 
         stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         if Agente.position==fin_pos:
             ventana.after(7000,ventana.destroy())
         
     def pressG():
         Agente.turn_left()
         Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         
     def PressRet():
+        stack.pop()
         Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
     
     list = Matrix
     a = len(list)
@@ -123,6 +124,9 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
+
+    lbl = Label(ventana, text="",bg="#FDF6FF",font=("Arial", 12))
+    lbl.pack()  
 
     for i in range(a):
         y = i * length
@@ -141,6 +145,7 @@ def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
             elif terrain.seen_flag and not terrain.visited_flag:
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+
 
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
     Fy = fin_pos.Ycoordinate
@@ -169,22 +174,22 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:
             Agente.scan_forward(True)
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
 
     def pressR():
         Agente.turn_rigth()
         Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
 
     def pressL():
         Agente.turn_left()
         Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
 
     def PressRet():
         stack.pop()
         Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,ventana)
     
     list = Matrix
     a = len(list)
@@ -197,6 +202,9 @@ def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
+
+    lbl = Label(ventana, text="",bg="#FDF6FF",font=("Arial", 12))
+    lbl.pack()  
 
     for i in range(a):
         y = i * length
@@ -243,7 +251,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         if m:            
             Agente.scan()
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)    
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)    
         if Agente.position==fin_pos:
                 ventana.destroy()
 
@@ -254,7 +262,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         if m:            
             Agente.scan()
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         if Agente.position==fin_pos:
                 ventana.destroy()
 
@@ -263,7 +271,7 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         if m:            
             Agente.scan()
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         if Agente.position==fin_pos:
                 ventana.destroy()
 
@@ -272,14 +280,14 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
         if m:            
             Agente.scan()
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         if Agente.position==fin_pos:
                 ventana.destroy()
 
     def PressRet():
         stack.pop()
         Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
 
     
     list = Matrix
@@ -293,6 +301,9 @@ def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
+
+    lbl = Label(ventana, text="",bg="#FDF6FF",font=("Arial", 12))
+    lbl.pack()  
 
     for i in range(a):
         y = i * length
@@ -345,7 +356,7 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:            
             Agente.scan_data()
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         if Agente.position==fin_pos:
                 ventana.destroy()
     def pressB():
@@ -353,7 +364,7 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:            
             Agente.scan_data()
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         if Agente.position==fin_pos:
                 ventana.destroy()  
 
@@ -362,7 +373,7 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:            
             Agente.scan_data()
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         if Agente.position==fin_pos:
                 ventana.destroy()  
 
@@ -371,7 +382,7 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
         if m:            
             Agente.scan_data()
             stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
+        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position,Agente,lbl)
         if Agente.position==fin_pos:
                 ventana.destroy()  
     
@@ -386,6 +397,10 @@ def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:a
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
+
+    lbl = Label(ventana, text="",bg="#FDF6FF",font=("Arial", 12))
+    lbl.pack()  
+
     Agente.scan_data()
     for i in range(a):
         y = i * length
@@ -564,10 +579,16 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
     FSAP.pack(pady=20)
     FSAP.configure(bg="#FDF6FF")
 
+    lbl_personaje = Label(FSAP, text="Personaje:", bg="#FDF6FF", font=("Arial", 12))
+    lbl_personaje.pack(side=LEFT, padx=10)
+
     # Crear widgets
     personaje = IntVar()
     menuP = OptionMenu(FSAP,personaje,*opcionesP)
     menuP.pack(side=LEFT, padx=10)
+
+    lbl_agente = Label(FSAP, text="Agente:", bg="#FDF6FF", font=("Arial", 12))
+    lbl_agente.pack(side=LEFT, padx=10)
 
     agente = IntVar()
     menuA = OptionMenu(FSAP, agente, *opcionesA, command=mostrar_descripcion)
@@ -631,6 +652,10 @@ def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
+
+    lbl = Label(ventana, text="",bg="#FDF6FF",font=("Arial", 12))
+    lbl.pack()  
+
     Agente.scan()
     for i in range(a):
         y = i * length
@@ -675,7 +700,7 @@ def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
         visited.add(node)
         Agente.position = node
         scanned=Agente.scan()
-        ventana.after(100,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position))
+        ventana.after(100,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position,Agente,lbl))
         for direction in scanned:
             if not direction.dirs:
                 continue
@@ -687,7 +712,7 @@ def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
                     queue.append((Agente.position, path + [Agente.position]))
                     Agente.position =vm.assign_point(Matrix,node.Xcoordinate,node.Ycoordinate,node)
         
-    update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position)
+    update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position,Agente,ventana)
     ventana.after(750,print(""))
     ventana.destroy()
     ventana.mainloop()
@@ -708,6 +733,10 @@ def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo):
 
     canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
     canvas.pack(side=LEFT,padx=50)
+
+    lbl = Label(ventana, text="",bg="#FDF6FF",font=("Arial", 12))
+    lbl.pack()  
+
     Agente.scan()
     for i in range(a):
         y = i * length
@@ -744,17 +773,18 @@ def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo):
             continue
         Agente.move()
         Agente.scan()
-        ventana.after(tim,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position))
+        ventana.after(tim,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position,Agente,lbl))
 
     ventana.mainloop()
 
 
 #================Funcion para actualizar el mapa===============
-def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
+def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos,Agente:ag,lbl):
     list = Matrix
     a = len(list)
     length = 500//a
     canvas.delete("all")
+    
     for i in range(a):
         y = i * length
         for j in range(a):
@@ -776,13 +806,26 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
             elif terrain.seen_flag and not terrain.visited_flag:
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
-    for i in range(a):
+    
+    for i in range(a):       
         for j in range(a):
             terrain=list[i][j]
             if terrain.deci_flag:
                     canvas.create_text(((j+.5)*length,(i+.5)*length),text="V,O")
             elif terrain.visited_flag:
                     canvas.create_text(((j+.5)*length,(i+.5)*length),text="V")
+
+          
+    if isinstance(Agente,ag.agente1) or isinstance(Agente,ag.Agente2):
+        if Agente.direction == 1:
+            lbl.config(text="\u2192")
+        elif Agente.direction == 2:
+            lbl.config(text="\u2191")
+        elif Agente.direction == 3:
+            lbl.config(text="\u2190")
+        elif Agente.direction == 4:
+            lbl.config(text="\u2193")         
+
 
             
     Fx = fin_pos.Xcoordinate # Agrega la x en el punto final

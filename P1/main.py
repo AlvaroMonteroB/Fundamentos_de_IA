@@ -194,7 +194,7 @@ def print_stack(stack):
 #==================================================================================================
 #==================================Aqui empieza====================================================
 #==================================================================================================    
-edit_map.edit()    
+#edit_map.edit()    
 Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 matrix_agent=list()
 Matrix1=copy.deepcopy(Matrix)#Separamos la matriz en 2 variables, dejando la original para despues
@@ -202,8 +202,8 @@ Matrix2=copy.deepcopy(Matrix)
 Matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
 Matrix4=copy.deepcopy(Matrix)#Esta es para A*
 Matrix5=copy.deepcopy(Matrix)
-testAnch(Matrix4)  
-testAE(Matrix5)
+#testAnch(Matrix4)  
+#testAE(Matrix5)
     
 select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
 #Switch para seleccionar agentes
