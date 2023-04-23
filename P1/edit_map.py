@@ -20,6 +20,7 @@ def most_map(Matrix,Agente:Agente_edit):
     def update_pos():
         if -1<ter_num[Agente.position.Valor]<5:
          Agente.position.Valor=terrain_switch[ter_num[Agente.position.Valor]+1]
+         Matrix[Agente.position.Ycoordinate][Agente.position.Xcoordinate]=Agente.position
         elif ter_num[Agente.position.Valor]==5:
             Agente.position.Valor=terrain_switch[0]
         update_window(canvas,Matrix,Agente.position,text)
@@ -121,16 +122,14 @@ def update_window(canvas,Matrix,act_pos,text):
 
 
 def update_file(Matrix:rd.Coord):
-    with open("matrix.tx",'w',encoding="utf-8") as f:
-        sys.stdout=f
-    for J in range(len(Matrix)):
-        for I in range(len(Matrix[0])):
-            terreno=Matrix[J][I]
-            if I<len(Matrix[0]):
-                print(terreno.Valor+',')
-            else:
-                print(terreno.Valor+'\n')
-    sys.stdout = sys.__stdout__
+    with open("matriz.txt",'w',encoding="utf-8") as f:
+        for J in range(len(Matrix)):
+            for I in range(len(Matrix[0])):
+                terreno=Matrix[J][I]
+                if I<len(Matrix[0])-1 :
+                    f.write(terreno.Valor+',')
+                else:
+                    f.write(terreno.Valor+'\n')
     f.close()
     return
 
