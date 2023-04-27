@@ -167,7 +167,7 @@ class Agente3:#move one cell any row or column
         points.append(various_methods.busq_point(self.Matrix,self.position.Xcoordinate,self.position.Ycoordinate+1))#y+1 abajo
         for x,i in zip(points,range(1,5)):#iteramos en los puntos y en el rango de direcciones
             cos=Criaturas.switch[self.charact](x.Valor)#Calculamos el costo, si es 0 o menor, no es valida la posicion
-            if cos>0 and not x.visited_flag:#Si el valor de la posicion es valido, entramos
+            if cos>0:#Si el valor de la posicion es valido, entramos
                 #Si no hemos visitado y es valida, adjuntamos la nueva posicion
                 scan_result.append(ag34_out(cost_valid(Criaturas.switch[self.charact](x.Valor),True,x),i))#Escaneos validos con la direccion en que se adquirieron
                 
