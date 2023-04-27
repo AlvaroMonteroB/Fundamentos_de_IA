@@ -217,7 +217,7 @@ fpoint_a=various_methods.busq_point(Matrix2,finx,finy)
 if 0<select<3:#Como los primeros 2 tienen un atributo de direccion, lo separamos
     point_ini=various_methods.assign_point(Matrix1,X,Y,Matrix1[X][Y])#Asignar el punto en la matriz del jugador
     Agentejugador=Agentes.switch_dir[select](1,point_ini,pers,Matrix1,False)
-    point_iniP=various_methods.assign_point(Matrix2,X,Y,Matrix1[X][Y])
+    point_iniP=various_methods.assign_point(Matrix2,X,Y,Matrix2[X][Y])
     AgentePC=Agentes.switch_dir[select](1,point_iniP,pers,Matrix2,True)
 elif 6>select>2:
     point_ini=various_methods.assign_point(Matrix1,X,Y,Matrix1[X][Y])
