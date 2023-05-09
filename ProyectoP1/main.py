@@ -67,35 +67,4 @@ arboli.show_tree()
 
 costo_pc=calc_cost(solution.stack,AgentePC)
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
-=======
 
-
-class Nodo(NodeMixin):
-    def __init__(self,point:rd.Coord,padre=None):
-        self.point=point
-        self.parent=padre
-    def __str__(self) -> str:
-        if self.point.deci_flag:
-            str_out="O({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
-        else:
-            str_out="({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
-        return str_out+')'
-
-
-#Aqui empieza
-Matrix=[]
-rd.read_matrix(Matrix)
-Matrix1=copy.deepcopy(Matrix)
-Matrix2=copy.deepcopy(Matrix)
-Matrix3=copy.deepcopy(Matrix)
-Matrix4=copy.deepcopy(Matrix)
-    
-ifz.select_Ag()
-
-Agente=ag.Agente3()
-puntos=list()
-puntos.append(None)
-raiz=Nodo(point,None)#Falta definir el punto y las posiciones finales
-for punto in range(1,len(puntos)):
-    ae.Init_busq(raiz, Agente, Matrix, fin_pos)
->>>>>>> 3d45ba6f0a5bebc5e5993e720b36e00ef9b132cf
