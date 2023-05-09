@@ -6,6 +6,7 @@ import various_methods as vm
 from collections import deque
 import Busq_prof as b_p
 import tree_to_list
+
 class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
     def __init__(self,Matrix,stack:list()):
         self.Matrix=Matrix
@@ -25,10 +26,14 @@ class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
         if self.stack[0].deci_flag:
             self.position.deci_flag=True
 
+class point_interes:
+    def __init__(self,punto:rd.Coord,name):
+        self.punto=punto
+        self.name=name
 
 
 ## creo que se puede optimizar si cambiamos la forma en la que llamamos las funciones
-def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:rd.Coord): ##le cambie el nombre porque agregué otras funciones dependiendo de lo que se está haciendo en ese momento 
+def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:rd.Coord,puntos): ##le cambie el nombre porque agregué otras funciones dependiendo de lo que se está haciendo en ese momento 
 
     list = Matrix
     a = len(list)
@@ -80,447 +85,39 @@ def mapaR(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,stack:r
                     color=only_seen_switch[terrain.Valor]
                 canvas.create_rectangle(x, y, x+length, y+length, fill=color)
                 
-    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
-    Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx+.5)*length,(Fy+.5)*length), text="X")
+    if len(puntos) == 0:
+        Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+        Fy = fin_pos.Ycoordinate
+        canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
 
-    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
-    Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="O")
+        Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+        Iy = ini_pos.Ycoordinate
+        canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
+    else:
+        Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
+        Fy = fin_pos.Ycoordinate
+        canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
+
+        Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
+        Iy = ini_pos.Ycoordinate
+        canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
+
+        for n in len(puntos):
+            puntos[n][0] = int(puntos[n][0])
+            puntos[n][1] = int(puntos[n][0])
+            puntos[n][2] = str(puntos[n][0])
+            if puntos[n][2] == "Llave":
+                canvas.create_text(((puntos[n][0]+0.5)*length,(puntos[n][1]+0.5)*length), text="K")
+            elif puntos[n][2] == "Templo Oscuro":
+                canvas.create_text(((puntos[n][0]+0.5)*length,(puntos[n][1]+0.5)*length), text="D")
+            else:
+                canvas.create_text(((puntos[n][0]+0.5)*length,(puntos[n][1]+0.5)*length), text="P")
 
     ventana.mainloop()
 
 ######################################################
 
-def BAg1(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.agente1):#Botones Agente 1
-    stack=[]
-    stack.append(Agente.position)
-    def pressA(): #aqui es donde quiero hacer prubas para agregar las funciones y ver como cambia en la tabla pero aun estoy investigando como actualizarla o con el delay
-        Agente.move_forward(0,1)
-        Agente.scan_forward(True) 
-        stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-            ventana.after(7000,ventana.destroy())
-        
-    def pressG():
-        Agente.turn_left()
-        Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        
-    def PressRet():
-        Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-    
-    list = Matrix
-    a = len(list)
-    length = 500//a
 
-    ventana = Tk()
-    ventana.title("Mapa")
-    ventana.geometry("850x600")
-    ventana.configure(bg="#FDF6FF")
-
-    canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
-    canvas.pack(side=LEFT,padx=50)
-
-    for i in range(a):
-        y = i * length
-        for j in range(a):
-            x = j * length
-            terrain=list[i][j]
-            if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
-                color="#000000"
-            elif terrain.visited_flag:
-                if terrain==fin_pos:
-                    color="#FF0000"
-                elif terrain==ini_pos:
-                    color="#0000FF"
-                else:
-                    color=visited_switch[terrain.Valor]
-            elif terrain.seen_flag and not terrain.visited_flag:
-                color=only_seen_switch[terrain.Valor]
-            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
-
-    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
-    Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
-
-    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
-    Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
-
-    avance = Button(ventana, text="avance", command=pressA)
-    avance.pack(side=RIGHT, anchor=CENTER, padx=20)
-
-    giro = Button(ventana, text="giro", command=pressG)
-    giro.pack(side=RIGHT, anchor=CENTER, padx=20)
-    
-    retorno=Button(ventana,text="Regresar",command=PressRet)
-    retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
-    
-    ventana.mainloop()
-
-def BAg2(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente2):#Botones Agente 2
-    stack=[]
-    stack.append(Agente.position)
-    def pressA():
-        m=Agente.move_forward(0)
-        if m:
-            Agente.scan_forward(True)
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-
-    def pressR():
-        Agente.turn_rigth()
-        Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-
-    def pressL():
-        Agente.turn_left()
-        Agente.scan_forward(True)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-
-    def PressRet():
-        stack.pop()
-        Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-    
-    list = Matrix
-    a = len(list)
-    length = 500//a
-
-    ventana = Tk()
-    ventana.title("Mapa")
-    ventana.geometry("850x600")
-    ventana.configure(bg="#FDF6FF")
-
-    canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
-    canvas.pack(side=LEFT,padx=50)
-
-    for i in range(a):
-        y = i * length
-        for j in range(a):
-            x = j * length
-            terrain=list[i][j]
-            if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
-                color="#000000"
-            elif terrain.visited_flag:
-                if terrain==fin_pos:
-                    color="#FF0000"
-                elif terrain==ini_pos:
-                    color="#0000FF"
-                else:
-                    color=visited_switch[terrain.Valor]
-            elif terrain.seen_flag and not terrain.visited_flag:
-                color=only_seen_switch[terrain.Valor]
-            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
-
-    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
-    Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
-
-    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
-    Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
-
-    avance = Button(ventana, text="avance", command=pressA)
-    avance.pack(side=RIGHT, padx=20)
-
-    giroR = Button(ventana, text="GDerecha", command=pressR)
-    giroR.pack(side=RIGHT, padx=20)
-    giroL = Button(ventana, text="GIzquierda", command=pressL)
-    giroL.pack(side=RIGHT, padx=20)
-    retorno=Button(ventana,text="Regresar",command=PressRet)
-    retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
-    ventana.mainloop()
-#Estos agentes deberían usar el teclado en forma wasd para moverse
-def BAg34(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente3):#Botones Agente 3/4
-    stack=[]
-    stack.append(Agente.position)
-    def pressUp():
-        m=Agente.move('w',0)
-        if m:            
-            Agente.scan()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)    
-        if Agente.position==fin_pos:
-                ventana.destroy()
-
-        
-
-    def pressDown():
-        m=Agente.move('s',0)
-        if m:            
-            Agente.scan()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()
-
-    def pressLeft():
-        m=Agente.move('a',0)
-        if m:            
-            Agente.scan()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()
-
-    def pressRight():
-        m=Agente.move('d',0)
-        if m:            
-            Agente.scan()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()
-
-    def PressRet():
-        stack.pop()
-        Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-
-    
-    list = Matrix
-    a = len(list)
-    length = 500//a
-
-    ventana = Tk()
-    ventana.title("Mapa")
-    ventana.geometry("850x600")
-    ventana.configure(bg="#FDF6FF")
-
-    canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
-    canvas.pack(side=LEFT,padx=50)
-
-    for i in range(a):
-        y = i * length
-        for j in range(a):
-            x = j * length
-            terrain=list[i][j]
-            if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
-                color="#000000"
-            elif terrain.visited_flag:
-                if terrain==fin_pos:
-                    color="#FF0000"
-                elif terrain==ini_pos:
-                    color="#0000FF"
-                else:
-                    color=visited_switch[terrain.Valor]
-            elif terrain.seen_flag and not terrain.visited_flag:
-                color=only_seen_switch[terrain.Valor]
-            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
-
-    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
-    Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
-
-    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
-    Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
-
-    up = Button(ventana, text="arriba", command=pressUp)
-    up.pack(side=RIGHT, padx=20)
-
-    right = Button(ventana, text="Derecha", command=pressRight)
-    right.pack(side=RIGHT, padx=20)
-
-    left = Button(ventana, text="Izquierda", command=pressLeft)
-    left.pack(side=RIGHT, padx=20)
-
-    down = Button(ventana, text="abajo", command=pressDown)
-    down.pack(side=RIGHT, padx=20)
-    
-    retorno=Button(ventana,text="Regresar",command=PressRet)
-    retorno.pack(side=RIGHT,anchor=CENTER,padx=20)
-    ventana.mainloop()
-
-
-def BAg5(Matrix:rd.Coord,jugador:bool,fin_pos:rd.Coord,ini_pos:rd.Coord,Agente:ag.Agente5):#Botones Agente 5
-    stack=[]
-    stack.append(Agente.position)
-    def pressA():                              # A B   la esquina en la que está cada letra 
-        m=Agente.move('w',1)                      # C D   representa su direccion
-        if m:            
-            Agente.scan_data()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()
-    def pressB():
-        m=Agente.move('d',1)
-        if m:            
-            Agente.scan_data()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()  
-
-    def pressC():
-        m=Agente.move('a',1)
-        if m:            
-            Agente.scan_data()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()  
-
-    def pressD():
-        m=Agente.move('s',1)
-        if m:            
-            Agente.scan_data()
-            stack.append(Agente.position)
-        update_map(canvas,Matrix,fin_pos,ini_pos,Agente.position)
-        if Agente.position==fin_pos:
-                ventana.destroy()  
-    
-    list = Matrix
-    a = len(list)
-    length = 500//a
-
-    ventana = Tk()
-    ventana.title("Mapa")
-    ventana.geometry("850x600")
-    ventana.configure(bg="#FDF6FF")
-
-    canvas = Canvas(ventana, width=500, height=500, bg="#FDF6FF")
-    canvas.pack(side=LEFT,padx=50)
-    Agente.scan_data()
-    for i in range(a):
-        y = i * length
-        for j in range(a):
-            x = j * length
-            terrain=list[i][j]
-            if not terrain.seen_flag:#Si no lo hemos visto lo pasamos a negro
-                color="#000000"
-            elif terrain.visited_flag:
-                if terrain==fin_pos:
-                    color="#FF0000"
-                elif terrain==ini_pos:
-                    color="#0000FF"
-                else:
-                    color=visited_switch[terrain.Valor]
-            elif terrain.seen_flag and not terrain.visited_flag:
-                color=only_seen_switch[terrain.Valor]
-            canvas.create_rectangle(x, y, x+length, y+length, fill=color)
-    
-    Fx = fin_pos.Xcoordinate # Agrega la x en el punto final
-    Fy = fin_pos.Ycoordinate
-    canvas.create_text(((Fx+0.5)*length,(Fy+0.5)*length), text="X")
-
-    Ix = ini_pos.Xcoordinate # Agrega la O en el punto inicial
-    Iy = ini_pos.Ycoordinate
-    canvas.create_text(((Ix+0.5)*length,(Iy+0.5)*length), text="I")
-
-    A = Button(ventana, text="A", command=pressA)
-    A.pack(side=RIGHT, padx=20)
-
-    B = Button(ventana, text="B", command=pressB)
-    B.pack(side=RIGHT, padx=20)
-
-    B = Button(ventana, text="C", command=pressC)
-    B.pack(side=RIGHT, padx=20)
-
-    B = Button(ventana, text="D", command=pressD)
-    B.pack(side=RIGHT, padx=20)
-    
-    
-    ventana.mainloop()
-
-
-    def mostrar_descripcion(event):
-
-        global agente_seleccionado, cxi,cyi,cxf,cyf, personaje_seleccionado
-        cxi = int(Xinicio.get())
-        cyi = int(Yinicio.get())
-        cxf = int(Xfin.get())
-        cyf = int(Yfin.get())
-        personaje_seleccionado = personaje.get()
-        agente_seleccionado = agente.get()
-        opcion = agente.get()
-        descripcion = descripciones[opcion]
-        print(f"Opción seleccionada: {opcion} + {descripcion}")
-        ventana.destroy()
-
-    def selec():
-        opcion = agente.get()
-        descripcion = descripciones[opcion]
-        print(f"Opción seleccionada: {opcion} + {descripcion}")
-
-    ventana = Tk()
-    ventana.title("Seleccionar agente")
-    ventana.geometry("600x400")
-    ventana.configure(bg="#FDF6FF")
-
-    # Definir opciones y descripciones
-    opcionesA = [1, 2, 3, 4, 5]
-    descripciones = {
-        1: "Movimiento de giro izquierda y avance",
-        2: "Movimiento de giro izquierda, giro derecha y avance",
-        3: "Movimietno de avance hacia las 4 diracciones",
-        4: "Movimieto igual a una reina en ajedrez",
-        5: "Movimietno igual a un alfil en ajedrez",
-    }
-    opcionesP = [1, 2, 3, 4]
-
-    FSAP = Frame(ventana)#Frame Seleccion Agente/ Personaje
-    FSAP.pack(pady=20)
-    FSAP.configure(bg="#FDF6FF")
-
-    # Crear widgets
-    personaje = IntVar()
-    menuP = OptionMenu(FSAP,personaje,*opcionesP)
-    menuP.pack(side=LEFT, padx=10)
-
-    agente = IntVar()
-    menuA = OptionMenu(FSAP, agente, *opcionesA, command=mostrar_descripcion)
-    menuA.pack(side=LEFT, padx=10)
-
-    lbl_descripcion = Label(FSAP, text="", bg="#FDF6FF", font=("Arial", 12), justify=LEFT)
-    lbl_descripcion.pack(side=RIGHT, padx=30)
-
-    FCI = Frame(ventana)#Frame coordenadas de inicio
-    FCI.pack(pady=20)
-    FCI.configure(bg="#FDF6FF")
-
-    lbl_inicio = Label(FCI, text="Coordenadas de inicio", bg="#FDF6FF", font=("Arial", 12))
-    lbl_inicio.pack(padx=10)
-
-    label_texto = Label(FCI, text="X:",bg="#FDF6FF",font=("Arial", 12))
-    label_texto.pack(side=LEFT)
-    Xinicio = Entry(FCI)
-    Xinicio.pack(side=LEFT,)
-
-    label_texto = Label(FCI, text="Y:",bg="#FDF6FF",font=("Arial", 12))
-    label_texto.pack(side=LEFT)
-    Yinicio = Entry(FCI)
-    Yinicio.pack(side=LEFT)
-
-    FCF = Frame(ventana)#Frame coordenadas de fin
-    FCF.pack(pady=20)
-    FCF.configure(bg="#FDF6FF")
-
-    lbl_inicio = Label(FCF, text="Coordenadas de fin", bg="#FDF6FF", font=("Arial", 12))
-    lbl_inicio.pack(padx=10)
-
-    label_texto = Label(FCF, text="X:",bg="#FDF6FF",font=("Arial", 12))
-    label_texto.pack(side=LEFT)
-    Xfin = Entry(FCF)
-    Xfin.pack(side=LEFT,)
-
-    label_texto = Label(FCF, text="Y:",bg="#FDF6FF",font=("Arial", 12))
-    label_texto.pack(side=LEFT)
-    Yfin = Entry(FCF)
-    Yfin.pack(side=LEFT)
-
-
-    btn_guardar = Button(ventana, text="Guardar", font=("Arial", 16), command=guardar)
-    btn_guardar.pack(padx=10)
-
-    
-    ventana.mainloop()
-    return agente_seleccionado, cxi, cyi, cxf, cyf,personaje_seleccionado#
 
 def select_Ag():  #es para escoger el agente, al final retorna el numero que indica cada agente
 
@@ -530,8 +127,7 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
         cyi = int(Yinicio.get())
         cxf = int(Xfin.get())
         cyf = int(Yfin.get())
-        personaje_seleccionado = str(personaje.get())
-        agente_seleccionado = agente.get()
+
         ventana.destroy()
 
     def mostrar_descripcion(event):
@@ -616,7 +212,80 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
 
     
     ventana.mainloop()
-    return agente_seleccionado, cxi, cyi, cxf, cyf,personaje_seleccionado#
+    return  cxi, cyi, cxf, cyf#
+
+def AgregarPuntos():
+    campos = []
+    interes = []
+    opciones = ["Llave", "Templo Oscuro", "Portal"]
+    entry = None
+    num = None
+    
+
+    def guardar():
+        for n in range(len(campos)):
+            temp = [int(campos[n][0].get()), int(campos[n][1].get()), campos[n][2].get()]
+            interes.append(temp)
+            print(interes[n])
+            print(type(campos[n][2]))
+        ventana.destroy()
+        
+        
+
+    def add_fields():
+        # Obtener el número ingresado en el entry
+        nonlocal entry, campos, num
+        num = int(entry.get())
+        
+        frame = Frame(ventana)
+        frame.pack(pady=20)
+
+        # Crear y agregar los campos
+        count = 0
+        for i in range(num):
+            label1 = Label(frame, text="X:")
+            label1.grid(row=i, column=0, padx=10, pady=10)
+            entry1 = Entry(frame)
+            entry1.grid(row=i, column=1, padx=10, pady=10)
+            
+            label2 = Label(frame, text="Y:")
+            label2.grid(row=i, column=2, padx=10, pady=10)
+            entry2 = Entry(frame)
+            entry2.grid(row=i, column=3, padx=10, pady=10)
+            
+            label3 = Label(frame, text="Tipo:")
+            label3.grid(row=i, column=4, padx=10, pady=10)
+            
+            # Crear el menú desplegable con las opciones
+            
+            var = StringVar()
+            #var.set(list(opciones.keys())[0])
+            dropdown = OptionMenu(frame, var, *opciones)
+            dropdown.grid(row=i, column=5, padx=10, pady=10)
+            
+            campos.append((entry1, entry2, var))
+            count += 1
+            
+            # Crear el botón de guardar solo después de crear el primer campo
+            if count == 1:
+                button.pack_forget() # ocultar el botón "Agregar campos"
+                btn_guardar = Button(ventana, text="Guardar", font=("Arial", 16), command=guardar)
+                btn_guardar.pack(padx=10)
+
+    # Crear la ventana y los widgets
+    ventana = Tk()
+    ventana.title("")
+    ventana.geometry("800x300")
+    label = Label(ventana, text="Ingrese el número de visitas:")
+    label.pack()
+    entry = Entry(ventana)
+    entry.pack()
+    button = Button(ventana, text="Agregar", command=add_fields)
+    button.pack()
+
+    # Mostrar la ventana
+    ventana.mainloop()
+    return interes
 
 
 def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
@@ -693,7 +362,7 @@ def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
     ventana.mainloop()
 
 
-def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo):
+def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo,puntos:list(point_interes)):
     list = Matrix
     if raiz:
         stack=tree_to_list.list_tree(raiz)
@@ -721,6 +390,7 @@ def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo):
                     color="#FF0000"
                 elif terrain==ini_pos:
                     color="#0000FF"
+                
                 else:
                     color=visited_switch[terrain.Valor]
             elif terrain.seen_flag and not terrain.visited_flag:
@@ -750,7 +420,7 @@ def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo):
 
 
 #================Funcion para actualizar el mapa===============
-def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
+def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos,puntos:list[point_interes]):
     list = Matrix
     a = len(list)
     length = 500//a
@@ -776,6 +446,10 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos):
             elif terrain.seen_flag and not terrain.visited_flag:
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
+            if terrain in puntos.punto:
+                    for data in puntos:
+                        if terrain.Xcoordinate==data.punto.Xcoordinate and terrain.Ycoordinate==data.punto.Ycoordinate:
+                            color=destiny_switch[data.name]
     for i in range(a):
         for j in range(a):
             terrain=list[i][j]
@@ -830,14 +504,16 @@ path_swich={
     '4': "#18FF08",
     '5': "#BB22FF"
 }
+
+
+destiny_switch={
+    "Llave":"#FFD700",
+    "Templo Oscuro":"#000000",
+    "Portal":"#800080"
+}
+
 #=========================================================================================================
 
-selec_agent_interface={
-    1:BAg1,
-    2:BAg2,
-    3:BAg34,
-    4:BAg34,
-    5:BAg5
-}
+
 
 

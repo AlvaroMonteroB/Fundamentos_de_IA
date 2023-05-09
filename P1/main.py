@@ -230,6 +230,7 @@ costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
 costo_pc=calc_cost(solution.stack,AgentePC)
 #===========Vamos a mostrar que hizo el agente  
 testAE(Matrix4,X,Y,finx,finy)
+
 ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack,raiz)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 print("Mientras tu hiciste un costo de "+str(costo_jugador))
