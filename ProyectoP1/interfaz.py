@@ -362,7 +362,7 @@ def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
     ventana.mainloop()
 
 
-def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo,puntos:list(point_interes)):
+def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo,puntos:list[point_interes]):
     list = Matrix
     if raiz:
         stack=tree_to_list.list_tree(raiz)
@@ -414,7 +414,7 @@ def recorrido(Matrix,fin_pos,ini_pos,stack,raiz:b_p.Nodo,puntos:list(point_inter
             continue
         Agente.move()
         Agente.scan()
-        ventana.after(tim,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position))
+        ventana.after(tim,update_map(canvas, Matrix, fin_pos, ini_pos, Agente.position,puntos))
 
     ventana.mainloop()
 
@@ -446,10 +446,9 @@ def update_map(canvas,Matrix:rd.Coord,fin_pos,ini_pos,act_pos,puntos:list[point_
             elif terrain.seen_flag and not terrain.visited_flag:
                 color=only_seen_switch[terrain.Valor]
             canvas.create_rectangle(x, y, x+length, y+length, fill=color)
-            if terrain in puntos.punto:
-                    for data in puntos:
-                        if terrain.Xcoordinate==data.punto.Xcoordinate and terrain.Ycoordinate==data.punto.Ycoordinate:
-                            color=destiny_switch[data.name]
+            for data in puntos:
+                if terrain.Xcoordinate==data.punto.Xcoordinate and terrain.Ycoordinate==data.punto.Ycoordinate:
+                    color=destiny_switch[data.name]
     for i in range(a):
         for j in range(a):
             terrain=list[i][j]

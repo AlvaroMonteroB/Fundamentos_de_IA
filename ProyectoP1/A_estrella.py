@@ -87,7 +87,6 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
         result=rec_busq(n_raiz, Agente, Matrix, fin_pos, stack, cost, obj.dirs,ini_pos)
         if result:
             return bp.resultado(stack,cost)
-        stack.pop()
         Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
     return bp.resultado(None,0)
 

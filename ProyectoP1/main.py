@@ -4,23 +4,16 @@ import Read_data as rd #leer el archivo y transformarlo una matriz de objetos
 from anytree import Node
 from anytree import NodeMixin
 import copy
+import print_tree_console
+import arboli
 import interfaz as ifz #Es la interfaz grafica
 import various_methods as vm #Es para asignar y buscar el punto de la matriz
-<<<<<<< HEAD
+
 import Busq_prof as b_p
 import Criaturas
 
 
-class Nodo(NodeMixin):
-    def __init__(self,point:rd.Coord,padre=None):
-        self.point=point
-        self.parent=padre
-    def __str__(self) -> str:
-        if self.point.deci_flag:
-            str_out="O({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
-        else:
-            str_out="({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
-        return str_out+')'
+
 
 def calc_cost(stack,Agente)->int:
     cost=0
@@ -45,26 +38,23 @@ for i in range(len(puntos)):
     Xp,Yp,tipo=puntos[i]
     point=vm.busq_point(Matrix1, Xp, Yp)
     visitas.append(ifz.point_interes(point, tipo))
-visitas.append((fpoint_a,"portal"))
-
-print("Prueba con A*")
+visitas.append(ifz.point_interes(fpoint_a,"Portal"))
 point_ini=vm.assign_point(Matrix1,xi,yi,Matrix1[yi][xi])
 AgentA=ag.Agente3(point_ini,'1',Matrix1,False)
 raiz_o=b_p.Nodo(AgentA.position,None)
 raiz=b_p.Nodo(AgentA.position,None)
-fin=vm.busq_point(Matrix,xf,yf)
-fin.visited_flag=False
-for destiny in visitas:
-    output=ae.Init_busq(raiz,AgentA,Matrix,destiny.punto)#stack y cost
-    if  destiny.punto!=fin:
-        ruta = raiz.path(raiz_o) # Obtiene la ruta de la raíz a "destiny"
-        ultimo_nodo = ruta[-2]
-        raiz=b_p.Nodo(fin,ultimo_nodo)
+#for destiny in visitas:
+ #   output=ae.Init_busq(raiz,AgentA,Matrix1,destiny.punto)#stack y cost
+  #  if  destiny.punto!=fpoint_a:
+   #     ruta = raiz.path(destiny.punto)# Obtiene la ruta de la raíz a "destiny"
+    #    print(str(len(ruta))+"\n")
+     #   raiz=ruta[-1]
+output=ae.Init_busq(raiz,AgentA,Matrix1,visitas[0].punto)#stack y cost    
 print_tree_console.tree_to_file(raiz)
-ifz.recorrido(Matrix2, fin, point_ini, None, raiz)
+ifz.recorrido(Matrix2, fpoint_a, point_ini, None, raiz,visitas)
 arboli.show_tree()
 
 
-costo_pc=calc_cost(solution.stack,AgentePC)
+costo_pc=calc_cost(output.stack,AgentA)
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 

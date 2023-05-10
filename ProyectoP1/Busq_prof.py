@@ -30,7 +30,11 @@ class Nodo(NodeMixin):
         else:
             str_out="({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
         return str_out+')'
-    
+    def descendants(self):
+        return super().descendants
+    def path(self,point=None):
+        return super().path()
+
     
     
     
