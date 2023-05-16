@@ -13,8 +13,17 @@ class file_handler:
     
 
     def get_cell(self, iterador, posicion:int):
-        if iterador<self.pattern and iterador>=0 and posicion<self.campos and posicion>=0:
+        if iterador<self.pattern and iterador>=0 and posicion<self.campos and posicion>=0 and self.type_list!=None:
             return switch_type[self.type_list[posicion]](self.archivo[iterador])
+        else:
+            return None
+    
+    def get_row(self,iterador):
+        if iterador<self.pattern and iterador>=0 and self.type_list!=None:
+            aux= self.archivo[iterador]
+            row=list()
+            for i in range(aux):
+                row.append(switch_type[self.type_list[posicion]](aux[i]))                
         else:
             return None
 
