@@ -13,7 +13,7 @@ while condition:
     print(dataset.archivo[0])
     for i in range(dataset.campos):
         aux=input("Introduce campo "+str(i+1)+" ||  int=1, float=2, str=3\n")
-        fields.append(aux)
+        fields.append(int(aux))
     cls()
     if dataset.set_fields(fields):
         condition=False
