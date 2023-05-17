@@ -2,14 +2,17 @@ import csv
 class file_handler:
     def __init__(self,path):
         with open(path,'r') as f:
-            self.archivo=csv.reader(f)
+            self.archivo=list(csv.reader(f))
             f.close()
-        self.campos=len(next(self.archivo))#Numero de columnas
+        self.campos=len((self.archivo[0]))#Numero de columnas
         self.pattern=len(list(self.archivo))#numero de filas
 
     def set_fields(self,type_list):#Una lista que guarda que tipo va a ser cada campo
             if len(type_list)==self.campos:
                 self.type_list=type_list
+                return True
+            else: 
+                return False
     
 
     def get_cell(self, iterador, posicion:int):
