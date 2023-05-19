@@ -14,8 +14,18 @@ class file_handler:
             else: 
                 return False
 
-    def auto_set():
+    def auto_set(self):
         types=list()
+        aux=self.archivo[0]
+        for column in aux:
+            if '.' in column:
+                types.append(2)
+            elif column.isdigit():
+                types.append(1)
+            else:
+                types.append(3)
+        self.campos=types
+
     
 
     def get_cell(self, iterador, posicion:int):
@@ -38,7 +48,7 @@ class file_handler:
 switch_type={
     1:int,
     2:float,
-    3:str
+    3:str,
 }
 
 
