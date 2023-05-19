@@ -26,7 +26,21 @@ class file_handler:
                 types.append(3)
         self.campos=types
 
-    
+    def set_class(self,col):
+        if 0<=col<=self.campos:
+            self.clase=col
+        else:
+            print("class not set")
+
+    def detect_different_classes(self):
+        self.type_class=list()
+        for row in self.archivo:
+            if not (row[self.clase] in self.clases) :
+               self.type_class.append(row[self.clase])
+            else:
+                continue
+
+            
 
     def get_cell(self, iterador, posicion:int):
         if iterador<self.pattern and iterador>=0 and posicion<self.campos and posicion>=0 and self.type_list!=None:
