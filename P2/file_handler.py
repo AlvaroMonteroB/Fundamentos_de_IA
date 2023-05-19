@@ -13,6 +13,9 @@ class file_handler:
                 return True
             else: 
                 return False
+
+    def auto_set():
+        types=list()
     
 
     def get_cell(self, iterador, posicion:int):
