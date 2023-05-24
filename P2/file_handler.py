@@ -73,11 +73,11 @@ class file_handler:
             for it in range(ini,fin,1):
                 aux=self.archivo[it]
                 row=list()
-                for i in range(self.pattern):
+                for i in range(self.pattern):#Tengo que cambiarlo para que no proporcione la informacion de la clase
                     row.append(switch_type[self.type_list[posicion]](aux[i]))
                 rows.append(row)
             return rows
-
+    
 
 
 switch_type={
