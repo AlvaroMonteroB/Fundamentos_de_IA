@@ -8,7 +8,7 @@ class file_handler:
         self.pattern=len(list(self.archivo))#numero de filas
 
     def set_fields(self,type_list):#Una lista que guarda que tipo va a ser cada campo
-            if len(type_list)==self.campos:
+            if len(type_list)==self.campos and (1 in type_list or 2 in type_list or 3 in type_list or 4 in type_list):
                 self.type_list=type_list
                 return True
             else: 
@@ -34,7 +34,7 @@ class file_handler:
                     types.append(1)
             else:
                 types.append(3)
-        self.campos=types
+        self.type_list=types
 
     def set_class(self,col):
         if 0<=col<=self.campos:
@@ -63,7 +63,7 @@ class file_handler:
             aux= self.archivo[iterador]
             row=list()
             for i in range(self.pattern):
-                row.append(switch_type[self.type_list[posicion]](aux[i]))                
+                row.append(switch_type[self.type_list[i]](aux[i]))                
         else:
             return None
     
