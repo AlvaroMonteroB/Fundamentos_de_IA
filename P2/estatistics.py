@@ -28,7 +28,7 @@ class obj:
     def get_contable_vals(self):#Devolverá el indice de los valores
         self.contable=list()
         for i in range(self.data[0]):
-            if isinstance(self.data[0][i],int):
+            if isinstance(self.data[0][i],int) or isinstance(self.data[0][i],float):
                 self.contable.append(i)
             else:
                 continue
