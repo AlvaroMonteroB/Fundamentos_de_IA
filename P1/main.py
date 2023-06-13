@@ -172,6 +172,8 @@ def testAE(Matrix:Read_data.Coord,xi,yi,xf,yf):
     print_tree_console.tree_to_file(raiz)
     ifz.recorrido(Matrix1, fin, point_ini, None, raiz)
     arboli.show_tree()
+    cos=calc_cost(output.stack,AgentA)
+    print("El costo por A* es: "+ str(cos))
 
 #================================================================================================
 #==========================================test_Anch=============================================

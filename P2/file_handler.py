@@ -5,7 +5,7 @@ class file_handler:
             self.archivo=list(csv.reader(f))
             f.close()
         self.campos=len((self.archivo[0]))#Numero de columnas
-        self.pattern=len(list(self.archivo))#numero de filas
+        self.pattern=len(self.archivo)#numero de filas
 
     def set_fields(self,type_list):#Una lista que guarda que tipo va a ser cada campo
             if len(type_list)==self.campos and (1 in type_list or 2 in type_list or 3 in type_list or 4 in type_list):

@@ -14,7 +14,7 @@ if not a:
     while condition:
         print(dataset.archivo[0])
         for i in range(dataset.campos):
-            aux=input("Introduce campo "+str(i+1)+" ||  int=1, float=2, str=3\n")
+            aux=input("Introduce campo "+str(i+1)+" ||  int=1, float=2, str=3, bool=4\n")
             fields.append(int(aux))
         cls()
         if dataset.set_fields(fields):
@@ -23,4 +23,6 @@ if not a:
             print("Intrduce campos validos\n")
 else:
     dataset.auto_set()
+
+
 

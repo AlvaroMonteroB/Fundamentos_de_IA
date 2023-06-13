@@ -34,16 +34,19 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
         Agente.position.deci_flag=True
     if not scanned[-1].c_v.valid:
         return False
-    cola=gen_q(scanned, fin_pos, Agente,ini_pos)#Iniciamos la cola de prioridad
+    cola=gen_q(scanned, fin_pos, Agente,ini_pos,output)#Iniciamos la cola de prioridad
     for i in range(len(scanned)):
         #Cola tiene estructura cost, manht dist, euc dist y el objeto
-        euc_dist,manh_dist,cost=cola[0]
+        cost=cola[0]
         heapq.heappop(cola)
         #obj tiene estructura cost valid y direction
         for slf in scanned:
-            if manh_dist==(manhattan_dis(fin_pos,slf.c_v.point)+manhattan_dis(slf.c_v.point, ini_pos)) and(-cr.switch[Agente.charact](slf.c_v.point.Valor))==cost and  euc_dist==(euc_dis(fin_pos,slf.c_v.point)+euc_dis(slf.c_v.point, ini_pos)):
+            obj=None
+            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+costo_acumulado(Agente.charact,output)+manhattan_dis(slf.c_v.point,Agente.position))==cost:
                 obj=slf
                 break
+        if obj==None:
+            return False
         n_raiz=bp.Nodo(obj.c_v.point, raiz)
         result=rec_busq(n_raiz, Agente, Matrix, fin_pos, output, cost, obj.dirs,ini_pos)
         if result:
@@ -70,16 +73,17 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
         exit()
     if len(scanned)>1:#Si hay mas de un escaneo valido hub una desicion
         Agente.position.deci_flag=True
-    cola=gen_q(scanned, fin_pos, Agente,ini_pos)#Iniciamos la cola de prioridad
+    cola=gen_q(scanned, fin_pos, Agente,ini_pos,stack)#Iniciamos la cola de prioridad
     if not scanned[-1].c_v.valid:
         return False
     for i in range(len(scanned)):
         #Cola tiene estructura cost, manht dist, euc dist y el objeto
-        euc_dist,manh_dist, cost=cola[0]
+        cost=cola[0]#Este es el costo acumulado mas la distancia
         band=False
         heapq.heappop(cola)
         for slf in scanned:
-            if manh_dist==(manhattan_dis(fin_pos,slf.c_v.point)+manhattan_dis(slf.c_v.point, ini_pos)) and(-cr.switch[Agente.charact](slf.c_v.point.Valor))==cost and  euc_dist==(euc_dis(fin_pos,slf.c_v.point)+euc_dis(slf.c_v.point, ini_pos)):
+            obj=None
+            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+costo_acumulado(Agente.charact,stack)+manhattan_dis(slf.c_v.point,Agente.position))==cost:
                 obj=slf
                 break
         #obj tiene estructura cost valid y direction
@@ -99,8 +103,20 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
 
 
 #Necesitamos calcular su costo, distancia euclidiana y mahattan
-def gen_q(lista:Ag.ag34_out,fin_pos:rd.Coord,Agente:Ag.Agente3,ini:rd.Coord)->list():#Vamos a generar la priority queue
+def gen_q(lista:Ag.ag34_out,fin_pos:rd.Coord,Agente:Ag.Agente3,ini:rd.Coord,output)->list():#Vamos a generar la priority queue
     cola=list()
+    
     for elementos in lista:#heap, costo para moverse, dist manhattan, dist euclidiana
-        heapq.heappush(cola, ((euc_dis(fin_pos, elementos.c_v.point)+euc_dis(ini, elementos.c_v.point)),(manhattan_dis(fin_pos, elementos.c_v.point)+manhattan_dis(ini, elementos.c_v.point)), -cr.switch[Agente.charact](elementos.c_v.point.Valor)))
+        acumulado=costo_acumulado(Agente.charact,output)
+        heapq.heappush(cola,manhattan_dis(elementos.c_v.point,Agente.position)  +cr.switch[Agente.charact](elementos.c_v.point.Valor)+acumulado)
     return cola
+
+
+def costo_acumulado(charact,puntos:list[rd.Coord]):
+    suma=0
+    if len(puntos)==0:
+        return suma
+    for punto in puntos:
+        suma+=cr.switch[charact](punto.Valor)
+    return suma
+
