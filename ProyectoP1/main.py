@@ -24,34 +24,32 @@ def calc_cost(stack,Agente)->int:
 #Aqui empieza
 Matrix=[]
 rd.read_matrix(Matrix)
-Matrix1 = copy.deepcopy(Matrix)
-Matrix2=copy.deepcopy(Matrix)
-Matrix3=copy.deepcopy(Matrix)
-Matrix4=copy.deepcopy(Matrix)
+
     
 xi, yi, xf, yf = ifz.select_Ag()#Seleccion del agente
 puntos = ifz.AgregarPuntos()#X , Y , TIPO
 
-fpoint_a=vm.busq_point(Matrix1,xf,yf)
+fpoint_a=vm.busq_point(Matrix,xf,yf)
 visitas=[]
+matrices=[]
+matrices.append(copy.deepcopy(Matrix))
 for i in range(len(puntos)):
     Xp,Yp,tipo=puntos[i]
-    point=vm.busq_point(Matrix1, Xp, Yp)
+    point=vm.busq_point(matrices[0], Xp, Yp)
     visitas.append(ifz.point_interes(point, tipo))
 visitas.append(ifz.point_interes(fpoint_a,"Portal"))
-point_ini=vm.assign_point(Matrix1,xi,yi,Matrix1[yi][xi])
-AgentA=ag.Agente3(point_ini,'1',Matrix1,False)
+point_ini=vm.assign_point(matrices[0],xi,yi,Matrix[yi][xi])
+AgentA=ag.Agente3(point_ini,'1',matrices[0],False)
 raiz_o=b_p.Nodo(AgentA.position,None)
 raiz=b_p.Nodo(AgentA.position,None)
-#for destiny in visitas:
- #   output=ae.Init_busq(raiz,AgentA,Matrix1,destiny.punto)#stack y cost
-  #  if  destiny.punto!=fpoint_a:
-   #     ruta = raiz.path(destiny.punto)# Obtiene la ruta de la raíz a "destiny"
-    #    print(str(len(ruta))+"\n")
-     #   raiz=ruta[-1]
-output=ae.Init_busq(raiz,AgentA,Matrix1,visitas[0].punto)#stack y cost    
-print_tree_console.tree_to_file(raiz)
-ifz.recorrido(Matrix2, fpoint_a, point_ini, None, raiz,visitas)
+for destiny in visitas:
+    output=ae.Init_busq(raiz,AgentA,matrices[-1],destiny.punto)#stack y cost
+    if  destiny.punto!=fpoint_a:
+        ruta = raiz.path(destiny.punto)# Obtiene la ruta de la raíz a "destiny"
+        print(str(len(ruta))+"\n")
+        raiz=ruta[-1]
+        matrices.append(copy.deepcopy(matrices[-1]))
+
 arboli.show_tree()
 
 

@@ -226,6 +226,7 @@ def AgregarPuntos():
         for n in range(len(campos)):
             temp = [int(campos[n][0].get()), int(campos[n][1].get()), campos[n][2].get()]
             interes.append(temp)
+            print ("aki es\n")
             print(interes[n])
             print(type(campos[n][2]))
         ventana.destroy()
@@ -259,6 +260,9 @@ def AgregarPuntos():
             # Crear el menú desplegable con las opciones
             
             var = StringVar()
+            def on_option_selected(*args):
+                selected_option = var.get()
+            var.trace("w", on_option_selected)
             #var.set(list(opciones.keys())[0])
             dropdown = OptionMenu(frame, var, *opciones)
             dropdown.grid(row=i, column=5, padx=10, pady=10)
