@@ -99,7 +99,6 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
     
 
 
-    
 
 
 #Necesitamos calcular su costo, distancia euclidiana y mahattan
@@ -111,7 +110,7 @@ def gen_q(lista:Ag.ag34_out,fin_pos:rd.Coord,Agente:Ag.Agente3,ini:rd.Coord,outp
         heapq.heappush(cola,manhattan_dis(elementos.c_v.point,Agente.position)  +cr.switch[Agente.charact](elementos.c_v.point.Valor)+acumulado)
     return cola
 
-
+#Costo acumulado desde donde estamos
 def costo_acumulado(charact,puntos:list[rd.Coord]):
     suma=0
     if len(puntos)==0:
