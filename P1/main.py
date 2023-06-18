@@ -161,11 +161,11 @@ def test5(Matrix:Read_data.Coord):
 #================================================================================================
 #==========================================test_A*===============================================
 #================================================================================================
-def testAE(Matrix:Read_data.Coord,xi,yi,xf,yf):
+def testAE(Matrix:Read_data.Coord,xi,yi,xf,yf,charact):
     Matrix1=copy.deepcopy(Matrix)
     print("Prueba con A*")
     point_ini=various_methods.assign_point(Matrix,xi,yi,Matrix[yi][xi])
-    AgentA=Agentes.Agente3(point_ini,'1',Matrix,False)
+    AgentA=Agentes.Agente3(point_ini,charact,Matrix,False)
     raiz=b_p.Nodo(AgentA.position,None)
     fin=various_methods.busq_point(Matrix,xf,yf)
     fin.visited_flag=False
@@ -232,7 +232,7 @@ ifz.selec_agent_interface[select](Matrix1,True,fpoint_a,point_ini,Agentejugador)
 costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
 costo_pc=calc_cost(solution.stack,AgentePC)
 #===========Vamos a mostrar que hizo el agente  
-testAE(Matrix4,X,Y,finx,finy)
+testAE(Matrix4,X,Y,finx,finy,pers)
 
 ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack,raiz)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))

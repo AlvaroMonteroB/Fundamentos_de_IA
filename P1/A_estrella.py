@@ -9,7 +9,6 @@ import copy
 
 from collections import deque
 import heapq
-
 def manhattan_dis(dest:rd.Coord,act:rd.Coord):
     return abs(dest.Xcoordinate-act.Xcoordinate)+abs(dest.Ycoordinate-act.Ycoordinate)
     
@@ -24,12 +23,15 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
         return False
     char_dir=bp.switch2[dir]
     Agente.position.actual_flag=False
+    temp=Agente.position
     m=Agente.move(char_dir,cost)
     if not m:
         return False
     output.append(Agente.position)
-    if (retorno(Agente,output)):
+    if(manhattan_dis(raiz.root.point,fin_pos)<len(output) and manhattan_dis(fin_pos,temp)<manhattan_dis(fin_pos,Agente.position)):
         return False
+    
+   
     if Agente.position==fin_pos:
         return True
     scanned=Agente.scan()#Posiciones escaneadas
@@ -47,7 +49,7 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
         heapq.heappop(cola)
         #obj tiene estructura cost valid y direction
         for slf in scanned:
-            if (cr.switch[Agente.charact](slf.c_v.point.Valor)*manhattan_dis(slf.c_v.point,Agente.position))==cost:
+            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+manhattan_dis(slf.c_v.point,Agente.position))==cost:
                 obj=slf
                 break
         n_raiz=bp.Nodo(obj.c_v.point, raiz)
@@ -85,7 +87,7 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
         band=False
         heapq.heappop(cola)
         for slf in scanned:
-            if (cr.switch[Agente.charact](slf.c_v.point.Valor)*manhattan_dis(slf.c_v.point,Agente.position)+costo_acumulado(Agente.charact,stack))==cost :
+            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+manhattan_dis(slf.c_v.point,Agente.position))==cost :
                 obj=slf
                 break
         #obj tiene estructura cost valid y direction
@@ -103,7 +105,7 @@ def gen_q(lista, fin_pos, Agente, ini, output):
     cola = []
     for elementos in lista:
         acumulado = costo_acumulado(Agente.charact, output)
-        heapq.heappush(cola, manhattan_dis(elementos.c_v.point, Agente.position) * cr.switch[Agente.charact](elementos.c_v.point.Valor) + acumulado)
+        heapq.heappush(cola, manhattan_dis(elementos.c_v.point, Agente.position) + cr.switch[Agente.charact](elementos.c_v.point.Valor))
 
     return cola
 
@@ -117,7 +119,3 @@ def costo_acumulado(charact, puntos):
 
     return suma
 
-
-def retorno(Agente:Ag.Agente3,stack):#True para regresar
-    acumulado=costo_acumulado(Agente.charact,stack)
-    cost1=acumulado*cr.switch[Agente.charact](Agente.position.c_v.point.Valor)
