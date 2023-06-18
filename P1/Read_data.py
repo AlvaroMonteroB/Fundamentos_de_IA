@@ -22,7 +22,7 @@ def read_matrix(puntos:list[Coord])->None:
     Matrix_rows=list()
     Matrix_rows1=list()
     list_aux=list()
-    with open("matriz.txt","r") as Read_matrix:#Aqui cambiamos el nombre dependiendo del archivo que queramos leer--->matriz.txt es el laberinto
+    with open("map.txt","r") as Read_matrix:#Aqui cambiamos el nombre dependiendo del archivo que queramos leer--->matriz.txt es el laberinto
         leer=Read_matrix.readline                                                                             #--->map.txt el mapa completo
         for line in Read_matrix:
             Matrix_rows.append(line)

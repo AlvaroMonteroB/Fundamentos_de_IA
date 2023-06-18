@@ -3,8 +3,12 @@ import Read_data as rd
 import various_methods as vm
 import Busq_prof as bp
 import Criaturas as cr
+from collections import deque
 import heapq
 import copy
+
+from collections import deque
+import heapq
 
 def manhattan_dis(dest:rd.Coord,act:rd.Coord):
     return abs(dest.Xcoordinate-act.Xcoordinate)+abs(dest.Ycoordinate-act.Ycoordinate)
@@ -24,6 +28,8 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
     if not m:
         return False
     output.append(Agente.position)
+    if (retorno(Agente,output)):
+        return False
     if Agente.position==fin_pos:
         return True
     scanned=Agente.scan()#Posiciones escaneadas
@@ -35,18 +41,15 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
     if not scanned[-1].c_v.valid:
         return False
     cola=gen_q(scanned, fin_pos, Agente,ini_pos,output)#Iniciamos la cola de prioridad
-    for i in range(len(scanned)):
+    while len(cola)>0:
         #Cola tiene estructura cost, manht dist, euc dist y el objeto
         cost=cola[0]
         heapq.heappop(cola)
         #obj tiene estructura cost valid y direction
         for slf in scanned:
-            obj=None
-            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+costo_acumulado(Agente.charact,output)+manhattan_dis(slf.c_v.point,Agente.position))==cost:
+            if (cr.switch[Agente.charact](slf.c_v.point.Valor)*manhattan_dis(slf.c_v.point,Agente.position))==cost:
                 obj=slf
                 break
-        if obj==None:
-            return False
         n_raiz=bp.Nodo(obj.c_v.point, raiz)
         result=rec_busq(n_raiz, Agente, Matrix, fin_pos, output, cost, obj.dirs,ini_pos)
         if result:
@@ -78,12 +81,11 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
         return False
     for i in range(len(scanned)):
         #Cola tiene estructura cost, manht dist, euc dist y el objeto
-        cost=cola[0]#Este es el costo acumulado mas la distancia
+        cost=cola[0]
         band=False
         heapq.heappop(cola)
         for slf in scanned:
-            obj=None
-            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+costo_acumulado(Agente.charact,stack)+manhattan_dis(slf.c_v.point,Agente.position))==cost:
+            if (cr.switch[Agente.charact](slf.c_v.point.Valor)*manhattan_dis(slf.c_v.point,Agente.position)+costo_acumulado(Agente.charact,stack))==cost :
                 obj=slf
                 break
         #obj tiene estructura cost valid y direction
@@ -96,26 +98,26 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
     return bp.resultado(None,0)
 
 
-    
 
+def gen_q(lista, fin_pos, Agente, ini, output):
+    cola = []
+    for elementos in lista:
+        acumulado = costo_acumulado(Agente.charact, output)
+        heapq.heappush(cola, manhattan_dis(elementos.c_v.point, Agente.position) * cr.switch[Agente.charact](elementos.c_v.point.Valor) + acumulado)
 
-
-
-#Necesitamos calcular su costo, distancia euclidiana y mahattan
-def gen_q(lista:Ag.ag34_out,fin_pos:rd.Coord,Agente:Ag.Agente3,ini:rd.Coord,output)->list():#Vamos a generar la priority queue
-    cola=list()
-    
-    for elementos in lista:#heap, costo para moverse, dist manhattan, dist euclidiana
-        acumulado=costo_acumulado(Agente.charact,output)
-        heapq.heappush(cola,manhattan_dis(elementos.c_v.point,Agente.position)  +cr.switch[Agente.charact](elementos.c_v.point.Valor)+acumulado)
     return cola
 
-#Costo acumulado desde donde estamos
-def costo_acumulado(charact,puntos:list[rd.Coord]):
-    suma=0
-    if len(puntos)==0:
+def costo_acumulado(charact, puntos):
+    suma = 0
+    if len(puntos) == 0:
         return suma
+
     for punto in puntos:
-        suma+=cr.switch[charact](punto.Valor)
+        suma += cr.switch[charact](punto.Valor)
+
     return suma
 
+
+def retorno(Agente:Ag.Agente3,stack):#True para regresar
+    acumulado=costo_acumulado(Agente.charact,stack)
+    cost1=acumulado*cr.switch[Agente.charact](Agente.position.c_v.point.Valor)

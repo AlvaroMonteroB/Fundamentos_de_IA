@@ -6,6 +6,7 @@ import various_methods as vm
 from collections import deque
 import Busq_prof as b_p
 import tree_to_list
+import heapq
 class agente:#Solo lo vamos a utilizar para recorrer la solucion al mostrarla
     def __init__(self,Matrix,stack:list()):
         self.Matrix=Matrix
@@ -685,6 +686,8 @@ def recorrido_anchura(Matrix,fin_pos,ini_pos,Agente:ag.Agente3):
     
     #=====Algoritmo de busqueda======
 
+
+    
     queue = deque([(Agente.position, [])])
     visited = set()
     cost=0

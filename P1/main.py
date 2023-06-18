@@ -14,10 +14,11 @@ import Agentes
 import interfaz as ifz
 import print_tree_console
 import A_estrella
-import Busq_Anch
+import Busq_Anch as b_a
 import copy
 import arboli
 import edit_map
+import tree_to_list as ttl
 b_p.sys.setrecursionlimit(8000)
 C_aux:str=list()
 C_ini=list()
