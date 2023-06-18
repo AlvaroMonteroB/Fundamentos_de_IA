@@ -49,7 +49,7 @@ def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,out
         heapq.heappop(cola)
         #obj tiene estructura cost valid y direction
         for slf in scanned:
-            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+manhattan_dis(slf.c_v.point,Agente.position))==cost:
+            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+manhattan_dis(slf.c_v.point,Agente.position)+costo_acumulado(Agente.charact,output))==cost:
                 obj=slf
                 break
         n_raiz=bp.Nodo(obj.c_v.point, raiz)
@@ -87,7 +87,7 @@ def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
         band=False
         heapq.heappop(cola)
         for slf in scanned:
-            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+manhattan_dis(slf.c_v.point,Agente.position))==cost :
+            if (cr.switch[Agente.charact](slf.c_v.point.Valor)+manhattan_dis(slf.c_v.point,Agente.position)+costo_acumulado(Agente.charact,stack))==cost :
                 obj=slf
                 break
         #obj tiene estructura cost valid y direction
@@ -105,7 +105,7 @@ def gen_q(lista, fin_pos, Agente, ini, output):
     cola = []
     for elementos in lista:
         acumulado = costo_acumulado(Agente.charact, output)
-        heapq.heappush(cola, manhattan_dis(elementos.c_v.point, Agente.position) + cr.switch[Agente.charact](elementos.c_v.point.Valor))
+        heapq.heappush(cola, manhattan_dis(elementos.c_v.point, Agente.position) + cr.switch[Agente.charact](elementos.c_v.point.Valor) + acumulado)
 
     return cola
 
