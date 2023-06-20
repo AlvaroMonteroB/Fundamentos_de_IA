@@ -9,8 +9,8 @@ path=input("Introduce el path de tu archivo\n")
 dataset=fh.file_handler(path)
 condition=True
 fields=list()
-a=input("Quieres hacer auto detect de los campos?  1.-Si    0.-No")
-if not a:
+a=input("Quieres hacer auto detect de los campos?  1.-Si    0.-No\n")
+if  a=='0':
     while condition:
         print(dataset.archivo[0])
         for i in range(dataset.campos):
@@ -23,6 +23,11 @@ if not a:
             print("Intrduce campos validos\n")
 else:
     dataset.auto_set()
+    
+for row in dataset.archivo:
+    print(row)
+    
+
 
 
 

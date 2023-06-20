@@ -63,18 +63,20 @@ class file_handler:
             aux= self.archivo[iterador]
             row=list()
             for i in range(self.pattern):
-                row.append(switch_type[self.type_list[i]](aux[i]))                
+                row.append(switch_type[self.type_list[i]](aux[i]))    #Mandamos a la lista el dato y su cast al tipo que es            
         else:
             return None
+        return row
     
-    def get_rows(self,ini=0,fin=self.pattern):
+    def get_rows(self,ini=0):
+        fin=self.pattern
         if ini<fin and ini<self.pattern-1 and ini>=0 and self.typelist!=None and fin<=self.pattern:
             rows=list()
-            for it in range(ini,fin,1):
-                aux=self.archivo[it]
+            for it in range(ini,fin,1):#Iterador de 1 en 1
+                aux=self.archivo[it]#aux itera en las filas del csv
                 row=list()
                 for i in range(self.pattern):#Tengo que cambiarlo para que no proporcione la informacion de la clase
-                    row.append(switch_type[self.type_list[posicion]](aux[i]))
+                    row.append(switch_type[self.type_list[i]](aux[i]))
                 rows.append(row)
             return rows
     
