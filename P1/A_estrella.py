@@ -17,7 +17,7 @@ def euc_dis(dest:rd.Coord,act:rd.Coord):
 
 def alg_busq1(Raiz, Matrix: rd.Coord, Agente: Ag.Agente3, fin_pos):
     queue = []
-    heapq.heappush(queue, 0, Raiz)
+    heapq.heappush(queue, (0, Raiz))
     visited = set()
 
     while queue:
@@ -61,6 +61,7 @@ def gen_q(lista, fin_pos, Agente, ini, output):
     for elementos in lista:
         acumulado = costo_acumulado(Agente.charact, output)
         heapq.heappush(cola, manhattan_dis(elementos.c_v.point, Agente.position) + cr.switch[Agente.charact](elementos.c_v.point.Valor) + acumulado)
+        
 
     return cola
 
