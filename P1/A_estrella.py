@@ -6,7 +6,6 @@ import Criaturas as cr
 from collections import deque
 import heapq
 import copy
-
 from collections import deque
 import heapq
 def manhattan_dis(dest:rd.Coord,act:rd.Coord):
@@ -18,7 +17,7 @@ def euc_dis(dest:rd.Coord,act:rd.Coord):
 
 def alg_busq1(Raiz, Matrix: rd.Coord, Agente: Ag.Agente3, fin_pos):
     queue = []
-    heapq.heappush(queue, (0, Raiz))
+    heapq.heappush(queue, 0, Raiz)
     visited = set()
 
     while queue:

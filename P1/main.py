@@ -169,7 +169,7 @@ def testAE(Matrix:Read_data.Coord,xi,yi,xf,yf,charact):
     raiz=b_p.Nodo(AgentA.position,None)
     fin=various_methods.busq_point(Matrix,xf,yf)
     fin.visited_flag=False
-    output=A_estrella.Init_busq(raiz,AgentA,Matrix,fin)
+    output=A_estrella.alg_busq1(raiz,AgentA,Matrix,fin)
     print_tree_console.tree_to_file(raiz)
     ifz.recorrido(Matrix1, fin, point_ini, None, raiz)
     arboli.show_tree()
