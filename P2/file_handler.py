@@ -18,7 +18,7 @@ class file_handler:
     def auto_set(self):
         types=list()
         aux=self.archivo[0]
-        for column,i in aux,range(len(aux)):
+        for column,i in zip(aux,range(len(aux))):
             if '.' in column:
                 types.append(2)
             elif column.isdigit():
@@ -52,7 +52,7 @@ class file_handler:
 
             
 
-    def get_cell(self, iterador, posicion:int):#Hacer un select directo a una celda
+    def get_cell(self, iterador, posicion:int):#Hacer un select directo a una celda, iterador es para filas y pos para columnas
         if iterador<self.pattern and iterador>=0 and posicion<self.campos and posicion>=0 and self.type_list!=None:
             return switch_type[self.type_list[posicion]](self.archivo[iterador])
         else:
@@ -68,17 +68,27 @@ class file_handler:
             return None
         return row
     
-    def get_rows(self,ini=0):
-        fin=self.pattern
-        if ini<fin and ini<self.pattern-1 and ini>=0 and self.typelist!=None and fin<=self.pattern:
+    def get_rows(self,ini=0,fin=None):
+        if not fin:
+            fin=self.pattern-1
+        if ini<fin and ini<self.pattern-1 and ini>=0 and self.type_list!=None and fin<=self.pattern:
             rows=list()
             for it in range(ini,fin,1):#Iterador de 1 en 1
                 aux=self.archivo[it]#aux itera en las filas del csv
                 row=list()
-                for i in range(self.pattern):#Tengo que cambiarlo para que no proporcione la informacion de la clase
+                for i in range(self.campos):#Tengo que cambiarlo para que no proporcione la informacion de la clase
                     row.append(switch_type[self.type_list[i]](aux[i]))
                 rows.append(row)
             return rows
+
+    def get_distinct(self,col:int):
+        distinct_names=[]
+        seen=set()
+        for row in self.archivo:
+            if row[col] not in seen:
+                distinct_names.append(row[col])
+                seen.add(row[col])
+        return distinct_names
     
 
 

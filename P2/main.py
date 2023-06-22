@@ -1,5 +1,6 @@
 import file_handler as fh
 import os
+import estatistics as stt
 
 def cls():
     os.system('cls' if os.name=='nt'else 'clear')
@@ -16,7 +17,7 @@ if  a=='0':
         for i in range(dataset.campos):
             aux=input("Introduce campo "+str(i+1)+" ||  int=1, float=2, str=3, bool=4\n")
             fields.append(int(aux))
-        cls()
+            cls()
         if dataset.set_fields(fields):
             condition=False
         else:
@@ -24,8 +25,55 @@ if  a=='0':
 else:
     dataset.auto_set()
     
-for row in dataset.archivo:
-    print(row)
+opt=int(input("Introduce la columna de la clase(empezando de 0 la de la izquierda)\n"))
+clases=dataset.get_distinct(opt)
+
+newMatrix=dataset.get_rows(0,dataset.pattern-1)
+
+objetos=[]
+for nombre in clases:
+    filtered_matrix=[]
+    for row in newMatrix:
+        if row[opt] == nombre:
+            filtered_matrix.append(row)
+    objetos.append(stt.obj(nombre,filtered_matrix))
+
+for clase in objetos:
+    print("Nombre "+clase.name)
+    names=None
+    for i,col in enumerate(clase.data[0]):#en las columnas
+        if isinstance(col,str) and not i==opt:
+            names=clase.get_distinct(i)
+            
+            for j,name in enumerate(names):
+                print(str(j))
+                print
+
+    
+    clase.max_min_mean()
+    tuplas=clase.medidas
+    for i,tupla in enumerate(tuplas):
+        min,max,mean=tupla
+        print(str(i)+" min= "+str(min)+" max= "+str(max)+" mean= "+str(mean))
+       
+
+
+
+
+
+
+
+
+
+
+"""
+    for i in range(len(dataset.archivo)):
+        for j in range(dataset.campos):
+            if isinstance(self.data[i][j],int) or isinstance(self.data[i][j],float):#Si es int o float
+                if dataset.archivo[opt]==nombre:
+                    lista.append(dataset.get_cell(i,))"""
+
+
     
 
 
