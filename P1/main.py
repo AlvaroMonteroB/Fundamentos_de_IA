@@ -31,7 +31,7 @@ Matrix=list()
 def calc_cost(stack,Agente)->int:
     cost=0
     for layer in stack:
-        cost=cost+Criaturas.switch[Agente.charact](layer.Valor)
+        cost+=Criaturas.switch[Agente.charact](layer.Valor)
     return cost
 #Costo de recorrer todo el arbol
 def calc_tree_cost(Agente, Raiz: b_p.Nodo):
@@ -170,10 +170,11 @@ def testAE(Matrix:Read_data.Coord,xi,yi,xf,yf,charact):
     fin=various_methods.busq_point(Matrix,xf,yf)
     fin.visited_flag=False
     output=A_estrella.alg_busq1(raiz,Matrix,AgentA,fin)
+    stack=copy.deepcopy(output)
     print_tree_console.tree_to_file(raiz)
     ifz.recorrido(Matrix1, fin, point_ini, output, None)
     arboli.show_tree()
-    cos=calc_cost(output,AgentA)
+    cos=calc_cost(stack,AgentA)
     print("El costo por A* es: "+ str(cos))
 
 #================================================================================================
@@ -203,7 +204,7 @@ def print_stack(stack):
 #==================================================================================================
 #==================================Aqui empieza====================================================
 #==================================================================================================    
-#edit_map.edit()    
+edit_map.edit()    
 Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
 Matrix1=copy.deepcopy(Matrix)#Separamos la matriz en 2 variables, dejando la original para despues
 Matrix2=copy.deepcopy(Matrix)
@@ -232,7 +233,7 @@ solution=b_p.switch[select](raiz,AgentePC,Matrix2,fpoint_a)#Busquedas
 """costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
 costo_pc=calc_cost(solution.stack,AgentePC)"""
 #===========Vamos a mostrar que hizo el agente  
-testAE(Matrix4,1,4,8,4,'3')
+testAE(Matrix4,1,4,9,12,'3')
 
 """ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack,raiz)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
