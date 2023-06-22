@@ -169,11 +169,11 @@ def testAE(Matrix:Read_data.Coord,xi,yi,xf,yf,charact):
     raiz=b_p.Nodo(AgentA.position,None)
     fin=various_methods.busq_point(Matrix,xf,yf)
     fin.visited_flag=False
-    output=A_estrella.alg_busq1(raiz,AgentA,Matrix,fin)
+    output=A_estrella.alg_busq1(raiz,Matrix,AgentA,fin)
     print_tree_console.tree_to_file(raiz)
-    ifz.recorrido(Matrix1, fin, point_ini, None, raiz)
+    ifz.recorrido(Matrix1, fin, point_ini, output, None)
     arboli.show_tree()
-    cos=calc_cost(output.stack,AgentA)
+    cos=calc_cost(output,AgentA)
     print("El costo por A* es: "+ str(cos))
 
 #================================================================================================
@@ -203,16 +203,15 @@ def print_stack(stack):
 #==================================================================================================
 #==================================Aqui empieza====================================================
 #==================================================================================================    
-edit_map.edit()    
+#edit_map.edit()    
 Read_data.read_matrix(Matrix)#arreglo de puntos AKA objetos
-matrix_agent=list()
 Matrix1=copy.deepcopy(Matrix)#Separamos la matriz en 2 variables, dejando la original para despues
 Matrix2=copy.deepcopy(Matrix)
 Matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
 Matrix4=copy.deepcopy(Matrix)#Esta es para A*
 Matrix5=copy.deepcopy(Matrix)
   
-select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
+"""select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
 #Switch para seleccionar agentes
 #Matrix1->Jugador
 #Matrix2->Agente
@@ -228,17 +227,18 @@ elif 6>select>2:
     AgentePC=Agentes.switch[select](point_ini,pers,Matrix2,True)
 raiz=b_p.Nodo(point_ini,None)
 solution=b_p.switch[select](raiz,AgentePC,Matrix2,fpoint_a)#Busquedas
-ifz.selec_agent_interface[select](Matrix1,True,fpoint_a,point_ini,Agentejugador)#Para desplegar botones dependiendo nuestro agente
-costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
-costo_pc=calc_cost(solution.stack,AgentePC)
+"""
+#ifz.selec_agent_interface[select](Matrix1,True,fpoint_a,point_ini,Agentejugador)#Para desplegar botones dependiendo nuestro agente
+"""costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
+costo_pc=calc_cost(solution.stack,AgentePC)"""
 #===========Vamos a mostrar que hizo el agente  
-testAE(Matrix4,X,Y,finx,finy,pers)
+testAE(Matrix4,1,4,8,4,'3')
 
-ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack,raiz)#Solucion paso por paso
+"""ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack,raiz)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))
 print("Mientras tu hiciste un costo de "+str(costo_jugador))
 print_tree_console.tree_to_file(raiz)
-arboli.show_tree()
+arboli.show_tree()"""
 
 
 

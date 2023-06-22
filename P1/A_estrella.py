@@ -15,13 +15,15 @@ def euc_dis(dest:rd.Coord,act:rd.Coord):
     return ((dest.Xcoordinate-act.Xcoordinate)**2+(dest.Ycoordinate-act.Ycoordinate)**2)**.5
 
 
-def alg_busq1(Raiz, Matrix: rd.Coord, Agente: Ag.Agente3, fin_pos):
+def alg_busq1(Raiz:bp.Nodo, Matrix:rd.Coord, Agente:Ag.Agente3, fin_pos:rd.Coord):
     queue = []
-    heapq.heappush(queue, (0, Raiz))
+    order=0
+    heapq.heappush(queue, ( 1,order,Raiz))
     visited = set()
 
     while queue:
-        _, node = heapq.heappop(queue)
+       # print(str(len(queue)))
+        _, _, node = heapq.heappop(queue)
 
         if node.point == fin_pos:
             # Construir el camino desde el punto final hasta el inicial
@@ -36,7 +38,8 @@ def alg_busq1(Raiz, Matrix: rd.Coord, Agente: Ag.Agente3, fin_pos):
             continue
 
         visited.add(node)
-        Agente.position = node.point
+        
+        Agente.position = vm.assign_point(Matrix,node.point.Xcoordinate,node.point.Ycoordinate,node.point) 
         scanned = Agente.scan()
 
         for direction in scanned:
@@ -49,24 +52,21 @@ def alg_busq1(Raiz, Matrix: rd.Coord, Agente: Ag.Agente3, fin_pos):
                 m = Agente.move(char_dir, cost)
 
                 if m:
-                    heuristic_cost = manhattan_dis(direction.c_v.point, fin_pos)
+                    heuristic_cost =manhattan_dis(direction.c_v.point, fin_pos)+costo_acumulado(Agente.charact,node)
                     new_node = bp.Nodo(direction.c_v.point, node)
-                    heapq.heappush(queue, (cost + heuristic_cost, new_node))
-
+                    heapq.heappush(queue, (cost + heuristic_cost, order,new_node))
+            order+=1
     return None
 
 
-def gen_q(lista, fin_pos, Agente, ini, output):
-    cola = []
-    for elementos in lista:
-        acumulado = costo_acumulado(Agente.charact, output)
-        heapq.heappush(cola, manhattan_dis(elementos.c_v.point, Agente.position) + cr.switch[Agente.charact](elementos.c_v.point.Valor) + acumulado)
-        
 
-    return cola
-
-def costo_acumulado(charact, puntos):
+def costo_acumulado(charact, nodo_hoja):
     suma = 0
+    puntos=list()
+    while nodo_hoja.parent:
+        puntos.append(nodo_hoja.point)
+        nodo_hoja = nodo_hoja.parent
+        puntos.append(nodo_hoja.point)
     if len(puntos) == 0:
         return suma
 
