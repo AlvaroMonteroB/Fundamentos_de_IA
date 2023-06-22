@@ -3,6 +3,7 @@ import Read_data as rd
 import various_methods as vm
 import Busq_prof as bp
 import Criaturas as cr
+from collections import deque
 import heapq
 import copy
 
@@ -13,93 +14,70 @@ def euc_dis(dest:rd.Coord,act:rd.Coord):
     return ((dest.Xcoordinate-act.Xcoordinate)**2+(dest.Ycoordinate-act.Ycoordinate)**2)**.5
 
 
-
-
-def rec_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord,output:list[rd.Coord],cost:int,dir:int,ini_pos:rd.Coord):
-    if not dir:
-        return False
-    char_dir=bp.switch2[dir]
-    Agente.position.actual_flag=False
-    m=Agente.move(char_dir,cost)
-    if not m:
-        return False
-    output.append(Agente.position)
-    if Agente.position==fin_pos:
-        return True
-    scanned=Agente.scan()#Posiciones escaneadas
-    if len(scanned)==0:
-        print("No hay movimientos validos")
-        exit()
-    if len(scanned)>1:#Si hay mas de un escaneo valido hub una desicion
-        Agente.position.deci_flag=True
-    if not scanned[-1].c_v.valid:
-        return False
-    cola=gen_q(scanned, fin_pos, Agente,ini_pos)#Iniciamos la cola de prioridad
-    for i in range(len(scanned)):
-        #Cola tiene estructura cost, manht dist, euc dist y el objeto
-        euc_dist,manh_dist,cost=cola[0]
-        heapq.heappop(cola)
-        #obj tiene estructura cost valid y direction
-        for slf in scanned:
-            if manh_dist==(manhattan_dis(fin_pos,slf.c_v.point)+manhattan_dis(slf.c_v.point, ini_pos)) and(-cr.switch[Agente.charact](slf.c_v.point.Valor))==cost and  euc_dist==(euc_dis(fin_pos,slf.c_v.point)+euc_dis(slf.c_v.point, ini_pos)):
-                obj=slf
-                break
-        n_raiz=bp.Nodo(obj.c_v.point, raiz)
-        result=rec_busq(n_raiz, Agente, Matrix, fin_pos, output, cost, obj.dirs,ini_pos)
-        if result:
-            return True
-        output.pop()
-        Agente.position=vm.assign_point(Matrix,output[-1].Xcoordinate,output[-1].Ycoordinate,output[-1])
-    return False
-
+from collections import deque
+def manhattan_dis(dest:rd.Coord,act:rd.Coord):
+    return abs(dest.Xcoordinate-act.Xcoordinate)+abs(dest.Ycoordinate-act.Ycoordinate)
     
+def euc_dis(dest:rd.Coord,act:rd.Coord):
+    return ((dest.Xcoordinate-act.Xcoordinate)**2+(dest.Ycoordinate-act.Ycoordinate)**2)**.5
+
+
+def alg_busq1(Raiz:bp.Nodo, Matrix:rd.Coord, Agente:Ag.Agente3, fin_pos:rd.Coord):
+    queue = []
+    order=0
+    heapq.heappush(queue, ( 1,order,Raiz))
+    visited = set()
+
+    while queue:
+       # print(str(len(queue)))
+        _, _, node = heapq.heappop(queue)
+
+        if node.point == fin_pos:
+            # Construir el camino desde el punto final hasta el inicial
+            path = []
+            while node.parent:
+                path.append(node.point)
+                node = node.parent
+            path.append(node.point)
+            return list(reversed(path))
+
+        if node in visited:
+            continue
+
+        visited.add(node)
+        
+        Agente.position = vm.assign_point(Matrix,node.point.Xcoordinate,node.point.Ycoordinate,node.point) 
+        scanned = Agente.scan()
+
+        for direction in scanned:
+            if not direction.dirs:
+                continue
+            else:
+                Agente.position.actual_flag = False
+                char_dir = bp.switch2[direction.dirs]
+                cost = cr.switch[Agente.charact](direction.c_v.point.Valor)
+                m = Agente.move(char_dir, cost)
+
+                if m:
+                    heuristic_cost =manhattan_dis(direction.c_v.point, fin_pos)+costo_acumulado(Agente.charact,node)
+                    new_node = bp.Nodo(direction.c_v.point, node)
+                    heapq.heappush(queue, (cost + heuristic_cost, order,new_node))
+            order+=1
+    return None
 
 
 
+def costo_acumulado(charact, nodo_hoja):
+    suma = 0
+    puntos=list()
+    while nodo_hoja.parent:
+        puntos.append(nodo_hoja.point)
+        nodo_hoja = nodo_hoja.parent
+        puntos.append(nodo_hoja.point)
+    if len(puntos) == 0:
+        return suma
 
-def Init_busq(raiz:bp.Nodo,Agente:Ag.Agente3,Matrix:rd.Coord,fin_pos:rd.Coord):
-    stack=list()
-    stack.append(Agente.position)
-    ini_pos=copy.deepcopy(Agente.position)
-    if Agente.position==fin_pos:
-        return bp.resultado(stack,cr.switch[Agente.charact](Agente.position.Valor))
-    cost=0
-    scanned=Agente.scan()#Posiciones escaneadas
-    if len(scanned)==0:
-        print("No hay movimientos validos")
-        exit()
-    if len(scanned)>1:#Si hay mas de un escaneo valido hub una desicion
-        Agente.position.deci_flag=True
-    cola=gen_q(scanned, fin_pos, Agente,ini_pos)#Iniciamos la cola de prioridad
-    if not scanned[-1].c_v.valid:
-        return False
-    for i in range(len(scanned)):
-        #Cola tiene estructura cost, manht dist, euc dist y el objeto
-        euc_dist,manh_dist, cost=cola[0]
-        band=False
-        heapq.heappop(cola)
-        for slf in scanned:
-            if manh_dist==(manhattan_dis(fin_pos,slf.c_v.point)+manhattan_dis(slf.c_v.point, ini_pos)) and(-cr.switch[Agente.charact](slf.c_v.point.Valor))==cost and  euc_dist==(euc_dis(fin_pos,slf.c_v.point)+euc_dis(slf.c_v.point, ini_pos)):
-                obj=slf
-                break
-        #obj tiene estructura cost valid y direction
-        n_raiz=bp.Nodo(obj.c_v.point,raiz)
-        result=rec_busq(n_raiz, Agente, Matrix, fin_pos, stack, cost, obj.dirs,ini_pos)
-        if result:
-            return bp.resultado(stack,cost)
-        Agente.position=vm.assign_point(Matrix,stack[-1].Xcoordinate,stack[-1].Ycoordinate,stack[-1])
-    return bp.resultado(None,0)
+    for punto in puntos:
+        suma += cr.switch[charact](punto.Valor)
 
-
-    
-
-
-    
-
-
-#Necesitamos calcular su costo, distancia euclidiana y mahattan
-def gen_q(lista:Ag.ag34_out,fin_pos:rd.Coord,Agente:Ag.Agente3,ini:rd.Coord)->list():#Vamos a generar la priority queue
-    cola=list()
-    for elementos in lista:#heap, costo para moverse, dist manhattan, dist euclidiana
-        heapq.heappush(cola, ((euc_dis(fin_pos, elementos.c_v.point)+euc_dis(ini, elementos.c_v.point)),(manhattan_dis(fin_pos, elementos.c_v.point)+manhattan_dis(ini, elementos.c_v.point)), -cr.switch[Agente.charact](elementos.c_v.point.Valor)))
-    return cola
+    return suma
