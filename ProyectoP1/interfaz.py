@@ -127,6 +127,7 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
         cyi = int(Yinicio.get())
         cxf = int(Xfin.get())
         cyf = int(Yfin.get())
+        personaje_seleccionado = str(personaje.get())
 
         ventana.destroy()
 
@@ -151,7 +152,7 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
         1: "Movimiento de giro izquierda y avance",
         2: "Movimiento de giro izquierda, giro derecha y avance",
         3: "Movimietno de avance hacia las 4 diracciones",
-        4: "Movimieto igual a una reina en ajedrez",
+        4: "Movimiento igual a una reina en ajedrez",
         5: "Movimietno igual a un alfil en ajedrez",
     }
     opcionesP = [1, 2, 3, 4]
@@ -212,7 +213,7 @@ def select_Ag():  #es para escoger el agente, al final retorna el numero que ind
 
     
     ventana.mainloop()
-    return  cxi, cyi, cxf, cyf#
+    return  cxi, cyi, cxf, cyf,personaje_seleccionado#
 
 def AgregarPuntos():
     campos = []

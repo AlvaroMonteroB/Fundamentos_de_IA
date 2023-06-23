@@ -4,11 +4,11 @@ import Read_data as rd #leer el archivo y transformarlo una matriz de objetos
 from anytree import Node
 from anytree import NodeMixin
 import copy
-import print_tree_console
+import print_tree_console as ptc
 import arboli
 import interfaz as ifz #Es la interfaz grafica
 import various_methods as vm #Es para asignar y buscar el punto de la matriz
-
+import sys
 import Busq_prof as b_p
 import Criaturas
 
@@ -26,7 +26,7 @@ Matrix=[]
 rd.read_matrix(Matrix)
 
     
-xi, yi, xf, yf = ifz.select_Ag()#Seleccion del agente
+xi, yi, xf, yf,pers = ifz.select_Ag()#Seleccion del agente
 puntos = ifz.AgregarPuntos()#X , Y , TIPO
 
 fpoint_a=vm.busq_point(Matrix,xf,yf)
@@ -39,17 +39,17 @@ for i in range(len(puntos)):
     visitas.append(ifz.point_interes(point, tipo))
 visitas.append(ifz.point_interes(fpoint_a,"Portal"))
 point_ini=vm.assign_point(matrices[0],xi,yi,Matrix[yi][xi])
-AgentA=ag.Agente3(point_ini,'1',matrices[0],False)
+AgentA=ag.Agente3(point_ini,pers,matrices[0],False)
 raiz_o=b_p.Nodo(AgentA.position,None)
 raiz=b_p.Nodo(AgentA.position,None)
-for destiny in visitas:
-    output=ae.Init_busq(raiz,AgentA,matrices[-1],destiny.punto)#stack y cost
-    if  destiny.punto!=fpoint_a:
-        ruta = raiz.path(destiny.punto)# Obtiene la ruta de la raíz a "destiny"
-        print(str(len(ruta))+"\n")
-        raiz=ruta[-1]
-        matrices.append(copy.deepcopy(matrices[-1]))
 
+output=ae.alg_busq1(raiz,matrices[-1],AgentA,visitas,fpoint_a)#stack y cost
+if output==None:
+    print("No funciono A*")
+    sys.exit()
+ptc.tree_to_file(raiz)
+Mat=copy.deepcopy(Matrix)
+ifz.recorrido(Mat,fpoint_a,point_ini,output,None,visitas)
 arboli.show_tree()
 
 
