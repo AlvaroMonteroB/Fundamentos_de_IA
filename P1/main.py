@@ -212,10 +212,12 @@ Matrix3=copy.deepcopy(Matrix)#Esta es para la busqueda por anchura
 Matrix4=copy.deepcopy(Matrix)#Esta es para A*
 Matrix5=copy.deepcopy(Matrix)
   
-"""select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
+select,X,Y,finx,finy,pers=ifz.select_Ag()#Seleccion del agente
 #Switch para seleccionar agentes
+
 #Matrix1->Jugador
 #Matrix2->Agente
+"""
 fpoint_a=various_methods.busq_point(Matrix2,finx,finy)
 if 0<select<3:#Como los primeros 2 tienen un atributo de direccion, lo separamos
     point_ini=various_methods.assign_point(Matrix1,X,Y,Matrix1[X][Y])#Asignar el punto en la matriz del jugador
@@ -233,7 +235,7 @@ solution=b_p.switch[select](raiz,AgentePC,Matrix2,fpoint_a)#Busquedas
 """costo_jugador=player_cost(Matrix1,Agentejugador,point_ini)
 costo_pc=calc_cost(solution.stack,AgentePC)"""
 #===========Vamos a mostrar que hizo el agente  
-testAE(Matrix4,1,4,9,12,'3')
+testAE(Matrix4,X,Y,finx,finy,pers)
 
 """ifz.recorrido(Matrix3, fpoint_a, point_ini,solution.stack,raiz)#Solucion paso por paso
 print("El algoritmo hizo el camino con un costo de "+str(costo_pc))

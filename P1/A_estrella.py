@@ -54,6 +54,7 @@ def alg_busq1(Raiz:bp.Nodo, Matrix:rd.Coord, Agente:Ag.Agente3, fin_pos:rd.Coord
                 if m:
                     heuristic_cost =manhattan_dis(direction.c_v.point, fin_pos)+costo_acumulado(Agente.charact,node)
                     new_node = bp.Nodo(direction.c_v.point, node)
+                    new_node.cost(Agente.charact)
                     heapq.heappush(queue, (cost + heuristic_cost, order,new_node))
             order+=1
     return None

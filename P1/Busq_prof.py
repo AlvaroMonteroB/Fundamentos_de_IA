@@ -24,13 +24,37 @@ class Nodo(NodeMixin):
     def __init__(self,point:r_d.Coord,padre=None):
         self.point=point
         self.parent=padre
+        self.costo=0
+
     def __str__(self) -> str:
         if self.point.deci_flag:
-            str_out="O({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
+            str_out="O({},{},{})".format(self.point.Xcoordinate,self.point.Ycoordinate,self.costo)
         else:
-            str_out="({},{})".format(self.point.Xcoordinate,self.point.Ycoordinate)
+            str_out="({},{},{})".format(self.point.Xcoordinate,self.point.Ycoordinate,self.costo)
         return str_out+')'
-    
+
+    def cost(self,charact):
+        if not self.parent:
+            self.costo=0
+        else:
+            self.costo = costo_acumulado(charact,self.parent)+cr.switch[charact](self.point.Valor)
+
+
+
+def costo_acumulado(charact, nodo_hoja):
+    suma = 0
+    puntos=list()
+    while nodo_hoja.parent:
+        puntos.append(nodo_hoja.point)
+        nodo_hoja = nodo_hoja.parent
+        puntos.append(nodo_hoja.point)
+    if len(puntos) == 0:
+        return suma
+
+    for punto in puntos:
+        suma += cr.switch[charact](punto.Valor)
+
+    return suma 
     
     
     
