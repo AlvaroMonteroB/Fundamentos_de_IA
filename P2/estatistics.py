@@ -7,6 +7,7 @@ class obj:
     def __init__(self,name:str,lista:list): #Tiene que ser una lista de listas, RECIBIMOS los datos de la clase, al final solo se usan los contables
         self.name=name
         self.data=lista
+        self.contable=list()
         
 
     def promedios(self):
@@ -48,7 +49,6 @@ class obj:
         return distinct_names
 
     def get_contable_vals(self):#Devolverá el indice de los valores
-        self.contable=list()
         for i in range(self.data[0]):
             if isinstance(self.data[0][i],int) or isinstance(self.data[0][i],float):
                 self.contable.append(i)

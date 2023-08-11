@@ -1,6 +1,7 @@
 import file_handler as fh
 import os
 import estatistics as stt
+import knn
 
 def cls():
     os.system('cls' if os.name=='nt'else 'clear')
@@ -23,7 +24,7 @@ if  a=='0':
         else:
             print("Intrduce campos validos\n")
 else:
-    dataset.auto_set()
+    dataset.auto_set()#Se settean los datos a un tipo especifico
     
 opt=int(input("Introduce la columna de la clase(empezando de 0 la de la izquierda)\n"))
 clases=dataset.get_distinct(opt)
@@ -55,6 +56,13 @@ for clase in objetos:
     for i,tupla in enumerate(tuplas):
         min,max,mean=tupla
         print(str(i)+" min= "+str(min)+" max= "+str(max)+" mean= "+str(mean))
+        
+    pattern=5.2,3.2,5.4,2
+    nearest=knn.knn(pattern,3,clase,opt)
+    print("Patrones mas cercanos")
+    for nn in nearest:
+        print(nn[1])
+    
        
 
 
